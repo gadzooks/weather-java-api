@@ -1,4 +1,4 @@
-package com.github.gadzooks.weather;
+package com.github.gadzooks.weather.integration;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
