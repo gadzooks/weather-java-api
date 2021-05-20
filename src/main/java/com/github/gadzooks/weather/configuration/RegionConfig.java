@@ -8,7 +8,11 @@ import com.google.common.collect.ImmutableMap;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.springframework.stereotype.Component;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,8 +21,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Component
+@Configuration
 public class RegionConfig {
+
+    private static final Logger log = LoggerFactory.getLogger(RegionConfig.class);
+
+    @Bean
+    CommandLineRunner initDatabase() {
+        return args -> {
+            log.info("running initDatabase");
+        };
+    }
 
     public RegionConfig() throws IOException {
         List<Region> jsonRegions;
@@ -34,8 +47,7 @@ public class RegionConfig {
         Map<String, Region> byIds = new HashMap<>();
 
         for (Region r: regions) {
-            //FIXME setup and use logger
-            //System.out.println("region is : " + r.toString());
+            log.debug("region is : " + r);
             byIds.put(r.name, r);
         }
         this.regionsById = ImmutableMap.copyOf(byIds);
