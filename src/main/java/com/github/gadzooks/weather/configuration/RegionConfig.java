@@ -34,18 +34,21 @@ public class RegionConfig {
         Map<String, Region> byIds = new HashMap<>();
 
         for (Region r: regions) {
+            //FIXME setup and use logger
             //System.out.println("region is : " + r.toString());
             byIds.put(r.name, r);
         }
         this.regionsById = ImmutableMap.copyOf(byIds);
     }
 
-    // NOTE: use Guava's immutable collection classes
+    // NOTE: using Guava's immutable collection classes
     @Getter
     private final ImmutableList<Region> regions;
     private final ImmutableMap<String, Region> regionsById;
 
-    public Region getRegionByName(final String id) { return regionsById.get(id);}
+    public Region getRegionByName(final String id) {
+        return regionsById.get(id);
+    }
 
     @Getter
     @NoArgsConstructor
@@ -55,6 +58,19 @@ public class RegionConfig {
         private String name;
         private String searchKey;
         private String description;
+
+        public void update(Region src) {
+            if(!src.getDescription().isBlank()) {
+                this.description = src.getDescription();
+            }
+            if(!src.getSearchKey().isBlank()) {
+                this.searchKey = src.getSearchKey();
+            }
+        }
+
+        public void delete() {
+            throw new RuntimeException("delete not implemented yet");
+        }
     }
 
 }
