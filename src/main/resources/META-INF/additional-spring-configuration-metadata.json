@@ -1,8 +1,8 @@
 {
   "properties": [
     {
-      "name": "regions.yml.filepath",
+      "name": "regions.file",
       "type": "java.lang.String",
       "description": "full path for regions.yml."
-  }
-] }
+    }
+  ] }

@@ -1,0 +1,9 @@
+# all paths will have prefix /api/
+#server.servlet.contextPath=/api/*
+#debug=true
+logging:
+  level:
+    web: DEBUG
+    org.springframework.security: DEBUG
+regions:
+  file: "src/main/resources/regions.yml"
