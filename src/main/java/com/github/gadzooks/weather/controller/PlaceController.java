@@ -1,6 +1,6 @@
 package com.github.gadzooks.weather.controller;
 
-import com.github.gadzooks.weather.configuration.RegionConfig;
+import com.github.gadzooks.weather.dto.Region;
 import com.github.gadzooks.weather.service.PlaceService;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -22,17 +22,17 @@ public class PlaceController {
     }
 
     @GetMapping(value = "/regions")
-    public List<RegionConfig.Region> regions() {
+    public List<Region> regions() {
         return placeService.getRegions();
     }
 
     @GetMapping(value = "/regions/{id}")
-    public RegionConfig.Region getByRegionId(@PathVariable String id) {
+    public Region getByRegionId(@PathVariable String id) {
         return placeService.getRegionById(id);
     }
 
     @PatchMapping(value = "/regions/{id}")
-    public RegionConfig.Region updateRegion(@PathVariable String id, @RequestBody RegionConfig.Region updatedRegion) {
+    public Region updateRegion(@PathVariable String id, @RequestBody Region updatedRegion) {
         return placeService.updateRegion(id, updatedRegion);
     }
 

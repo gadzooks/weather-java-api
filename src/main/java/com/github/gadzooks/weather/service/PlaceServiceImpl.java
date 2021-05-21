@@ -1,52 +1,46 @@
 package com.github.gadzooks.weather.service;
 
-import com.github.gadzooks.weather.configuration.RegionConfig;
-import com.github.gadzooks.weather.exception.ResourceNotFoundException;
+import com.github.gadzooks.weather.dto.Region;
+import com.github.gadzooks.weather.repository.RegionRepository;
+import com.google.common.collect.ImmutableList;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class PlaceServiceImpl implements PlaceService {
-    private final RegionConfig regionConfig;
+    private final RegionRepository regionRepository;
 
-    public PlaceServiceImpl(RegionConfig region) {
-        this.regionConfig = region;
+    public PlaceServiceImpl(RegionRepository repo) {
+        this.regionRepository = repo;
     }
 
     @Override
-    public List<RegionConfig.Region> getRegions() {
-        return regionConfig.getRegions();
+    public ImmutableList<Region> getRegions() {
+        return regionRepository.getRegions();
     }
 
     @Override
-    public RegionConfig createRegion(RegionConfig region) {
-        return null;
+    public Region createRegion(Region region) {
+        return regionRepository.add(region);
     }
 
     @Override
-    public RegionConfig.Region updateRegion(String id, RegionConfig.Region region) {
-        final RegionConfig.Region srcRegion = getById(id);
+    public Region updateRegion(String id, Region region) {
+        final Region srcRegion = getById(id);
         srcRegion.update(region);
         return srcRegion;
     }
 
     @Override
     public void deleteRegion(String id) {
-        final RegionConfig.Region region = getById(id);
-        region.delete();
+        regionRepository.remove(regionRepository.getRegionByName(id));
     }
 
     @Override
-    public RegionConfig.Region getRegionById(final String id) {
+    public Region getRegionById(final String id) {
         return getById(id);
     }
 
-    private RegionConfig.Region getById(final String id) {
-        RegionConfig.Region r = regionConfig.getRegionByName(id);
-        if(r == null) {
-            throw new ResourceNotFoundException("Regions",id);
-        }
-        return r;
+    private Region getById(final String id) {
+        return regionRepository.getRegionByName(id);
     }
 }

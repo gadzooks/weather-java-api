@@ -27,7 +27,7 @@ class PlaceControllerTest {
     @BeforeEach
     public void setup() {
         Mockito.when(placeService.getRegions()).
-                thenReturn(Arrays.asList(new RegionConfig.Region[0]));
+                thenReturn(Arrays.asList(new Region[0]));
     }
 
     @Test
