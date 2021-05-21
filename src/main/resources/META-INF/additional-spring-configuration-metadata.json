@@ -4,5 +4,10 @@
       "name": "file-paths.regionsFilePath",
       "type": "java.lang.String",
       "description": "/full/path/to/regions.yml file."
+    },
+    {
+      "name": "file-paths.locationsFilePath",
+      "type": "java.lang.String",
+      "description": "/full/path/to/locations.yml file."
     }
   ] }

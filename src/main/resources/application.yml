@@ -7,3 +7,4 @@ logging:
     org.springframework.security: DEBUG
 file-paths:
   regionsFilePath: "src/main/resources/regions.yml"
+  locationsFilePath: "src/main/resources/locations.yml"

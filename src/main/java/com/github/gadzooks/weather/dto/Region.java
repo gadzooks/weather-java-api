@@ -4,6 +4,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @NoArgsConstructor
 @ToString
@@ -12,6 +15,7 @@ public final class Region {
     private String name;
     private String searchKey;
     private String description;
+    private final List<Location> locations = new ArrayList<>();
 
     public void update(Region src) {
         if (!src.getDescription().isBlank()) {

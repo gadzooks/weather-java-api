@@ -1,8 +1,11 @@
 package com.github.gadzooks.weather.repository;
 
+import com.github.gadzooks.weather.dto.Location;
 import com.github.gadzooks.weather.dto.Region;
 import com.github.gadzooks.weather.exception.ResourceNotFoundException;
 import com.google.common.collect.ImmutableList;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -15,6 +18,7 @@ public class RegionRepository {
 
     private final List<Region> regions = new ArrayList<>();
     private final Map<String, Region> regionsById = new HashMap<>();
+    private static final Logger log = LoggerFactory.getLogger(RegionRepository.class);
 
     public int addAll(final List<Region> moreRegions) {
         int initialCount = regions.size();
@@ -70,5 +74,22 @@ public class RegionRepository {
             regions.add(region);
         }
 
+    }
+
+    public int addLocations(List<Location> locations) {
+        int numAdded = 0;
+        for (Location l : locations) {
+            if (regionsById.containsKey(l.getRegionId())) {
+                Region r = regionsById.get(l.getRegionId());
+                // NOTE : make defensive copy and add reference to parent region
+                Location newLoc = Location.copyOf(l, r);
+                r.getLocations().add(newLoc);
+                log.debug("adding location : " + newLoc);
+                numAdded++;
+            } else {
+                log.warn("location : " + l + " could not be added.");
+            }
+        }
+        return numAdded;
     }
 }
