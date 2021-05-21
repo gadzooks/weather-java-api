@@ -8,44 +8,35 @@ import com.github.gadzooks.weather.repository.RegionRepository;
 import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 @Component
-@ConfigurationProperties(prefix = "regions", ignoreUnknownFields = false)
-public class RegionConfig {
-
-    private static final Logger log = LoggerFactory.getLogger(RegionConfig.class);
-    @Setter
-    private String file;
+@ConfigurationProperties(prefix = "file-paths", ignoreUnknownFields = false)
+public class LoadRegionsDatabase implements CommandLineRunner {
+    private static final Logger log = LoggerFactory.getLogger(LoadRegionsDatabase.class);
     private final RegionRepository regionRepository;
+    @Setter
+    private String regionsFilePath; //being set from application.yml
 
-    public RegionConfig(RegionRepository regionRepository) {
+    public LoadRegionsDatabase(RegionRepository regionRepository) {
         this.regionRepository = regionRepository;
     }
 
-//    @Bean
-//    CommandLineRunner initDatabase() {
-//        return args -> {
-//            log.info("running initDatabase");
-//        };
-//    }
-
-    @PostConstruct
-    public void init() throws IOException {
-        List<Region> jsonRegions;
+    @Override
+    public void run(String... args) throws IOException {
         ObjectMapper mapper = new ObjectMapper(new YAMLFactory()); // create once, reuse
         CollectionType listType = mapper.getTypeFactory().constructCollectionType(
                 ArrayList.class, Region.class);
 
-        log.info("load regions from file : " + file);
-        jsonRegions = mapper.readValue(new File(file), listType);
+        log.info("load regions from file : " + regionsFilePath);
+        List<Region> jsonRegions = mapper.readValue(new File(regionsFilePath), listType);
         int numAdded = regionRepository.addAll(jsonRegions);
         log.info(numAdded + " regions were added");
     }

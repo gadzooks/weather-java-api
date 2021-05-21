@@ -5,5 +5,5 @@ logging:
   level:
     web: DEBUG
     org.springframework.security: DEBUG
-regions:
-  file: "src/main/resources/regions.yml"
+file-paths:
+  regionsFilePath: "src/main/resources/regions.yml"
