@@ -1,6 +1,6 @@
 # all paths will have prefix /api/
 #server.servlet.contextPath=/api/*
-#debug=true
+#debug: true
 logging:
   level:
     web: DEBUG

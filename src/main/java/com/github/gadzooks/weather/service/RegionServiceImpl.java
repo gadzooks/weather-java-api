@@ -6,15 +6,15 @@ import com.google.common.collect.ImmutableList;
 import org.springframework.stereotype.Service;
 
 @Service
-public class PlaceServiceImpl implements PlaceService {
+public class RegionServiceImpl implements RegionService {
     private final RegionRepository regionRepository;
 
-    public PlaceServiceImpl(RegionRepository repo) {
+    public RegionServiceImpl(RegionRepository repo) {
         this.regionRepository = repo;
     }
 
     @Override
-    public ImmutableList<Region> getRegions() {
+    public ImmutableList<Region> findAll() {
         return regionRepository.getRegions();
     }
 
@@ -24,10 +24,8 @@ public class PlaceServiceImpl implements PlaceService {
     }
 
     @Override
-    public Region updateRegion(String id, Region region) {
-        final Region srcRegion = getById(id);
-        srcRegion.update(region);
-        return srcRegion;
+    public Region save(Region region) {
+        return regionRepository.save(region);
     }
 
     @Override
@@ -36,7 +34,7 @@ public class PlaceServiceImpl implements PlaceService {
     }
 
     @Override
-    public Region getRegionById(final String id) {
+    public Region findOne(final String id) {
         return getById(id);
     }
 

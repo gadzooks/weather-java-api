@@ -23,8 +23,8 @@ public class RegionRepository {
     public int addAll(final List<Region> moreRegions) {
         int initialCount = regions.size();
         moreRegions.forEach(r -> {
-            if (!regionsById.containsKey(r.getName())) {
-                regionsById.put(r.getName(), r);
+            if (!regionsById.containsKey(r.getId())) {
+                regionsById.put(r.getId(), r);
                 regions.add(r);
             }
         });
@@ -52,25 +52,25 @@ public class RegionRepository {
     }
 
     public Region add(Region region) {
-        if (regionsById.get(region.getName()) == null) {
-            regionsById.put(region.getName(), region);
+        if (regionsById.get(region.getId()) == null) {
+            regionsById.put(region.getId(), region);
             regions.add(region);
         }
         return region;
     }
 
     public void remove(Region region) {
-        if (regionsById.containsKey(region.getName())) {
-            regionsById.remove(region.getName());
+        if (regionsById.containsKey(region.getId())) {
+            regionsById.remove(region.getId());
             regions.remove(region);
         }
     }
 
     public void update(Region region) {
-        if (regionsById.containsKey(region.getName())) {
-            regionsById.put(region.getName(), region);
+        if (regionsById.containsKey(region.getId())) {
+            regionsById.put(region.getId(), region);
         } else {
-            regionsById.put(region.getName(), region);
+            regionsById.put(region.getId(), region);
             regions.add(region);
         }
 
@@ -91,5 +91,17 @@ public class RegionRepository {
             }
         }
         return numAdded;
+    }
+
+    public Region save(Region region) {
+        if (regionsById.containsKey(region.getId())) {
+            Region currentRegion = regionsById.get(region.getId());
+            currentRegion.update(region);
+            return currentRegion;
+        } else {
+            regionsById.put(region.getId(), region);
+            regions.add(region);
+            return region;
+        }
     }
 }

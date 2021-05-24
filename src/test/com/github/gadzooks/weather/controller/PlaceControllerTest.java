@@ -1,7 +1,7 @@
 package com.github.gadzooks.weather.controller;
 
 import com.github.gadzooks.weather.configuration.RegionConfig;
-import com.github.gadzooks.weather.service.PlaceService;
+import com.github.gadzooks.weather.service.RegionService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;

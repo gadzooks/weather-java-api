@@ -21,7 +21,7 @@ class RegionConfigTest {
         Region firstRegion = regionRepository.getRegions().get(0);
         assertThat(firstRegion, is(notNullValue()));
         assertThat(firstRegion.getDescription(), is(not(Matchers.emptyString())));
-        assertThat(firstRegion.getName(), is(not(Matchers.emptyString())));
+        assertThat(firstRegion.getId(), is(not(Matchers.emptyString())));
         assertThat(firstRegion.getSearchKey(), is(not(Matchers.emptyString())));
     }
 }

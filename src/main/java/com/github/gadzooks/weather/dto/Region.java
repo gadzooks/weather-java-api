@@ -1,18 +1,18 @@
 package com.github.gadzooks.weather.dto;
 
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
+@Data
 @NoArgsConstructor
 @ToString
 //Make class final to make it immutable
 public final class Region {
-    private String name;
+    private String id;
     private String searchKey;
     private String description;
     private final List<Location> locations = new ArrayList<>();

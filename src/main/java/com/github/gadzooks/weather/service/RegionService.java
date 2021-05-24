@@ -5,14 +5,14 @@ import com.google.common.collect.ImmutableList;
 import org.springframework.stereotype.Service;
 
 @Service
-public interface PlaceService {
-    ImmutableList<Region> getRegions();
+public interface RegionService {
+    ImmutableList<Region> findAll();
 
     Region createRegion(Region region);
 
-    Region updateRegion(String id, Region region);
+    Region save(Region region);
 
     void deleteRegion(String id);
 
-    Region getRegionById(String id);
+    Region findOne(String id);
 }
