@@ -2,6 +2,7 @@ package com.github.gadzooks.weather.controller;
 
 import com.github.gadzooks.weather.dto.Region;
 import com.github.gadzooks.weather.service.RegionService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.hateoas.EntityModel;
@@ -16,6 +17,10 @@ import java.util.stream.Collectors;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
+@Api(
+        value = "Region",
+        tags = { "REST API for Regions with locations" } // way to group HTTP operations together in Swagger
+)
 @RestController
 //Allow requests from other domains
 @CrossOrigin(origins = "*")
@@ -32,18 +37,19 @@ public class RegionController {
 
     @GetMapping(value = "/")
     @ApiOperation(value = "Find all regions",
+            tags = { "REST API for Regions with locations" },
             notes = "This method returns all the regions")
     public List<EntityModel<Region>> findAll() {
         return regionService.findAll().stream().map(
                 region -> EntityModel.of(region,
                         linkTo(methodOn(RegionController.class).findOne(region.getId())).withSelfRel(),
                         linkTo(methodOn(RegionController.class).findAll()).withRel("regions"))).
-                collect(Collectors.toList())
-                ;
+                collect(Collectors.toList());
     }
 
     @GetMapping(value = "/{id}")
     @ApiOperation(value = "Find region by id",
+            tags = { "REST API for Regions with locations" },
             notes = "This method finds region by id provided")
     public EntityModel<Region> findOne(
             @ApiParam(value = "Region Id of the region requested", example = "issaquah") @PathVariable String id) {
@@ -55,6 +61,7 @@ public class RegionController {
 
     @PatchMapping(value = "/{id}")
     @ApiOperation(value = "Update part of a region",
+            tags = { "REST API for Regions with locations" },
             notes = "This method allows users to update attributes of a region")
     public EntityModel<Region> updateRegion(
             @ApiParam(value = "Region Id of the region requested", example = "issaquah") @PathVariable String id,
@@ -77,6 +84,7 @@ public class RegionController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @ApiOperation(value = "Create new region",
+            tags = { "REST API for Regions with locations" },
             notes = "This method creates a new region")
     public EntityModel<Region> newRegion(
             @ApiParam(value = "Valid region object") @Valid @RequestBody Region region) {

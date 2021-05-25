@@ -8,6 +8,11 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+//        SWAGGER Related docs
+//http://localhost:8080/swagger-ui/index.html
+//https://editor.swagger.io
+//https://springfox.github.io/springfox/docs/current/#springfox-spring-mvc-and-spring-boot
+
 @Configuration
 @EnableSwagger2
 @SwaggerDefinition(
@@ -34,9 +39,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
         },
         externalDocs = @ExternalDocs(value = "Meteorology", url = "http://theweatherapi.io/meteorology.html")
 )
-//http://localhost:8080/swagger-ui/index.html
 public class SwaggerConfig {
-    //https://springfox.github.io/springfox/docs/current/#springfox-spring-mvc-and-spring-boot
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
