@@ -1,4 +1,4 @@
-package com.github.gadzooks.weather.configuration;
+package com.github.gadzooks.weather.runner;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;

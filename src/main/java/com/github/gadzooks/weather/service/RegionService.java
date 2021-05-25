@@ -7,12 +7,8 @@ import org.springframework.stereotype.Service;
 @Service
 public interface RegionService {
     ImmutableList<Region> findAll();
-
-    Region createRegion(Region region);
-
     Region save(Region region);
-
     void deleteRegion(String id);
-
     Region findOne(String id);
+    Region patch(String id, Region updatedRegion);
 }

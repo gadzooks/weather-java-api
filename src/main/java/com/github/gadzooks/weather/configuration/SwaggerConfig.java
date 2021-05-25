@@ -23,8 +23,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
                 termsOfService = "travelweather.co/tos",
                 contact = @Contact(
                         name = "Amit K",
-                        email = "k@gmail.com",
-                        url = "travelweather.co"
+                        email = "karwande@gmail.com",
+                        url = "http://github.com/gadzooks"
                 ),
                 license = @License(
                         name = "Apache 2.0",

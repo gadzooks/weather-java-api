@@ -19,11 +19,6 @@ public class RegionServiceImpl implements RegionService {
     }
 
     @Override
-    public Region createRegion(Region region) {
-        return regionRepository.add(region);
-    }
-
-    @Override
     public Region save(Region region) {
         return regionRepository.save(region);
     }
@@ -36,6 +31,13 @@ public class RegionServiceImpl implements RegionService {
     @Override
     public Region findOne(final String id) {
         return getById(id);
+    }
+
+    @Override
+    public Region patch(String id, Region updatedRegion) {
+        Region region = findOne(id);
+        region.patch(updatedRegion);
+        return region;
     }
 
     private Region getById(final String id) {

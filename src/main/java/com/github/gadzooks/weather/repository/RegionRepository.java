@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * The type Region repository.
+ * Region repository : in-memory store for Regions.
  */
 @Component
 public class RegionRepository {

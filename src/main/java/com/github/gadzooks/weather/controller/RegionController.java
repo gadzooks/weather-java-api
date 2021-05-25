@@ -19,6 +19,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Api(
         value = "Region",
+        description = "",
         tags = { "REST API for Regions with locations" } // way to group HTTP operations together in Swagger
 )
 @RestController
@@ -60,9 +61,30 @@ public class RegionController {
     }
 
     @PatchMapping(value = "/{id}")
-    @ApiOperation(value = "Update part of a region",
+    @ApiOperation(value = "Update part of a region (patch)",
             tags = { "REST API for Regions with locations" },
-            notes = "This method allows users to update attributes of a region")
+            notes = "This method allows users to update **subset** of attributes of a region")
+    public EntityModel<Region> patchRegion(
+            @ApiParam(value = "Region Id of the region requested", example = "issaquah") @PathVariable String id,
+            @ApiParam(value = "region object (can be partially set)") @RequestBody Region updatedRegion) {
+        Region savedRegion = regionService.patch(id, updatedRegion);
+
+        // NOTE: alternate way to return HATEOAS
+//        Link newlyCreatedLink = linkTo(methodOn(RegionController.class).findOne(savedRegion.getId())).withSelfRel();
+//        try {
+//            return ResponseEntity.noContent().location(new URI(newlyCreatedLink.getHref())).build();
+//        } catch (URISyntaxException e) {
+//            return ResponseEntity.badRequest().body("Unable to update " + updatedRegion);
+//        }
+        return EntityModel.of(savedRegion,
+                linkTo(methodOn(RegionController.class).findOne(id)).withSelfRel(),
+                linkTo(methodOn(RegionController.class).findAll()).withRel("regions"));
+    }
+
+    @PutMapping(value = "/{id}")
+    @ApiOperation(value = "Update a region",
+            tags = { "REST API for Regions with locations" },
+            notes = "This method allows users to replace all attributes of a region")
     public EntityModel<Region> updateRegion(
             @ApiParam(value = "Region Id of the region requested", example = "issaquah") @PathVariable String id,
             @ApiParam(value = "Valid region object") @Valid @RequestBody Region updatedRegion) {
