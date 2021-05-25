@@ -116,4 +116,10 @@ public class RegionRepository {
             return region;
         }
     }
+
+    public void delete(Region region) {
+        if (regionsById.containsKey(region.getId())) {
+            regionsById.remove(region.getId());
+        }
+    }
 }

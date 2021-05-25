@@ -11,4 +11,5 @@ public interface RegionService {
     void deleteRegion(String id);
     Region findOne(String id);
     Region patch(String id, Region updatedRegion);
+    void delete(String id);
 }

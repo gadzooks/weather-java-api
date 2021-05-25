@@ -126,4 +126,16 @@ public class RegionController {
 //        }
     }
 
+    @DeleteMapping(value = "/{id}")
+    @ApiOperation(value = "Delete a region",
+            tags = { "REST API for Regions with locations" },
+            notes = "This method deletes a region")
+    public EntityModel<Region> deletePost(
+            @ApiParam(value = "Region Id of the region requested", example = "issaquah") @PathVariable String id) {
+        Region region = regionService.findOne(id);
+        regionService.delete(id);
+        return EntityModel.of(region, //
+                linkTo(methodOn(RegionController.class).findAll()).withRel("regions"));
+    }
+
 }

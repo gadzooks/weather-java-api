@@ -40,6 +40,12 @@ public class RegionServiceImpl implements RegionService {
         return region;
     }
 
+    @Override
+    public void delete(String id) {
+        Region region = findOne(id);
+        regionRepository.delete(region);
+    }
+
     private Region getById(final String id) {
         return regionRepository.getRegionByName(id);
     }
