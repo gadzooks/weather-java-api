@@ -2,6 +2,7 @@ package com.github.gadzooks.weather.controller;
 
 import com.github.gadzooks.weather.dto.Region;
 import com.github.gadzooks.weather.service.RegionService;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -29,6 +30,8 @@ public class RegionController {
     }
 
     @GetMapping(value = "/")
+    @ApiOperation(value = "Find all regions",
+            notes = "This method returns all the regions")
     public List<EntityModel<Region>> findAll() {
         return regionService.findAll().stream().map(
                 region -> EntityModel.of(region,
@@ -39,6 +42,8 @@ public class RegionController {
     }
 
     @GetMapping(value = "/{id}")
+    @ApiOperation(value = "Find region by id",
+            notes = "This method finds region by id provided")
     public EntityModel<Region> findOne(@PathVariable String id) {
         Region region = regionService.findOne(id);
         return EntityModel.of(region, //
@@ -47,6 +52,8 @@ public class RegionController {
     }
 
     @PatchMapping(value = "/{id}")
+    @ApiOperation(value = "Update part of a region",
+            notes = "This method allows users to update attributes of a region")
     public EntityModel<Region> updateRegion(@PathVariable String id, @Valid @RequestBody Region updatedRegion) {
         updatedRegion.setId(id);
         Region savedRegion = regionService.save(updatedRegion);
@@ -65,6 +72,8 @@ public class RegionController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    @ApiOperation(value = "Create new region",
+            notes = "This method creates a new region")
     public EntityModel<Region> newRegion(@Valid @RequestBody Region region) {
         Region savedRegion = regionService.save(region);
 

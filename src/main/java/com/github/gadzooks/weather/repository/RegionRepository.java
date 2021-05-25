@@ -13,6 +13,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * The type Region repository.
+ */
 @Component
 public class RegionRepository {
 
@@ -31,6 +34,13 @@ public class RegionRepository {
         return regions.size() - initialCount;
     }
 
+    /**
+     * Gets region by id.
+     *
+     * @param id the id of the Region
+     * @return the Region by name
+     * @throws ResourceNotFoundException if Region with id is not found
+     */
     public Region getRegionByName(final String id) {
         Region r = regionsById.get(id);
         if (r == null) {
@@ -45,7 +55,7 @@ public class RegionRepository {
      * We do NOT want to allow consumers of this method to directly change regions
      * list so we return an immutable copy
      *
-     * @return the regions
+     * @return ImmutableList of all Region objects
      */
     public ImmutableList<Region> getRegions() {
         return ImmutableList.copyOf(regions);
@@ -55,8 +65,10 @@ public class RegionRepository {
         if (regionsById.get(region.getId()) == null) {
             regionsById.put(region.getId(), region);
             regions.add(region);
+            return region;
+        } else {
+            return regionsById.get(region.getId());
         }
-        return region;
     }
 
     public void remove(Region region) {
