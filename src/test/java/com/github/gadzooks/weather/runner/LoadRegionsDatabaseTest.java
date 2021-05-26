@@ -1,20 +1,26 @@
-package com.github.gadzooks.weather.configuration;
+package com.github.gadzooks.weather.runner;
 
 import com.github.gadzooks.weather.dto.Region;
 import com.github.gadzooks.weather.repository.RegionRepository;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
+import static org.hamcrest.Matchers.*;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.greaterThan;
+import static org.hamcrest.Matchers.notNullValue;
 
-class RegionConfigTest {
+@SpringBootTest
+class LoadRegionsDatabaseTest {
+
+    @Autowired
+    private RegionRepository regionRepository;
 
     @Test
     void getRegions() {
-        RegionRepository regionRepository = new RegionRepository();
-
         System.out.println(regionRepository.getRegions());
         assertThat(regionRepository.getRegions().size(), greaterThan(0));
 
