@@ -21,6 +21,11 @@ JUnit, Test Containers, Mockito, Mock Server
 Open API, Swagger
 Jenkins, DockerAWS, ECS, EC2
 
+## Read articles : 
+- https://www.baeldung.com/maven-dependency-scopes
+- https://www.programmersought.com/article/8780517523/
+
+
 ## DONE : 
 - CRUD REST api for Region entity
 - Load Region/Location from yml using CommandLineRunner
