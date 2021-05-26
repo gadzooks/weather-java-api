@@ -36,7 +36,7 @@ public class RegionController {
         this.regionService = regionService;
     }
 
-    @GetMapping(value = "/")
+    @GetMapping(value = "")
     @ApiOperation(value = "Find all regions",
             tags = { "REST API for Regions with locations" },
             notes = "This method returns all the regions")
@@ -130,7 +130,7 @@ public class RegionController {
     @ApiOperation(value = "Delete a region",
             tags = { "REST API for Regions with locations" },
             notes = "This method deletes a region")
-    public EntityModel<Region> deletePost(
+    public EntityModel<Region> deleteRegion(
             @ApiParam(value = "Region Id of the region requested", example = "issaquah") @PathVariable String id) {
         Region region = regionService.findOne(id);
         regionService.delete(id);
