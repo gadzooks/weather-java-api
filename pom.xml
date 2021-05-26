@@ -19,6 +19,7 @@
         <auto-value.version>1.8.1</auto-value.version>
         <apache-commons-lang3.version>3.12.0</apache-commons-lang3.version>
         <failsafe-plugin.version>3.0.0-M5</failsafe-plugin.version>
+        <jacoco.version>0.8.7</jacoco.version>
     </properties>
     <dependencies>
         <dependency>
@@ -102,6 +103,11 @@
             <version>${failsafe-plugin.version}</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.jacoco</groupId>
+            <artifactId>jacoco-maven-plugin</artifactId>
+            <version>${jacoco.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -129,6 +135,27 @@
                             <goal>verify</goal>
 <!--                            mvn verify -->
                         </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>${jacoco.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                        <!--                        Step 1: run tests (mvn verify) -->
+                        <!--                        Step 2: see results in (target/site/jacoco/index.html) -->
                     </execution>
                 </executions>
             </plugin>
