@@ -1,35 +1,53 @@
 # REST Weather API
 
-## TODO
+# TODO
 
-1. call weather API and return results using FEIGN REST Client
-2. store weather api in Mongo
-3. store weather api in PostGres/MySQL with JPA
-4. store weather api data in PostGres/MySql with hibernate
-5. v1 return weather api from Mongo
-6. v2 return weather data from JPA, hibernate
-7. POSTMAN / newman tests for CRUD operations
+https://www.udemy.com/course/microservices-with-spring-boot-and-spring-cloud/learn/lecture/8005642#overview
 
-- /v1 path - load locations, regions from files into POJOs
-- GET /forecasts -> return forecasts for all locations by calling DarkSKY API
-- run locally with docker-compose
+## Cover these broad areas :
 
-Maven
-Spring Boot, Spring Data, Spring Security
-JPA/Hibernate, Liquibase/Flyway
-JUnit, Test Containers, Mockito, Mock Server
-Open API, Swagger
-Jenkins, DockerAWS, ECS, EC2
+- Profiles (test, dev, qa, prod) - need different resources for data storage etc
+- MongoDB
+    - Validations
+    - Test end to end
+    - Implement custom method in RepoImpl with query
+    - move username / pass to ENV or something
 
-## Read articles : 
+    - Do a transactional operation : move location from 1 region to another
+    - Auditing
+      using : https://docs.spring.io/spring-data/jpa/docs/1.7.0.DATAJPA-580-SNAPSHOT/reference/html/auditing.html
+- JPA
+- Hibernate
+- LiquidBase/Flyway : https://www.liquibase.org/liquibase-vs-flyway (DB Migrations)
+- FEIGN REST Client
+- Actuator : https://spring.io/guides/gs/actuator-service/
+- Spring Security / spring session
+    - https://medium.com/@gtommee97/rest-authentication-with-spring-security-and-mongodb-28c06da25fb1
+- Spring Integration / messaging
+- JMX
+- Docker compose
+    - Build executable jar/war and deploy
+- Spring Apache Kafka
+- Spring Batch
+- Jenkins
+- Versioning of APIs
+- Caching
+
+## Done - major areas
+
+- Load Region/Location from yml using CommandLineRunner
+- Basic REST API
+- HATEOAS support
+- Code Coverage with Jacoco
+- Exception handling
+- Controller Advice
+- Follow MVC pattern : @Service, @Repository, @Controller
+- WebMVCTest for testing REST Controllers in isolation
+- SpringBootTest for testing service end to end
+- Load data from yaml files
+- SWAGGER
+
+## Read articles :
+
 - https://www.baeldung.com/maven-dependency-scopes
 - https://www.programmersought.com/article/8780517523/
-
-
-## DONE : 
-- CRUD REST api for Region entity
-- Load Region/Location from yml using CommandLineRunner
-- HATEOAS support for Region entity 
-- SWAGGER docs
-- Code coverage with Jacoco
-- swagger docs

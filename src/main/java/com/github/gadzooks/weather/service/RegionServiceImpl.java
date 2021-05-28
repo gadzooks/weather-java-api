@@ -24,11 +24,6 @@ public class RegionServiceImpl implements RegionService {
     }
 
     @Override
-    public void deleteRegion(String id) {
-        regionRepository.remove(regionRepository.getRegionByName(id));
-    }
-
-    @Override
     public Region findOne(final String id) {
         return getById(id);
     }
