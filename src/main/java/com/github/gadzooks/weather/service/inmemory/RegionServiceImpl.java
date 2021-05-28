@@ -1,7 +1,7 @@
-package com.github.gadzooks.weather.service;
+package com.github.gadzooks.weather.service.inmemory;
 
 import com.github.gadzooks.weather.dto.Region;
-import com.github.gadzooks.weather.repository.RegionRepository;
+import com.github.gadzooks.weather.repository.inmemory.RegionRepository;
 import com.google.common.collect.ImmutableList;
 import org.springframework.stereotype.Service;
 

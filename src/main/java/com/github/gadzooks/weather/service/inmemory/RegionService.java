@@ -1,4 +1,4 @@
-package com.github.gadzooks.weather.service;
+package com.github.gadzooks.weather.service.inmemory;
 
 import com.github.gadzooks.weather.dto.Region;
 import com.google.common.collect.ImmutableList;

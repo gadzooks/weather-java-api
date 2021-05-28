@@ -1,10 +1,11 @@
 # all paths will have prefix /api/
 #server.servlet.contextPath=/api/*
 #debug: true
-logging:
-  level:
-    web: DEBUG
-    org.springframework.security: DEBUG
+#logging:
+#  level:
+#    web: DEBUG
+#    org.springframework.security: DEBUG
+
 # FIXME : dont use default profile, use In memory mongo for Testing, localhost for dev
 # mongodb external for qa and prod profiles
 spring.data.mongodb:

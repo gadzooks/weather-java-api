@@ -1,11 +1,11 @@
-package com.github.gadzooks.weather.runner;
+package com.github.gadzooks.weather.runner.inmemory;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.github.gadzooks.weather.dto.Location;
 import com.github.gadzooks.weather.dto.Region;
-import com.github.gadzooks.weather.repository.RegionRepository;
+import com.github.gadzooks.weather.repository.inmemory.RegionRepository;
 import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

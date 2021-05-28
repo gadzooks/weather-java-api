@@ -1,4 +1,4 @@
-package com.github.gadzooks.weather.repository;
+package com.github.gadzooks.weather.repository.inmemory;
 
 import com.github.gadzooks.weather.dto.Location;
 import com.github.gadzooks.weather.dto.Region;

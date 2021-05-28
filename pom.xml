@@ -22,6 +22,7 @@
         <failsafe-plugin.version>3.0.0-M5</failsafe-plugin.version>
         <jacoco.version>0.8.7</jacoco.version>
         <swagger.version>0.3.0</swagger.version>
+        <jpa.version>2.5.0</jpa.version>
     </properties>
     <dependencies>
         <!--        CORE REST API / WEB MVC -->
@@ -42,6 +43,17 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-mongodb</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+            <version>${jpa.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>1.4.200</version>
+            <scope>test</scope>
         </dependency>
 
         <!--        LOAD PROPERTY/YAML values into Objects -->

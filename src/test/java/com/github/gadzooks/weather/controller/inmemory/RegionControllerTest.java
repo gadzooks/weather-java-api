@@ -1,11 +1,11 @@
-package com.github.gadzooks.weather.controller;
+package com.github.gadzooks.weather.controller.inmemory;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.github.gadzooks.weather.dto.Region;
-import com.github.gadzooks.weather.service.RegionService;
+import com.github.gadzooks.weather.service.inmemory.RegionService;
 import com.google.common.collect.ImmutableList;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

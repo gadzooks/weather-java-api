@@ -1,7 +1,7 @@
-package com.github.gadzooks.weather.runner;
+package com.github.gadzooks.weather.runner.inmemory;
 
 import com.github.gadzooks.weather.dto.Region;
-import com.github.gadzooks.weather.repository.RegionRepository;
+import com.github.gadzooks.weather.repository.inmemory.RegionRepository;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

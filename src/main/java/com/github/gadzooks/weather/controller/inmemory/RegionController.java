@@ -1,7 +1,7 @@
-package com.github.gadzooks.weather.controller;
+package com.github.gadzooks.weather.controller.inmemory;
 
 import com.github.gadzooks.weather.dto.Region;
-import com.github.gadzooks.weather.service.RegionService;
+import com.github.gadzooks.weather.service.inmemory.RegionService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
