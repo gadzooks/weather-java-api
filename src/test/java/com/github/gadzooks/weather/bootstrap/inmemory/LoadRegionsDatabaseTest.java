@@ -1,4 +1,4 @@
-package com.github.gadzooks.weather.runner.inmemory;
+package com.github.gadzooks.weather.bootstrap.inmemory;
 
 import com.github.gadzooks.weather.dto.Region;
 import com.github.gadzooks.weather.repository.inmemory.RegionRepository;

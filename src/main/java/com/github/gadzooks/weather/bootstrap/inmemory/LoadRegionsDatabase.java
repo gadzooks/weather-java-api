@@ -1,4 +1,4 @@
-package com.github.gadzooks.weather.runner.inmemory;
+package com.github.gadzooks.weather.bootstrap.inmemory;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
@@ -18,6 +19,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+// lower values have higher priority
+@Order(value = 1)
 @Component
 @ConfigurationProperties(prefix = "file-paths", ignoreUnknownFields = false)
 public class LoadRegionsDatabase implements CommandLineRunner {
