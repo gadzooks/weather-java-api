@@ -1,6 +1,6 @@
 package com.github.gadzooks.weather.repository.mongo;
 
-import com.github.gadzooks.weather.dao.mongo.RegionDocument;
+import com.github.gadzooks.weather.domain.mongo.RegionDocument;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;

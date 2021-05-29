@@ -1,7 +1,7 @@
 package com.github.gadzooks.weather.bootstrap.mongo;
 
-import com.github.gadzooks.weather.dao.mongo.LocationDocument;
-import com.github.gadzooks.weather.dao.mongo.RegionDocument;
+import com.github.gadzooks.weather.domain.mongo.LocationDocument;
+import com.github.gadzooks.weather.domain.mongo.RegionDocument;
 import com.github.gadzooks.weather.dto.Location;
 import com.github.gadzooks.weather.dto.Region;
 import com.github.gadzooks.weather.repository.inmemory.RegionRepository;

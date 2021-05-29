@@ -1,4 +1,4 @@
-package com.github.gadzooks.weather.dao.mongo;
+package com.github.gadzooks.weather.domain.mongo;
 
 import com.github.gadzooks.weather.configuration.MongoValidationConfig;
 import com.github.gadzooks.weather.repository.mongo.MongoRegionRepository;

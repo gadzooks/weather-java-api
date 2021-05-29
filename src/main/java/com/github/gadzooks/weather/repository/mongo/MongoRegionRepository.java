@@ -1,6 +1,6 @@
 package com.github.gadzooks.weather.repository.mongo;
 
-import com.github.gadzooks.weather.dao.mongo.RegionDocument;
+import com.github.gadzooks.weather.domain.mongo.RegionDocument;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.repository.query.Param;
 

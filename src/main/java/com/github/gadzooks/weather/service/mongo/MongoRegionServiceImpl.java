@@ -1,6 +1,6 @@
 package com.github.gadzooks.weather.service.mongo;
 
-import com.github.gadzooks.weather.dao.mongo.RegionDocument;
+import com.github.gadzooks.weather.domain.mongo.RegionDocument;
 import com.github.gadzooks.weather.repository.mongo.MongoRegionRepository;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;

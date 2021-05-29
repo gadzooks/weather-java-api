@@ -1,6 +1,6 @@
 package com.github.gadzooks.weather.controller.mongo;
 
-import com.github.gadzooks.weather.dao.mongo.RegionDocument;
+import com.github.gadzooks.weather.domain.mongo.RegionDocument;
 import com.github.gadzooks.weather.service.mongo.MongoRegionService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

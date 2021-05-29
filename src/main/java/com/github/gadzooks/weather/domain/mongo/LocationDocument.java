@@ -1,4 +1,4 @@
-package com.github.gadzooks.weather.dao.mongo;
+package com.github.gadzooks.weather.domain.mongo;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

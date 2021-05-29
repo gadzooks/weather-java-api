@@ -1,6 +1,6 @@
 package com.github.gadzooks.weather.repository.mongo;
 
-import com.github.gadzooks.weather.dao.mongo.RegionDocument;
+import com.github.gadzooks.weather.domain.mongo.RegionDocument;
 
 import java.util.List;
 import java.util.UUID;
