@@ -1,9 +1,9 @@
-package com.github.gadzooks.weather.configuration.mongo;
+package com.github.gadzooks.weather.configuration;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 @Configuration
-@EnableMongoRepositories(basePackageClasses = {com.github.gadzooks.weather.repository.mongo.MongoRegionRepository.class})
+@EnableMongoRepositories(basePackages = {"com.github.gadzooks.weather.repository.mongo"})
 public class MongoConfig {
 }

@@ -1,6 +1,6 @@
 package com.github.gadzooks.weather.dao.mongo;
 
-import com.github.gadzooks.weather.configuration.mongo.MongoValidationConfig;
+import com.github.gadzooks.weather.configuration.MongoValidationConfig;
 import com.github.gadzooks.weather.repository.mongo.MongoRegionRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

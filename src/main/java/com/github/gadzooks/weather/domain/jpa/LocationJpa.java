@@ -3,6 +3,7 @@ package com.github.gadzooks.weather.domain.jpa;
 import com.github.gadzooks.weather.dto.Location;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -10,6 +11,8 @@ import java.util.Set;
 
 @NoArgsConstructor // Required by JPA
 @Entity
+@Getter
+@Setter
 // NOTE 1 : DO NOT use Lomboks @EqualsAndHashCode -> we want to compare based on the unique key, and we want to allow
 // users to add multiple new objects to a set (lombok will count those as equal (since key is null for new objs) )
 

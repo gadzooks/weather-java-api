@@ -3,6 +3,7 @@
 # TODO
 
 https://www.udemy.com/course/microservices-with-spring-boot-and-spring-cloud/learn/lecture/8005642#overview
+https://www.logicbig.com/tutorials/spring-framework/spring-core/spring-profiles.html
 
 ## Cover these broad areas :
 

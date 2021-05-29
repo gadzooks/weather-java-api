@@ -1,10 +1,12 @@
 package com.github.gadzooks.weather.bootstrap.jpa;
 
+import com.github.gadzooks.weather.domain.jpa.AreaJpa;
 import com.github.gadzooks.weather.domain.jpa.LocationJpa;
 import com.github.gadzooks.weather.domain.jpa.RegionJpa;
 import com.github.gadzooks.weather.dto.Location;
 import com.github.gadzooks.weather.dto.Region;
 import com.github.gadzooks.weather.repository.inmemory.RegionRepository;
+import com.github.gadzooks.weather.repository.jpa.AreaJpaRepository;
 import com.github.gadzooks.weather.repository.jpa.LocationJpaRepository;
 import com.github.gadzooks.weather.repository.jpa.RegionJpaRepository;
 import org.slf4j.Logger;
@@ -21,12 +23,14 @@ import java.util.List;
 public class LoadRegionsDatabaseJpa implements CommandLineRunner {
     private final RegionJpaRepository regionJpaRepository;
     private final LocationJpaRepository locationJpaRepository;
+    private final AreaJpaRepository areaJpaRepository;
     private final RegionRepository srcRepository;
     private static final Logger log = LoggerFactory.getLogger(LoadRegionsDatabaseJpa.class);
 
-    public LoadRegionsDatabaseJpa(RegionJpaRepository regionJpaRepository, LocationJpaRepository locationJpaRepository, RegionRepository srcRepository) {
+    public LoadRegionsDatabaseJpa(RegionJpaRepository regionJpaRepository, LocationJpaRepository locationJpaRepository, AreaJpaRepository areaJpaRepository, RegionRepository srcRepository) {
         this.regionJpaRepository = regionJpaRepository;
         this.locationJpaRepository = locationJpaRepository;
+        this.areaJpaRepository = areaJpaRepository;
         this.srcRepository = srcRepository;
     }
 
@@ -34,10 +38,14 @@ public class LoadRegionsDatabaseJpa implements CommandLineRunner {
     public void run(String... args) throws Exception {
         List<RegionJpa> regionJpaList = new ArrayList<>();
         List<LocationJpa> locationJpaList = new ArrayList<>();
+        AreaJpa areaJpa = new AreaJpa();
+        areaJpa.setName("Pacific North West");
+        areaJpa.setDescription("Pacific North West");
 
         for(Region region : srcRepository.getRegions()) {
             RegionJpa regionJpa = new RegionJpa(region);
             regionJpaList.add(regionJpa);
+            areaJpa.getRegionJpas().add(regionJpa);
             for(Location location : region.getLocations()) {
                 LocationJpa locationJpa = new LocationJpa(location);
                 regionJpa.getLocationJpas().add(locationJpa);
@@ -48,7 +56,9 @@ public class LoadRegionsDatabaseJpa implements CommandLineRunner {
 
         locationJpaRepository.saveAll(locationJpaList);
         regionJpaRepository.saveAll(regionJpaList);
+        areaJpaRepository.save(areaJpa);
 
+        log.info("Area JPA repository : " + areaJpaRepository.count() + " areas saved.");
         log.info("Region JPA repository : " + regionJpaRepository.count() + " regions saved.");
         log.info("Location JPA repository : " + locationJpaRepository.count() + " locations saved.");
     }

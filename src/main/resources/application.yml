@@ -19,3 +19,11 @@ spring.data.mongodb:
 file-paths:
   regionsFilePath: "src/main/resources/regions.yml"
   locationsFilePath: "src/main/resources/locations.yml"
+
+# Example : get detailed logs for org.springframework.data.repository.config Package
+#logging.level:
+#  org:
+#    springframework:
+#      data:
+#        repository:
+#          config: debug

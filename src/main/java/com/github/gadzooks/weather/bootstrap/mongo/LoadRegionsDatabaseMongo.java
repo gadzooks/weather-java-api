@@ -30,6 +30,7 @@ public class LoadRegionsDatabaseMongo implements CommandLineRunner {
     @Override
     public void run(String... args) {
         for(Region region : regionRepository.getRegions()) {
+            //FIXME : check if RegionDocument already exists before saving
             RegionDocument rd = new RegionDocument();
             rd.setName(region.getId());
             rd.setSearchKey(region.getSearchKey());
