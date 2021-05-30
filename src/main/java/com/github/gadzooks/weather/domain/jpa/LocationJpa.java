@@ -75,7 +75,6 @@ public class LocationJpa {
                 ", subRegion='" + subRegion + '\'' +
                 ", latitude=" + latitude +
                 ", longitude=" + longitude +
-                ", regionJpas=" + regionJpas +
                 '}';
     }
 }

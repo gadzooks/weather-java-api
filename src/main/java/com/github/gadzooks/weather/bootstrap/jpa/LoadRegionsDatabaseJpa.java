@@ -15,9 +15,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Order(value = 10) //lower values have higher priority
 @Component
 public class LoadRegionsDatabaseJpa implements CommandLineRunner {
@@ -36,30 +33,30 @@ public class LoadRegionsDatabaseJpa implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        List<RegionJpa> regionJpaList = new ArrayList<>();
-        List<LocationJpa> locationJpaList = new ArrayList<>();
         AreaJpa areaJpa = new AreaJpa();
         areaJpa.setName("Pacific North West");
         areaJpa.setDescription("Pacific North West");
+        areaJpaRepository.save(areaJpa);
 
         for(Region region : srcRepository.getRegions()) {
             RegionJpa regionJpa = new RegionJpa(region);
-            regionJpaList.add(regionJpa);
+            regionJpaRepository.save(regionJpa);
             areaJpa.getRegionJpas().add(regionJpa);
+
             for(Location location : region.getLocations()) {
                 LocationJpa locationJpa = new LocationJpa(location);
-                regionJpa.getLocationJpas().add(locationJpa);
                 locationJpa.getRegionJpas().add(regionJpa);
-                locationJpaList.add(locationJpa);
+                locationJpaRepository.save(locationJpa);
+                regionJpa.getLocationJpas().add(locationJpa);
             }
+            regionJpaRepository.save(regionJpa);
         }
-
-        locationJpaRepository.saveAll(locationJpaList);
-        regionJpaRepository.saveAll(regionJpaList);
         areaJpaRepository.save(areaJpa);
 
         log.info("Area JPA repository : " + areaJpaRepository.count() + " areas saved.");
         log.info("Region JPA repository : " + regionJpaRepository.count() + " regions saved.");
         log.info("Location JPA repository : " + locationJpaRepository.count() + " locations saved.");
+
+        // FIXME : lazy load from area to regin to location
     }
 }

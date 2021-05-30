@@ -21,7 +21,7 @@ public class AreaJpa {
     private String description;
 
     @OneToMany
-    @JoinColumn(name = "regionJpas_id")
+    @JoinColumn(name = "area_jpa_id")
     private Set<RegionJpa> regionJpas = new HashSet<>();
 
     @Override

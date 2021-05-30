@@ -48,8 +48,8 @@ public class RegionJpa {
 
     @Getter
     @ManyToMany
-    @JoinTable(name = "regionJpa_locationJpa", joinColumns = @JoinColumn(name = "regionJpa_id"),
-    inverseJoinColumns = @JoinColumn(name = "locationJpa_id"))
+    @JoinTable(name = "region_location_mappings", joinColumns = @JoinColumn(name = "region_jpa_id"),
+            inverseJoinColumns = @JoinColumn(name = "location_jpa_id"))
     private Set<LocationJpa> locationJpas = new HashSet<>();
 
     @Override
@@ -76,7 +76,6 @@ public class RegionJpa {
                 ", searchKey='" + searchKey + '\'' +
                 ", description='" + description + '\'' +
                 ", isActive=" + isActive +
-                ", locationJpas=" + locationJpas +
                 '}';
     }
 }
