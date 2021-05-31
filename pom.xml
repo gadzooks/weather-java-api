@@ -204,7 +204,22 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>3.0.0-M4</version>
+                <configuration>
+                    <!--  we dont want release plugin to deploy so we only ask to install-->
+                    <goals>install</goals>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
+
+    <!--    Allow manven-release-plugin to create releases and tag them in github-->
+    <scm>
+        <developerConnection>scm:git:git@github.com:gadzooks/weather-java-api.git</developerConnection>
+    </scm>
+
 
 </project>
