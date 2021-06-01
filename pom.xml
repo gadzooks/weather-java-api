@@ -9,7 +9,7 @@
     </parent>
     <groupId>com.github.gadzooks</groupId>
     <artifactId>weather</artifactId>
-    <version>0.0.1</version>
+    <version>0.0.1-SNAPSHOT</version>
     <name>weather</name>
     <description>Demo project for Spring Boot</description>
     <properties>
@@ -217,7 +217,7 @@
 
     <!--    Allow manven-release-plugin to create releases and tag them in github-->
     <scm>
-        <developerConnection>scm:git:ssh@github.com:gadzooks/weather-java-api.git</developerConnection>
+        <developerConnection>scm:git:git@github.com:gadzooks/weather-java-api.git</developerConnection>
       <tag>weather-0.0.1</tag>
   </scm>
 
