@@ -210,6 +210,8 @@
                 <configuration>
                     <!--  we dont want release plugin to deploy so we only ask to install-->
                     <goals>install</goals>
+                    <!-- when we add modules automatically set their version too-->
+                    <autoVersionSubmodules>true</autoVersionSubmodules>
                 </configuration>
             </plugin>
         </plugins>
