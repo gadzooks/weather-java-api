@@ -2,8 +2,8 @@ package com.github.gadzooks.weather.bootstrap.mongo;
 
 import com.github.gadzooks.weather.domain.mongo.LocationDocument;
 import com.github.gadzooks.weather.domain.mongo.RegionDocument;
-import com.github.gadzooks.weather.dto.Location;
-import com.github.gadzooks.weather.dto.Region;
+import com.github.gadzooks.weather.domain.inmemory.Location;
+import com.github.gadzooks.weather.domain.inmemory.Region;
 import com.github.gadzooks.weather.repository.inmemory.RegionRepository;
 import com.github.gadzooks.weather.repository.mongo.MongoLocationRepository;
 import com.github.gadzooks.weather.repository.mongo.MongoRegionRepository;
@@ -32,7 +32,7 @@ public class LoadRegionsDatabaseMongo implements CommandLineRunner {
         for(Region region : regionRepository.getRegions()) {
             //FIXME : check if RegionDocument already exists before saving
             RegionDocument rd = new RegionDocument();
-            rd.setName(region.getId());
+            rd.setName(region.getName());
             rd.setSearchKey(region.getSearchKey());
             rd.setDescription(region.getDescription());
             rd.setIsActive(true);

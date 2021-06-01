@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
-import com.github.gadzooks.weather.dto.Region;
+import com.github.gadzooks.weather.domain.inmemory.Region;
 import com.github.gadzooks.weather.service.inmemory.RegionService;
 import com.google.common.collect.ImmutableList;
 import org.junit.jupiter.api.AfterEach;
@@ -51,17 +51,17 @@ class RegionControllerTest {
     @BeforeEach
     void setUp() {
         r1 = new Region();
-        r1.setId("r1");
+        r1.setName("r1");
         r1.setDescription("r1Desc");
         r1.setSearchKey("r1SearchKey");
 
         r2 = new Region();
-        r2.setId("r2");
+        r2.setName("r2");
         r2.setDescription("r2Desc");
         r2.setSearchKey("r2SearchKey");
 
         r3 = new Region();
-        r3.setId("r3");
+        r3.setName("r3");
         r3.setDescription("r3Desc");
         r3.setSearchKey("r3SearchKey");
 
@@ -104,10 +104,10 @@ class RegionControllerTest {
 
     @Test
     void getByRegionId() throws Exception {
-        when(regionService.findOne(r2.getId())).thenReturn(r2);
+        when(regionService.findOne(r2.getName())).thenReturn(r2);
 
         MvcResult mvcResult = mockMvc.perform(
-                MockMvcRequestBuilders.get("/regions/" + r2.getId()).contentType(MediaType.APPLICATION_JSON_VALUE)).
+                MockMvcRequestBuilders.get("/regions/" + r2.getName()).contentType(MediaType.APPLICATION_JSON_VALUE)).
                 andExpect(status().isOk()).
                 andReturn();
 
@@ -118,14 +118,14 @@ class RegionControllerTest {
 
     @Test
     void patchRegion() throws Exception {
-        when(regionService.patch(r3.getId(), r3)).thenReturn(r3);
+        when(regionService.patch(r3.getName(), r3)).thenReturn(r3);
         mockMvc.perform( MockMvcRequestBuilders
-                .patch("/regions/" + r3.getId())
+                .patch("/regions/" + r3.getName())
                 .content(asJsonString(r3))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(r3.getId()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value(r3.getName()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.searchKey").value(r3.getSearchKey()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.description").value(r3.getDescription()));
 
@@ -135,12 +135,12 @@ class RegionControllerTest {
     void putRegion() throws Exception {
         when(regionService.save(r3)).thenReturn(r3);
         mockMvc.perform( MockMvcRequestBuilders
-                .put("/regions/" + r3.getId())
+                .put("/regions/" + r3.getName())
                 .content(asJsonString(r3))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(r3.getId()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value(r3.getName()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.searchKey").value(r3.getSearchKey()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.description").value(r3.getDescription()));
     }
@@ -154,21 +154,21 @@ class RegionControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(r3.getId()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value(r3.getName()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.searchKey").value(r3.getSearchKey()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.description").value(r3.getDescription()));
     }
 
     @Test
     void deleteRegion() throws Exception {
-        when(regionService.findOne(r3.getId())).thenReturn(r3);
+        when(regionService.findOne(r3.getName())).thenReturn(r3);
 //        verify(regionService).delete(r3.getId());
         mockMvc.perform( MockMvcRequestBuilders
-                .delete("/regions/" + r3.getId() )
+                .delete("/regions/" + r3.getName() )
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(r3.getId()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value(r3.getName()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.searchKey").value(r3.getSearchKey()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.description").value(r3.getDescription()));
 

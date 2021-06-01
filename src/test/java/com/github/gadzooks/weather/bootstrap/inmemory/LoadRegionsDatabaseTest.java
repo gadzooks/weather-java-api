@@ -1,6 +1,6 @@
 package com.github.gadzooks.weather.bootstrap.inmemory;
 
-import com.github.gadzooks.weather.dto.Region;
+import com.github.gadzooks.weather.domain.inmemory.Region;
 import com.github.gadzooks.weather.repository.inmemory.RegionRepository;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
@@ -26,7 +26,7 @@ class LoadRegionsDatabaseTest {
         Region firstRegion = regionRepository.getRegions().get(0);
         assertThat(firstRegion, is(notNullValue()));
         assertThat(firstRegion.getDescription(), is(not(Matchers.emptyString())));
-        assertThat(firstRegion.getId(), is(not(Matchers.emptyString())));
+        assertThat(firstRegion.getName(), is(not(Matchers.emptyString())));
         assertThat(firstRegion.getSearchKey(), is(not(Matchers.emptyString())));
     }
 }

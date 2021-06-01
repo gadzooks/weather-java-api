@@ -1,4 +1,4 @@
-package com.github.gadzooks.weather.dto;
+package com.github.gadzooks.weather.domain.inmemory;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.annotations.ApiModel;
@@ -14,7 +14,7 @@ import lombok.ToString;
 // while serializing
 @JsonIgnoreProperties(value = {"region"})
 @ApiModel
-public class Location {
+public class Location extends BaseEntity {
     @ApiModelProperty(
             required = true,
             value = "unique name of the location",

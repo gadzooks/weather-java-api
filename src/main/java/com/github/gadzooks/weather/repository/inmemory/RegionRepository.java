@@ -1,7 +1,7 @@
 package com.github.gadzooks.weather.repository.inmemory;
 
-import com.github.gadzooks.weather.dto.Location;
-import com.github.gadzooks.weather.dto.Region;
+import com.github.gadzooks.weather.domain.inmemory.Location;
+import com.github.gadzooks.weather.domain.inmemory.Region;
 import com.github.gadzooks.weather.exception.ResourceNotFoundException;
 import com.google.common.collect.ImmutableList;
 import org.slf4j.Logger;
@@ -26,8 +26,8 @@ public class RegionRepository {
     public int addAll(final List<Region> moreRegions) {
         int initialCount = regions.size();
         moreRegions.forEach(r -> {
-            if (!regionsById.containsKey(r.getId())) {
-                regionsById.put(r.getId(), r);
+            if (!regionsById.containsKey(r.getName())) {
+                regionsById.put(r.getName(), r);
                 regions.add(r);
             }
         });
@@ -62,27 +62,27 @@ public class RegionRepository {
     }
 
     public Region add(Region region) {
-        if (regionsById.get(region.getId()) == null) {
-            regionsById.put(region.getId(), region);
+        if (regionsById.get(region.getName()) == null) {
+            regionsById.put(region.getName(), region);
             regions.add(region);
             return region;
         } else {
-            return regionsById.get(region.getId());
+            return regionsById.get(region.getName());
         }
     }
 
     public void remove(Region region) {
-        if (regionsById.containsKey(region.getId())) {
-            regionsById.remove(region.getId());
+        if (regionsById.containsKey(region.getName())) {
+            regionsById.remove(region.getName());
             regions.remove(region);
         }
     }
 
     public void update(Region region) {
-        if (regionsById.containsKey(region.getId())) {
-            regionsById.put(region.getId(), region);
+        if (regionsById.containsKey(region.getName())) {
+            regionsById.put(region.getName(), region);
         } else {
-            regionsById.put(region.getId(), region);
+            regionsById.put(region.getName(), region);
             regions.add(region);
         }
 
@@ -106,20 +106,20 @@ public class RegionRepository {
     }
 
     public Region save(Region region) {
-        if (regionsById.containsKey(region.getId())) {
-            Region currentRegion = regionsById.get(region.getId());
+        if (regionsById.containsKey(region.getName())) {
+            Region currentRegion = regionsById.get(region.getName());
             currentRegion.update(region);
             return currentRegion;
         } else {
-            regionsById.put(region.getId(), region);
+            regionsById.put(region.getName(), region);
             regions.add(region);
             return region;
         }
     }
 
     public void delete(Region region) {
-        if (regionsById.containsKey(region.getId())) {
-            regionsById.remove(region.getId());
+        if (regionsById.containsKey(region.getName())) {
+            regionsById.remove(region.getName());
         }
     }
 }

@@ -1,27 +1,27 @@
-- id: 'central_cascades'
+- name: 'central_cascades'
   searchKey: 'b4845d8a21ad6a202944425c86b6e85f'
   description: 'Central Cascades'
 
-- id: 'central_wa'
+- name: 'central_wa'
   searchKey: '41f702968848492db697e10b14c14060'
   description: 'Central Washington'
 
-- id: 'issaquah'
+- name: 'issaquah'
   searchKey: '592fcc9afd9208db3b81fdf93dada567'
   description: 'Issaquah'
 
-- id: 'mt_rainier'
+- name: 'mt_rainier'
   searchKey: '344281caae0d5e845a5003400c0be9ef'
   description: 'Mt Rainier'
 
-- id: 'north_cascades'
+- name: 'north_cascades'
   searchKey: '49aff77512c523f32ae13d889f6969c9'
   description: 'North Cascades'
 
-- id: 'olympic_np'
+- name: 'olympic_np'
   searchKey: '922e688d784aa95dfb80047d2d79dcf6'
   description: 'Olympic National Park'
 
-- id: 'snowqualmie_region'
+- name: 'snowqualmie_region'
   searchKey: '04d37e830680c65b61df474e7e655d64'
   description: 'Snowqualmie Region'

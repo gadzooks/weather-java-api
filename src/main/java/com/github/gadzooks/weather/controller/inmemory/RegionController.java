@@ -1,6 +1,6 @@
 package com.github.gadzooks.weather.controller.inmemory;
 
-import com.github.gadzooks.weather.dto.Region;
+import com.github.gadzooks.weather.domain.inmemory.Region;
 import com.github.gadzooks.weather.service.inmemory.RegionService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -43,7 +43,7 @@ public class RegionController {
     public List<EntityModel<Region>> findAll() {
         return regionService.findAll().stream().map(
                 region -> EntityModel.of(region,
-                        linkTo(methodOn(RegionController.class).findOne(region.getId())).withSelfRel(),
+                        linkTo(methodOn(RegionController.class).findOne(region.getName())).withSelfRel(),
                         linkTo(methodOn(RegionController.class).findAll()).withRel("regions"))).
                 collect(Collectors.toList());
     }
@@ -88,7 +88,7 @@ public class RegionController {
     public EntityModel<Region> updateRegion(
             @ApiParam(value = "Region Id of the region requested", example = "issaquah") @PathVariable String id,
             @ApiParam(value = "Valid region object") @Valid @RequestBody Region updatedRegion) {
-        updatedRegion.setId(id);
+        updatedRegion.setName(id);
         Region savedRegion = regionService.save(updatedRegion);
 
         // NOTE: alternate way to return HATEOAS
@@ -113,7 +113,7 @@ public class RegionController {
         Region savedRegion = regionService.save(region);
 
         return EntityModel.of(savedRegion, //
-                linkTo(methodOn(RegionController.class).findOne(savedRegion.getId())).withSelfRel(),
+                linkTo(methodOn(RegionController.class).findOne(savedRegion.getName())).withSelfRel(),
                 linkTo(methodOn(RegionController.class).findAll()).withRel("regions"));
 
         // NOTE: alternate way to return HATEOAS

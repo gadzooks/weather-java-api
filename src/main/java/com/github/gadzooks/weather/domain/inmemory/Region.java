@@ -1,4 +1,4 @@
-package com.github.gadzooks.weather.dto;
+package com.github.gadzooks.weather.domain.inmemory;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -15,12 +15,12 @@ import java.util.List;
 @ToString
 @ApiModel
 //Make class final to make it immutable
-public final class Region {
+public final class Region extends BaseEntity {
     @ApiModelProperty(
             required = true,
             value = "Regions are identified by region id. These should be unique",
             example = "issaquah")
-    private String id;
+    private String name;
 
     @ApiModelProperty(
             required = true,

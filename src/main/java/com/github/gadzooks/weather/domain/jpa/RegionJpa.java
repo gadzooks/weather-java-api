@@ -1,6 +1,6 @@
 package com.github.gadzooks.weather.domain.jpa;
 
-import com.github.gadzooks.weather.dto.Region;
+import com.github.gadzooks.weather.domain.inmemory.Region;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -29,7 +29,7 @@ public class RegionJpa {
     private Boolean isActive;
 
     public RegionJpa(final Region region) {
-        this.name = region.getId();
+        this.name = region.getName();
         this.description = region.getDescription();
         this.isActive = true;
         this.searchKey = region.getSearchKey();

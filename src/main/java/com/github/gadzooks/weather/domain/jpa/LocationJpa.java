@@ -1,6 +1,6 @@
 package com.github.gadzooks.weather.domain.jpa;
 
-import com.github.gadzooks.weather.dto.Location;
+import com.github.gadzooks.weather.domain.inmemory.Location;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
