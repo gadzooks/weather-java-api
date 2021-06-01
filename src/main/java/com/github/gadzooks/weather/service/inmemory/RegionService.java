@@ -1,13 +1,8 @@
 package com.github.gadzooks.weather.service.inmemory;
 
 import com.github.gadzooks.weather.domain.inmemory.Region;
-import com.google.common.collect.ImmutableList;
+import com.github.gadzooks.weather.service.CrudService;
 
 // @Service annotation here does not create a Bean of the implemented class
-public interface RegionService {
-    ImmutableList<Region> findAll();
-    Region save(Region region);
-    Region findOne(String id);
-    Region patch(String id, Region updatedRegion);
-    void delete(String id);
+public interface RegionService extends CrudService<Region, String> {
 }
