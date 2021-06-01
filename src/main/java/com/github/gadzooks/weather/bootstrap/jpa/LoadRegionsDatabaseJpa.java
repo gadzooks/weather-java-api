@@ -38,7 +38,7 @@ public class LoadRegionsDatabaseJpa implements CommandLineRunner {
         areaJpa.setDescription("Pacific North West");
         areaJpaRepository.save(areaJpa);
 
-        for(Region region : srcRepository.getRegions()) {
+        for(Region region : srcRepository.findAll()) {
             RegionJpa regionJpa = new RegionJpa(region);
             regionJpaRepository.save(regionJpa);
             areaJpa.getRegionJpas().add(regionJpa);

@@ -32,18 +32,18 @@ public class MongoRegionServiceImpl implements MongoRegionService {
     }
 
     @Override
+    public RegionDocument getById(UUID uuid) {
+        return mongoRepository.findById(uuid).orElseThrow();
+    }
+
+    @Override
     public List<RegionDocument> findAll() {
         return mongoRepository.findAll();
     }
 
     @Override
-    public RegionDocument findOne(UUID id) {
-        return mongoRepository.findById(id).orElseThrow();
-    }
-
-    @Override
     public RegionDocument patch(UUID id, RegionDocument updatedRegion) {
-        RegionDocument rd = findOne(id);
+        RegionDocument rd = getById(id);
         if (updatedRegion.getIsActive() != null) {
             rd.setIsActive(rd.getIsActive());
         }

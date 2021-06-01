@@ -74,7 +74,7 @@ public class MongoRegionController {
     public EntityModel<RegionDocument> findOne(
             @ApiParam(value = "RegionDocument Id of the region requested", example = "uuid") @PathVariable UUID id) {
         log.info("UUID to look up is : " + id.toString());
-        RegionDocument region = regionService.findOne(id);
+        RegionDocument region = regionService.getById(id);
         log.info("region document found : " + region.toString());
         return EntityModel.of(region, //
                 linkTo(methodOn(MongoRegionController.class).findOne(id)).withSelfRel(),
@@ -153,7 +153,7 @@ public class MongoRegionController {
             notes = "This method deletes a region")
     public EntityModel<RegionDocument> deleteRegion(
             @ApiParam(value = "RegionDocument Id of the region requested", example = "uuid") @PathVariable UUID id) {
-        RegionDocument region = regionService.findOne(id);
+        RegionDocument region = regionService.getById(id);
         regionService.delete(id);
 
         return EntityModel.of(region, linkTo(methodOn(MongoRegionController.class).findAll()).withRel("regions"));

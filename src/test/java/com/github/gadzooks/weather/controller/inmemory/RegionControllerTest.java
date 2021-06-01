@@ -104,7 +104,7 @@ class RegionControllerTest {
 
     @Test
     void getByRegionId() throws Exception {
-        when(regionService.findOne(r2.getName())).thenReturn(r2);
+        when(regionService.getById(r2.getName())).thenReturn(r2);
 
         MvcResult mvcResult = mockMvc.perform(
                 MockMvcRequestBuilders.get("/regions/" + r2.getName()).contentType(MediaType.APPLICATION_JSON_VALUE)).
@@ -161,7 +161,7 @@ class RegionControllerTest {
 
     @Test
     void deleteRegion() throws Exception {
-        when(regionService.findOne(r3.getName())).thenReturn(r3);
+        when(regionService.getById(r3.getName())).thenReturn(r3);
 //        verify(regionService).delete(r3.getId());
         mockMvc.perform( MockMvcRequestBuilders
                 .delete("/regions/" + r3.getName() )

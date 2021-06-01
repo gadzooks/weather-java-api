@@ -14,4 +14,5 @@ class ITWeatherApplicationTests {
     void contextLoads() {
     }
 
+    //FIXME : add true integration tests
 }

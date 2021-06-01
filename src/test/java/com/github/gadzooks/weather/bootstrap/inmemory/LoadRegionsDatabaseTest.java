@@ -20,10 +20,10 @@ class LoadRegionsDatabaseTest {
 
     @Test
     void getRegions() {
-        System.out.println(regionRepository.getRegions());
-        assertThat(regionRepository.getRegions().size(), greaterThan(0));
+        System.out.println(regionRepository.findAll());
+        assertThat(regionRepository.size(), greaterThan(0));
 
-        Region firstRegion = regionRepository.getRegions().get(0);
+        Region firstRegion = regionRepository.findAll().get(0);
         assertThat(firstRegion, is(notNullValue()));
         assertThat(firstRegion.getDescription(), is(not(Matchers.emptyString())));
         assertThat(firstRegion.getName(), is(not(Matchers.emptyString())));

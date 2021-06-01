@@ -54,7 +54,7 @@ public class RegionController {
             notes = "This method finds region by id provided")
     public EntityModel<Region> findOne(
             @ApiParam(value = "Region Id of the region requested", example = "issaquah") @PathVariable String id) {
-        Region region = regionService.findOne(id);
+        Region region = regionService.getById(id);
         return EntityModel.of(region, //
                 linkTo(methodOn(RegionController.class).findOne(id)).withSelfRel(),
                 linkTo(methodOn(RegionController.class).findAll()).withRel("regions"));
@@ -132,7 +132,7 @@ public class RegionController {
             notes = "This method deletes a region")
     public EntityModel<Region> deleteRegion(
             @ApiParam(value = "Region Id of the region requested", example = "issaquah") @PathVariable String id) {
-        Region region = regionService.findOne(id);
+        Region region = regionService.getById(id);
         regionService.delete(id);
         return EntityModel.of(region, //
                 linkTo(methodOn(RegionController.class).findAll()).withRel("regions"));
