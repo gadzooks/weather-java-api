@@ -17,6 +17,12 @@ https://www.logicbig.com/tutorials/spring-framework/spring-core/spring-profiles.
     - Do a transactional operation : move location from 1 region to another
     - Auditing
       using : https://docs.spring.io/spring-data/jpa/docs/1.7.0.DATAJPA-580-SNAPSHOT/reference/html/auditing.html
+      
+- Class generators 
+  - Use XSD to create POJO
+  - Use JSON to create another POJO
+  - use MapStruct to convert between these two - ex UserDto to UserCommand (command has data passed from web form/ user inpu)
+  - https://mapstruct.org
 - JPA
 - Hibernate
 - LiquidBase/Flyway : https://www.liquibase.org/liquibase-vs-flyway (DB Migrations)
