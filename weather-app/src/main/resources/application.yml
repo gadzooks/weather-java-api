@@ -1,0 +1,34 @@
+# all paths will have prefix /api/
+#server.servlet.contextPath=/api/*
+#debug: true
+#logging:
+#  level:
+#    web: DEBUG
+#    org.springframework.security: DEBUG
+
+# FIXME : dont use default profile, use In memory mongo for Testing, localhost for dev
+# mongodb external for qa and prod profiles
+spring.data.mongodb:
+  host: localhost
+  port: 27017
+  authentication-database: admin
+  username: myUserAdmin
+  #  FIXME : move this to ENV or something
+  password: abc123
+  database: regions-dev
+
+# Example : get detailed logs for org.springframework.data.repository.config Package
+#logging.level:
+#  org:
+#    springframework:
+#      data:
+#        repository:
+#          config: debug
+
+spring:
+  h2:
+    console:
+      enabled: true
+  datasource:
+    generate-unique-name: false
+    url=jdbc:h2:mem:testdb:

@@ -1,0 +1,4 @@
+# FIXME : LoadDB does not find these settings
+#file-paths:
+#  regionsFilePath: "classpath:src/main/resources/regions.yml"
+#  locationsFilePath: "classpath:src/main/resources/locations.yml"

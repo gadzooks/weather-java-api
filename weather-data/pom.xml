@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>weather</artifactId>
+        <groupId>com.github.gadzooks</groupId>
+        <version>${revision}</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>weather-data</artifactId>
+
+    <properties>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+
+        <!--  NOTE We dont want this module to be built as a FAT jar.
+        Skipping this causes the "Unable to find main class" error-->
+        <spring-boot.repackage.skip>true</spring-boot.repackage.skip>
+    </properties>
+
+    <!--  NOTE : we are packaging this as a jar since this is not a standalone package-->
+    <!--  NOTE : the parent will have packaging set to pom -->
+    <packaging>jar</packaging>
+
+    <dependencies>
+        <!--        DOCUMENTATION / SWAGGER -->
+        <dependency>
+            <groupId>io.toolisticon.springboot</groupId>
+            <artifactId>springboot-swagger-starter</artifactId>
+        </dependency>
+
+        <!--        Spring Data -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-mongodb</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+            <version>${jpa.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!--        LOAD PROPERTY/YAML values into Objects -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <!--            Deserialize regions.xml into Region objects. -->
+            <artifactId>jackson-dataformat-yaml</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <!-- Load data from yml, property files into Beans. Ex : load regions.xml into Region class -->
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <!--  NOTE : It’s a best practice to add a dependency as optional in Maven in order to prevent
+                  @ConfigurationProperties from being applied to other modules that our project uses.
+            -->
+            <optional>true</optional>
+        </dependency>
+
+        <!--        FAVORITE JAVA LIBRARIES-->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <!-- Included in list of favorite Java libraries-->
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>${apache-commons-lang3.version}</version>
+        </dependency>
+
+        <dependency>
+            <!-- Included in list of favorite Java libraries-->
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+        </dependency>
+
+        <dependency>
+            <!-- Included in list of favorite Java libraries-->
+            <groupId>com.google.auto.value</groupId>
+            <artifactId>auto-value-annotations</artifactId>
+            <version>${auto-value.version}</version>
+        </dependency>
+
+        <!--        TESTING RELATED -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <!-- Testing framework -->
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!--        FIXME : EMBEDDED MONGO DB for testing-->
+        <!--        <dependency>-->
+        <!--            <groupId>de.flapdoodle.embed</groupId>-->
+        <!--            <artifactId>de.flapdoodle.embed.mongo</artifactId>-->
+        <!--            <scope>test</scope>-->
+        <!--        </dependency>-->
+
+
+    </dependencies>
+
+    <build>
+        <plugins>
+<!--            <plugin>-->
+<!--                <groupId>org.springframework.boot</groupId>-->
+<!--                <artifactId>spring-boot-maven-plugin</artifactId>-->
+<!--                <configuration>-->
+<!--                    <skip>true</skip>-->
+<!--                </configuration>-->
+<!--            </plugin>-->
+        </plugins>
+    </build>
+
+</project>

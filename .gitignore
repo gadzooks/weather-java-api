@@ -68,7 +68,9 @@ local.properties
 # Maven
 ######################
 /log/
-/target/
+**/target/
+/.mvn
+.flattened-pom.xml
 
 ######################
 # Gradle
