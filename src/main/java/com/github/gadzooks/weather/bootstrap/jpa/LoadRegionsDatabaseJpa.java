@@ -1,28 +1,27 @@
 package com.github.gadzooks.weather.bootstrap.jpa;
 
+import com.github.gadzooks.weather.domain.inmemory.Location;
+import com.github.gadzooks.weather.domain.inmemory.Region;
 import com.github.gadzooks.weather.domain.jpa.AreaJpa;
 import com.github.gadzooks.weather.domain.jpa.LocationJpa;
 import com.github.gadzooks.weather.domain.jpa.RegionJpa;
-import com.github.gadzooks.weather.domain.inmemory.Location;
-import com.github.gadzooks.weather.domain.inmemory.Region;
 import com.github.gadzooks.weather.repository.inmemory.RegionRepository;
 import com.github.gadzooks.weather.repository.jpa.AreaJpaRepository;
 import com.github.gadzooks.weather.repository.jpa.LocationJpaRepository;
 import com.github.gadzooks.weather.repository.jpa.RegionJpaRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 @Order(value = 10) //lower values have higher priority
 @Component
+@Slf4j
 public class LoadRegionsDatabaseJpa implements CommandLineRunner {
     private final RegionJpaRepository regionJpaRepository;
     private final LocationJpaRepository locationJpaRepository;
     private final AreaJpaRepository areaJpaRepository;
     private final RegionRepository srcRepository;
-    private static final Logger log = LoggerFactory.getLogger(LoadRegionsDatabaseJpa.class);
 
     public LoadRegionsDatabaseJpa(RegionJpaRepository regionJpaRepository, LocationJpaRepository locationJpaRepository, AreaJpaRepository areaJpaRepository, RegionRepository srcRepository) {
         this.regionJpaRepository = regionJpaRepository;

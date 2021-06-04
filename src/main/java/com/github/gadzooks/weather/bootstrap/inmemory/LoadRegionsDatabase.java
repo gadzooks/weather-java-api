@@ -7,8 +7,7 @@ import com.github.gadzooks.weather.domain.inmemory.Location;
 import com.github.gadzooks.weather.domain.inmemory.Region;
 import com.github.gadzooks.weather.repository.inmemory.RegionRepository;
 import lombok.Setter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.core.annotation.Order;
@@ -23,8 +22,8 @@ import java.util.List;
 @Order(value = 1)
 @Component
 @ConfigurationProperties(prefix = "file-paths", ignoreUnknownFields = false)
+@Slf4j
 public class LoadRegionsDatabase implements CommandLineRunner {
-    private static final Logger log = LoggerFactory.getLogger(LoadRegionsDatabase.class);
     private final RegionRepository regionRepository;
     @Setter
     private String regionsFilePath; //being set from application.yml

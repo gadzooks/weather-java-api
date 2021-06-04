@@ -1,22 +1,21 @@
 package com.github.gadzooks.weather.bootstrap.mongo;
 
-import com.github.gadzooks.weather.domain.mongo.LocationDocument;
-import com.github.gadzooks.weather.domain.mongo.RegionDocument;
 import com.github.gadzooks.weather.domain.inmemory.Location;
 import com.github.gadzooks.weather.domain.inmemory.Region;
+import com.github.gadzooks.weather.domain.mongo.LocationDocument;
+import com.github.gadzooks.weather.domain.mongo.RegionDocument;
 import com.github.gadzooks.weather.repository.inmemory.RegionRepository;
 import com.github.gadzooks.weather.repository.mongo.MongoLocationRepository;
 import com.github.gadzooks.weather.repository.mongo.MongoRegionRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 @Order(value = 10)
 @Component
+@Slf4j
 public class LoadRegionsDatabaseMongo implements CommandLineRunner {
-    private static final Logger log = LoggerFactory.getLogger(LoadRegionsDatabaseMongo.class);
     private final RegionRepository regionRepository;
     private final MongoRegionRepository mongoRegionRepository;
     private final MongoLocationRepository mongoLocationRepository;

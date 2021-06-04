@@ -2,20 +2,19 @@ package com.github.gadzooks.weather.service.mongo;
 
 import com.github.gadzooks.weather.domain.mongo.RegionDocument;
 import com.github.gadzooks.weather.repository.mongo.MongoRegionRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+@Slf4j
 @Service //NOTE: @Service annotation is required HERE to create a bean.
 // We cannot use the @Service annotation on the Interface
 public class MongoRegionServiceImpl implements MongoRegionService {
     private final MongoRegionRepository mongoRepository;
-    private static final Logger log = LoggerFactory.getLogger(MongoRegionServiceImpl.class);
 
     public MongoRegionServiceImpl(MongoRegionRepository mongoRepository) {
         this.mongoRepository = mongoRepository;

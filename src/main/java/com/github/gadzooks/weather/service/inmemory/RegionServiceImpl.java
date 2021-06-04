@@ -3,14 +3,13 @@ package com.github.gadzooks.weather.service.inmemory;
 import com.github.gadzooks.weather.domain.inmemory.Region;
 import com.github.gadzooks.weather.repository.inmemory.RegionRepository;
 import com.google.common.collect.ImmutableList;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 @Service
+@Slf4j //automatically creates private static final log attribute
 public class RegionServiceImpl implements RegionService {
     private final RegionRepository regionRepository;
-    private static final Logger log = LoggerFactory.getLogger(RegionServiceImpl.class);
 
     public RegionServiceImpl(RegionRepository repo) {
         this.regionRepository = repo;
