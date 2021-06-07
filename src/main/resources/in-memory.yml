@@ -1,0 +1,2 @@
+regionsFile: src/main/resources/regions.yml
+locationsFile: src/main/resources/locations.yml

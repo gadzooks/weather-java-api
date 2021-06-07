@@ -5,6 +5,10 @@
 https://www.udemy.com/course/microservices-with-spring-boot-and-spring-cloud/learn/lecture/8005642#overview
 https://www.logicbig.com/tutorials/spring-framework/spring-core/spring-profiles.html
 
+## Smaller areas :
+- set flag in test to avoid reloading Mongo db data, useful for integration testing
+- 
+
 ## Cover these broad areas :
 
 - Profiles (test, dev, qa, prod) - need different resources for data storage etc

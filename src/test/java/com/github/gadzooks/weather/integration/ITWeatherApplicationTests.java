@@ -14,5 +14,5 @@ class ITWeatherApplicationTests {
     void contextLoads() {
     }
 
-    //FIXME : add true integration tests
+    //FIXME : add true integration tests, which test the http layer, service layer and db layers
 }
