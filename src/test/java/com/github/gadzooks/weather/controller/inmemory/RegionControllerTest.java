@@ -51,16 +51,19 @@ class RegionControllerTest {
     @BeforeEach
     void setUp() {
         r1 = new Region();
+        r1.setId(1L);
         r1.setName("r1");
         r1.setDescription("r1Desc");
         r1.setSearchKey("r1SearchKey");
 
         r2 = new Region();
+        r2.setId(2L);
         r2.setName("r2");
         r2.setDescription("r2Desc");
         r2.setSearchKey("r2SearchKey");
 
         r3 = new Region();
+        r3.setId(3L);
         r3.setName("r3");
         r3.setDescription("r3Desc");
         r3.setSearchKey("r3SearchKey");
@@ -104,10 +107,10 @@ class RegionControllerTest {
 
     @Test
     void getByRegionId() throws Exception {
-        when(regionService.getById(r2.getName())).thenReturn(r2);
+        when(regionService.getById(r2.getId())).thenReturn(r2);
 
         MvcResult mvcResult = mockMvc.perform(
-                MockMvcRequestBuilders.get("/regions/" + r2.getName()).contentType(MediaType.APPLICATION_JSON_VALUE)).
+                MockMvcRequestBuilders.get("/regions/" + r2.getId()).contentType(MediaType.APPLICATION_JSON_VALUE)).
                 andExpect(status().isOk()).
                 andReturn();
 
@@ -118,9 +121,9 @@ class RegionControllerTest {
 
     @Test
     void patchRegion() throws Exception {
-        when(regionService.patch(r3.getName(), r3)).thenReturn(r3);
+        when(regionService.patch(r3.getId(), r3)).thenReturn(r3);
         mockMvc.perform( MockMvcRequestBuilders
-                .patch("/regions/" + r3.getName())
+                .patch("/regions/" + r3.getId())
                 .content(asJsonString(r3))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
@@ -135,7 +138,7 @@ class RegionControllerTest {
     void putRegion() throws Exception {
         when(regionService.save(r3)).thenReturn(r3);
         mockMvc.perform( MockMvcRequestBuilders
-                .put("/regions/" + r3.getName())
+                .put("/regions/" + r3.getId())
                 .content(asJsonString(r3))
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
@@ -161,10 +164,10 @@ class RegionControllerTest {
 
     @Test
     void deleteRegion() throws Exception {
-        when(regionService.getById(r3.getName())).thenReturn(r3);
+        when(regionService.getById(r3.getId())).thenReturn(r3);
 //        verify(regionService).delete(r3.getId());
         mockMvc.perform( MockMvcRequestBuilders
-                .delete("/regions/" + r3.getName() )
+                .delete("/regions/" + r3.getId() )
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())

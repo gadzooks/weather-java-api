@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.type.CollectionType;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.github.gadzooks.weather.domain.inmemory.Location;
 import com.github.gadzooks.weather.domain.inmemory.Region;
+import com.github.gadzooks.weather.repository.inmemory.LocationRepository;
 import com.github.gadzooks.weather.repository.inmemory.RegionRepository;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -25,13 +26,15 @@ import java.util.List;
 @Slf4j
 public class LoadRegionsDatabase implements CommandLineRunner {
     private final RegionRepository regionRepository;
+    private final LocationRepository locationRepository;
     @Setter
     private String regionsFilePath; //being set from application.yml
     @Setter
     private String locationsFilePath; //being set from application.yml
 
-    public LoadRegionsDatabase(RegionRepository regionRepository) {
+    public LoadRegionsDatabase(RegionRepository regionRepository, LocationRepository locationRepository) {
         this.regionRepository = regionRepository;
+        this.locationRepository = locationRepository;
     }
 
     @Override
@@ -50,6 +53,8 @@ public class LoadRegionsDatabase implements CommandLineRunner {
 
         log.info("load locations from file : " + locationsFilePath);
         List<Location> jsonLocations = mapper.readValue(new File(locationsFilePath), locationsListType);
+        int numLocSaved = locationRepository.addAll(jsonLocations);
+        log.info(numLocSaved + " locations were saved");
         int numLocAdded = regionRepository.addLocations(jsonLocations);
         log.info(numLocAdded + " locations were added");
 

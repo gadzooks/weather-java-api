@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
 @Getter
@@ -21,10 +22,16 @@ public class Location extends BaseEntity {
             example = "north bend")
     private String name;
     @ApiModelProperty(
-            required = true,
-            value = "Should match existing regionId",
+            required = false,
+            value = "Should match existing regionId. Either regionId or regionName are required",
+            example = "1")
+    @Setter
+    private Long regionId;
+    @ApiModelProperty(
+            required = false,
+            value = "Should match existing regionId. Either regionId or regionName are required",
             example = "snowqualmie_region")
-    private String regionId;
+    private String regionName;
     @ApiModelProperty(
             required = true,
             value = "descriptive name of location. Defaults to location name",

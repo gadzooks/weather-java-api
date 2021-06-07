@@ -26,19 +26,19 @@ public class RegionServiceImpl implements RegionService {
     }
 
     @Override
-    public Region getById(String s) {
-        return regionRepository.findById(s);
+    public Region getById(Long id) {
+        return regionRepository.findById(id);
     }
 
     @Override
-    public Region patch(String id, Region updatedRegion) {
+    public Region patch(Long id, Region updatedRegion) {
         Region region = getById(id);
         region.patch(updatedRegion);
         return region;
     }
 
     @Override
-    public void delete(String id) {
+    public void delete(Long id) {
         Region region = getById(id);
         log.info("region to be deleted : " + region);
         regionRepository.delete(id);

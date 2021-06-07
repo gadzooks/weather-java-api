@@ -1,22 +1,24 @@
 package com.github.gadzooks.weather.repository.inmemory;
 
+import com.github.gadzooks.weather.domain.inmemory.BaseEntity;
 import com.github.gadzooks.weather.exception.ResourceNotFoundException;
 import com.google.common.collect.ImmutableList;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
  * TD repository : in-memory store for Objects.
  */
 @Component
-public abstract class CrudRepository<TD, ID> {
+@Slf4j
+public abstract class CrudRepository<TD extends BaseEntity, ID extends Long> {
 
-    private final Map<ID, TD> map = new HashMap<>();
-    private static final Logger log = LoggerFactory.getLogger(CrudRepository.class);
+    private final Map<Long, TD> map = new HashMap<>();
 
     /**
      * Gets TD by id.
@@ -52,17 +54,24 @@ public abstract class CrudRepository<TD, ID> {
         return ImmutableList.copyOf(map.values());
     }
 
-    public TD add(TD object, ID id) {
-        if (map.get(id) == null) {
-            map.put(id, object);
-            return object;
-        } else {
-            return map.get(id);
+    public TD add(TD object) {
+        if(object != null) {
+            if(object.getId() == null) {
+                object.setId(getNextId());
+            }
+            map.put(object.getId(), object);
         }
+        return object;
     }
 
-    public TD save(TD object, ID id) {
-        return map.put(id, object);
+    public TD save(TD object) {
+        return add(object);
+    }
+
+    public int addAll(final List<TD> moreObjects) {
+        int initialCount = size();
+        moreObjects.forEach(this::save);
+        return size() - initialCount;
     }
 
     public void delete(ID id) {
@@ -75,5 +84,14 @@ public abstract class CrudRepository<TD, ID> {
 
     public boolean containsKey(ID id) {
         return map.containsKey(id);
+    }
+
+    private Long getNextId() {
+        if(map.isEmpty()) {
+            return 1L;
+        } else {
+            Long id = Collections.max(map.keySet()) + 1L;
+            return id;
+        }
     }
 }

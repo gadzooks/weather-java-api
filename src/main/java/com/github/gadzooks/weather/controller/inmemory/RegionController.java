@@ -43,7 +43,7 @@ public class RegionController {
     public List<EntityModel<Region>> findAll() {
         return regionService.findAll().stream().map(
                 region -> EntityModel.of(region,
-                        linkTo(methodOn(RegionController.class).findOne(region.getName())).withSelfRel(),
+                        linkTo(methodOn(RegionController.class).findOne(region.getId())).withSelfRel(),
                         linkTo(methodOn(RegionController.class).findAll()).withRel("regions"))).
                 collect(Collectors.toList());
     }
@@ -53,7 +53,7 @@ public class RegionController {
             tags = { "REST API for Regions with locations" },
             notes = "This method finds region by id provided")
     public EntityModel<Region> findOne(
-            @ApiParam(value = "Region Id of the region requested", example = "issaquah") @PathVariable String id) {
+            @ApiParam(value = "Region Id of the region requested", example = "1") @PathVariable Long id) {
         Region region = regionService.getById(id);
         return EntityModel.of(region, //
                 linkTo(methodOn(RegionController.class).findOne(id)).withSelfRel(),
@@ -65,7 +65,7 @@ public class RegionController {
             tags = { "REST API for Regions with locations" },
             notes = "This method allows users to update **subset** of attributes of a region")
     public EntityModel<Region> patchRegion(
-            @ApiParam(value = "Region Id of the region requested", example = "issaquah") @PathVariable String id,
+            @ApiParam(value = "Region Id of the region requested", example = "1") @PathVariable Long id,
             @ApiParam(value = "region object (can be partially set)") @RequestBody Region updatedRegion) {
         Region savedRegion = regionService.patch(id, updatedRegion);
 
@@ -86,9 +86,9 @@ public class RegionController {
             tags = { "REST API for Regions with locations" },
             notes = "This method allows users to replace all attributes of a region")
     public EntityModel<Region> updateRegion(
-            @ApiParam(value = "Region Id of the region requested", example = "issaquah") @PathVariable String id,
+            @ApiParam(value = "Region Id of the region requested", example = "1") @PathVariable Long id,
             @ApiParam(value = "Valid region object") @Valid @RequestBody Region updatedRegion) {
-        updatedRegion.setName(id);
+//        updatedRegion.setName(id);
         Region savedRegion = regionService.save(updatedRegion);
 
         // NOTE: alternate way to return HATEOAS
@@ -113,7 +113,7 @@ public class RegionController {
         Region savedRegion = regionService.save(region);
 
         return EntityModel.of(savedRegion, //
-                linkTo(methodOn(RegionController.class).findOne(savedRegion.getName())).withSelfRel(),
+                linkTo(methodOn(RegionController.class).findOne(savedRegion.getId())).withSelfRel(),
                 linkTo(methodOn(RegionController.class).findAll()).withRel("regions"));
 
         // NOTE: alternate way to return HATEOAS
@@ -131,7 +131,7 @@ public class RegionController {
             tags = { "REST API for Regions with locations" },
             notes = "This method deletes a region")
     public EntityModel<Region> deleteRegion(
-            @ApiParam(value = "Region Id of the region requested", example = "issaquah") @PathVariable String id) {
+            @ApiParam(value = "Region Id of the region requested", example = "1") @PathVariable Long id) {
         Region region = regionService.getById(id);
         regionService.delete(id);
         return EntityModel.of(region, //
