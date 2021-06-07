@@ -17,8 +17,8 @@ spring.data.mongodb:
   password: abc123
   database: regions-dev
 file-paths:
-  regionsFilePath: "src/main/resources/regions.yml"
-  locationsFilePath: "src/main/resources/locations.yml"
+  regionsFilePath: src/main/resources/regions.yml
+  locationsFilePath: src/main/resources/locations.yml
 
 # Example : get detailed logs for org.springframework.data.repository.config Package
 #logging.level:
