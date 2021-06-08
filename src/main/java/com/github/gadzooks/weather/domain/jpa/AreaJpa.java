@@ -14,7 +14,8 @@ import java.util.Set;
 @Setter
 public class AreaJpa {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    //IDENTITY will leverage the underlying persistence framework to generate ids
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
