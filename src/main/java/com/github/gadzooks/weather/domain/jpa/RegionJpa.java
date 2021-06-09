@@ -1,5 +1,6 @@
 package com.github.gadzooks.weather.domain.jpa;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.gadzooks.weather.domain.inmemory.Region;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -43,6 +44,7 @@ public class RegionJpa {
         this.isActive = isActive;
     }
 
+    @JsonIgnore
     @ManyToOne
     private AreaJpa areaJpa;
 

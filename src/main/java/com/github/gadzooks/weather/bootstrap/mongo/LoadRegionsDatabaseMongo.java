@@ -28,31 +28,36 @@ public class LoadRegionsDatabaseMongo implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        for(Region region : regionRepository.findAll()) {
-            //FIXME : check if RegionDocument already exists before saving
-            RegionDocument rd = new RegionDocument();
-            rd.setName(region.getName());
-            rd.setSearchKey(region.getSearchKey());
-            rd.setDescription(region.getDescription());
-            rd.setIsActive(true);
+        if (mongoRegionRepository.count() == 0) {
 
-            for(Location l : region.getLocations()) {
-                LocationDocument ld = new LocationDocument();
-                ld.setName(l.getName());
-                ld.setDescription(l.getDescription());
-                ld.setLatitude(l.getLatitude());
-                ld.setLongitude(l.getLongitude());
-                ld.setSubRegion(l.getSubRegion());
+            for (Region region : regionRepository.findAll()) {
+                //FIXME : check if RegionDocument already exists before saving
+                RegionDocument rd = new RegionDocument();
+                rd.setName(region.getName());
+                rd.setSearchKey(region.getSearchKey());
+                rd.setDescription(region.getDescription());
+                rd.setIsActive(true);
 
-                mongoLocationRepository.save(ld);
+                for (Location l : region.getLocations()) {
+                    LocationDocument ld = new LocationDocument();
+                    ld.setName(l.getName());
+                    ld.setDescription(l.getDescription());
+                    ld.setLatitude(l.getLatitude());
+                    ld.setLongitude(l.getLongitude());
+                    ld.setSubRegion(l.getSubRegion());
 
-                rd.getLocations().add(ld);
+                    mongoLocationRepository.save(ld);
+
+                    rd.getLocations().add(ld);
+                }
+
+                mongoRegionRepository.save(rd);
             }
 
-            mongoRegionRepository.save(rd);
+            log.info("RegionDocument Mongo Document : saved " + mongoRegionRepository.count() + " documents.");
+        } else {
+            log.info("Mongo data already loaded. Skipping this step");
         }
-
-        log.info("RegionDocument Mongo Document : saved " + mongoRegionRepository.count() + " documents.");
 
     }
 }

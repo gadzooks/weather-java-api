@@ -3,6 +3,8 @@ package com.github.gadzooks.weather.repository.jpa;
 import com.github.gadzooks.weather.domain.jpa.AreaJpa;
 import org.springframework.data.repository.CrudRepository;
 
+import java.util.List;
+
 /*
  * NOTE 1 :
  * Each of these defines its own functionality:
@@ -19,4 +21,5 @@ import org.springframework.data.repository.CrudRepository;
  * This tells Spring that AreaJpaRepository is a JPA repository and not any other kind
  */
 public interface AreaJpaRepository extends CrudRepository<AreaJpa, Long> {
+    List<AreaJpa> findAllByNameContainingOrDescriptionContaining(String name, String description);
 }

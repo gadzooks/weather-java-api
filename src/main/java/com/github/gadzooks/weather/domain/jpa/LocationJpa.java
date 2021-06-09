@@ -1,5 +1,6 @@
 package com.github.gadzooks.weather.domain.jpa;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.gadzooks.weather.domain.inmemory.Location;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,6 +30,7 @@ public class LocationJpa {
     private Float latitude;
     private Float longitude;
 
+    @JsonIgnore
     @Getter
     @ManyToMany(mappedBy = "locationJpas")
     private Set<RegionJpa> regionJpas = new HashSet<>();
