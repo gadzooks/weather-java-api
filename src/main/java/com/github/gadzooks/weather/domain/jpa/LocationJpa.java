@@ -2,9 +2,7 @@ package com.github.gadzooks.weather.domain.jpa;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.gadzooks.weather.domain.inmemory.Location;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
@@ -13,8 +11,9 @@ import java.util.Set;
 
 @NoArgsConstructor // Required by JPA
 @Entity
-@Getter
-@Setter
+@Data
+@EqualsAndHashCode(exclude = {"regionJpas"}, callSuper = true)
+@ToString(exclude = {"regionJpas"})
 // NOTE 1 : DO NOT use Lomboks @EqualsAndHashCode -> we want to compare based on the unique key, and we want to allow
 // users to add multiple new objects to a set (lombok will count those as equal (since key is null for new objs) )
 
@@ -40,40 +39,4 @@ public class LocationJpa extends BaseEntity {
         this.longitude = locationDto.getLongitude();
     }
 
-    public LocationJpa(String name, String description, String subRegion, Float latitude, Float longitude) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.subRegion = subRegion;
-        this.latitude = latitude;
-        this.longitude = longitude;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        LocationJpa that = (LocationJpa) o;
-
-        // NOTE : id could be null, if we are adding multiple new objects
-        return id != null ? id.equals(that.id) : that.id == null;
-    }
-
-    @Override
-    public int hashCode() {
-        return id != null ? id.hashCode() : 0;
-    }
-
-    @Override
-    public String toString() {
-        return "LocationJpa{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", subRegion='" + subRegion + '\'' +
-                ", latitude=" + latitude +
-                ", longitude=" + longitude +
-                '}';
-    }
 }

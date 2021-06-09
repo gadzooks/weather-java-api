@@ -5,13 +5,13 @@ import com.github.gadzooks.weather.repository.jpa.RegionJpaRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.annotation.DirtiesContext;
 
 import java.util.Optional;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasItem;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @DataJpaTest
 class RegionJpaTest {
@@ -20,7 +20,6 @@ class RegionJpaTest {
     @Autowired private LocationJpaRepository locationJpaRepository;
 
     @Test
-    @DirtiesContext
     void verifyRegionLocationSavedCorrectly() {
         RegionJpa r1 = new RegionJpa(); // r1 includes l1 and l2
         RegionJpa r2 = new RegionJpa(); // r2 includes l2

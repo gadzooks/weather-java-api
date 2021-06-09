@@ -2,9 +2,7 @@ package com.github.gadzooks.weather.domain.jpa;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.gadzooks.weather.domain.inmemory.Region;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -14,6 +12,8 @@ import java.util.Set;
 @NoArgsConstructor // Required by JPA
 @Getter
 @Setter
+@ToString(exclude = {"areaJpa", "locationJpas"})
+@EqualsAndHashCode(exclude = {"areaJpa", "locationJpas"}, callSuper = true)
 // NOTE 1 : DO NOT use Lomboks @EqualsAndHashCode -> we want to compare based on the unique key, and we want to allow
 // users to add multiple new objects to a set (lombok will count those as equal (since key is null for new objs) )
 
@@ -49,30 +49,4 @@ public class RegionJpa extends BaseEntity {
             inverseJoinColumns = @JoinColumn(name = "location_jpa_id"))
     private Set<LocationJpa> locationJpas = new HashSet<>();
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        RegionJpa regionJpa = (RegionJpa) o;
-
-        // NOTE : id could be null, if we are adding multiple new objects
-        return id != null ? id.equals(regionJpa.id) : regionJpa.id == null;
-    }
-
-    @Override
-    public int hashCode() {
-        return id != null ? id.hashCode() : 0;
-    }
-
-    @Override
-    public String toString() {
-        return "RegionJpa{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", searchKey='" + searchKey + '\'' +
-                ", description='" + description + '\'' +
-                ", isActive=" + isActive +
-                '}';
-    }
 }
