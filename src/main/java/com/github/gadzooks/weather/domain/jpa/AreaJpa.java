@@ -1,5 +1,6 @@
 package com.github.gadzooks.weather.domain.jpa;
 
+import com.google.common.collect.ImmutableSet;
 import lombok.*;
 
 import javax.persistence.Entity;
@@ -21,5 +22,21 @@ public class AreaJpa extends BaseEntity {
     @OneToMany
     @JoinColumn(name = "area_jpa_id")
     private Set<RegionJpa> regionJpas = new HashSet<>();
+
+    public ImmutableSet<RegionJpa> getRegionJpas() {
+        return ImmutableSet.copyOf(regionJpas);
+    }
+
+    public int regionJpasSize() {
+        return regionJpas.size();
+    }
+
+    // NOTE : set up bi-directional references
+    public void addRegionJpa(RegionJpa newRegion) {
+        if (!regionJpas.contains(newRegion)) {
+            regionJpas.add(newRegion);
+            newRegion.setAreaJpa(this);
+        }
+    }
 
 }

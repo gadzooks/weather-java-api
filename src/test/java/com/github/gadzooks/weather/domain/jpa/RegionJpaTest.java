@@ -35,17 +35,17 @@ class RegionJpaTest {
         locationJpaRepository.save(l1);
         locationJpaRepository.save(l2);
 
-        r1.getLocationJpas().add(l1);
-        r1.getLocationJpas().add(l2);
-        r2.getLocationJpas().add(l2);
+        r1.addLocation(l1);
+        r1.addLocation(l2);
+        r2.addLocation(l2);
 
         regionJpaRepository.save(r1);
         regionJpaRepository.save(r2);
 
         // add saved Regions to location and then save locations again
-        l1.getRegionJpas().add(r1);
-        l2.getRegionJpas().add(r2);
-        l2.getRegionJpas().add(r1);
+        l1.addRegion(r1);
+        l2.addRegion(r2);
+        l2.addRegion(r1);
         locationJpaRepository.save(l1);
         locationJpaRepository.save(l2);
 

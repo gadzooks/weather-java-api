@@ -2,9 +2,11 @@ package com.github.gadzooks.weather.domain.jpa;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.gadzooks.weather.domain.inmemory.Region;
+import com.google.common.collect.ImmutableSet;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -39,14 +41,43 @@ public class RegionJpa extends BaseEntity {
         this.isActive = isActive;
     }
 
+    @Setter(AccessLevel.NONE)
     @JsonIgnore
     @ManyToOne
     private AreaJpa areaJpa;
 
-    @Getter
+    public void setAreaJpa(AreaJpa newAreaJpa) {
+        if (areaJpa == null || areaJpa != newAreaJpa) {
+            areaJpa = newAreaJpa;
+            areaJpa.addRegionJpa(this);
+        }
+    }
+
+    @Setter(AccessLevel.NONE)
+    @Getter(AccessLevel.NONE)
     @ManyToMany
     @JoinTable(name = "region_location_mappings", joinColumns = @JoinColumn(name = "region_jpa_id"),
             inverseJoinColumns = @JoinColumn(name = "location_jpa_id"))
     private Set<LocationJpa> locationJpas = new HashSet<>();
 
+    // we dont want to allow clients to update locationJpa outside of our addLocation method
+    public ImmutableSet<LocationJpa> getLocationJpas() {
+        return ImmutableSet.copyOf(locationJpas);
+    }
+
+    // helper method to add a bunch of locations at once
+    public int addAllLocations(final Collection<LocationJpa> locations) {
+        int startingCount = locationJpas.size();
+        locations.forEach(this::addLocation);
+
+        return (locationJpas.size() - startingCount);
+    }
+
+    // NOTE : add bi-directional references
+    public void addLocation(LocationJpa newLoc) {
+        if (!locationJpas.contains(newLoc)) {
+            locationJpas.add(newLoc);
+            newLoc.addRegion(this);
+        }
+    }
 }

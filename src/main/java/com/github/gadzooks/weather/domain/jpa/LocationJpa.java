@@ -2,6 +2,7 @@ package com.github.gadzooks.weather.domain.jpa;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.gadzooks.weather.domain.inmemory.Location;
+import com.google.common.collect.ImmutableSet;
 import lombok.*;
 
 import javax.persistence.Entity;
@@ -27,9 +28,22 @@ public class LocationJpa extends BaseEntity {
     private Float longitude;
 
     @JsonIgnore
-    @Getter
+    @Getter(AccessLevel.NONE)
+    @Setter(AccessLevel.NONE)
     @ManyToMany(mappedBy = "locationJpas")
     private Set<RegionJpa> regionJpas = new HashSet<>();
+
+    public ImmutableSet<RegionJpa> getRegionJpas() {
+        return ImmutableSet.copyOf(regionJpas);
+    }
+
+    // NOTE : add bi-directional references
+    public void addRegion(RegionJpa newRegion) {
+        if (!regionJpas.contains(newRegion)) {
+            regionJpas.add(newRegion);
+            newRegion.addLocation(this);
+        }
+    }
 
     public LocationJpa(final Location locationDto) {
         this.name = locationDto.getName();

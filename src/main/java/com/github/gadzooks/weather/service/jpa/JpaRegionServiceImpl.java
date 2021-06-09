@@ -40,7 +40,7 @@ public class JpaRegionServiceImpl implements JpaRegionService {
             region.setIsActive(updatedRegion.getIsActive());
         }
         if (updatedRegion.getLocationJpas() != null) {
-            region.setLocationJpas(updatedRegion.getLocationJpas());
+            region.addAllLocations(updatedRegion.getLocationJpas());
         }
         if (updatedRegion.getSearchKey() != null) {
             region.setSearchKey(updatedRegion.getSearchKey());

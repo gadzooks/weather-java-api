@@ -20,14 +20,12 @@ class AreaJpaTest {
         RegionJpa region = new RegionJpa();
         AreaJpa area = new AreaJpa();
 
-        // NOTE : had to add region to area AND area to region to set up bi-directional column data
-        area.getRegionJpas().add(region);
-        region.setAreaJpa(area);
+        area.addRegionJpa(region);
 
         regionJpaRepository.save(region);
         areaJpaRepository.save(area);
 
-        assertThat(area.getRegionJpas().size(),equalTo(1));
+        assertThat(area.regionJpasSize(), equalTo(1));
         assertThat(region.getAreaJpa(), equalTo(area));
         assertThat(region.getAreaJpa().getId(), equalTo(area.getId()));
     }

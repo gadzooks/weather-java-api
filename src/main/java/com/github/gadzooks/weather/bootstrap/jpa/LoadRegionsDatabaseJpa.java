@@ -31,22 +31,22 @@ public class LoadRegionsDatabaseJpa implements CommandLineRunner {
     }
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         AreaJpa areaJpa = new AreaJpa();
         areaJpa.setName("Pacific North West");
         areaJpa.setDescription("Pacific North West");
         areaJpaRepository.save(areaJpa);
 
-        for(Region region : srcRepository.findAll()) {
+        for (Region region : srcRepository.findAll()) {
             RegionJpa regionJpa = new RegionJpa(region);
             regionJpaRepository.save(regionJpa);
-            areaJpa.getRegionJpas().add(regionJpa);
+            areaJpa.addRegionJpa(regionJpa);
 
             for(Location location : region.getLocations()) {
                 LocationJpa locationJpa = new LocationJpa(location);
-                locationJpa.getRegionJpas().add(regionJpa);
+                locationJpa.addRegion(regionJpa);
                 locationJpaRepository.save(locationJpa);
-                regionJpa.getLocationJpas().add(locationJpa);
+                regionJpa.addLocation(locationJpa);
             }
             regionJpaRepository.save(regionJpa);
         }
