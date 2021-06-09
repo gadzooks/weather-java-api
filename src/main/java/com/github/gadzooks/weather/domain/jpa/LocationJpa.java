@@ -6,7 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -19,11 +20,7 @@ import java.util.Set;
 
 // NOTE 2 : Do NOT use Lombok's @toString -> this will load entities that may be set up as lazy fetch
 // Dont use @Data for the same reason
-public class LocationJpa {
-    @Id
-    //underlying will provide the id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class LocationJpa extends BaseEntity {
     private String name;
     private String description;
     private String subRegion;

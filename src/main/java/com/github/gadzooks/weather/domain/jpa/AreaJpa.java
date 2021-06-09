@@ -4,7 +4,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -12,12 +14,7 @@ import java.util.Set;
 @Entity // JPA entity
 @Getter
 @Setter
-public class AreaJpa {
-    @Id
-    //IDENTITY will leverage the underlying persistence framework to generate ids
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+public class AreaJpa extends BaseEntity {
     private String name;
     private String description;
 

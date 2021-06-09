@@ -10,8 +10,8 @@ import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
-@NoArgsConstructor // Required by JPA
 @Entity
+@NoArgsConstructor // Required by JPA
 @Getter
 @Setter
 // NOTE 1 : DO NOT use Lomboks @EqualsAndHashCode -> we want to compare based on the unique key, and we want to allow
@@ -19,11 +19,7 @@ import java.util.Set;
 
 // NOTE 2 : Do NOT use Lombok's @toString -> this will load entities that may be set up as lazy fetch
 // Dont use @Data for the same reason
-public class RegionJpa {
-    @Id
-    //underlying will provide the id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class RegionJpa extends BaseEntity {
     private String name;
     private String searchKey;
     private String description;
@@ -37,7 +33,6 @@ public class RegionJpa {
     }
 
     public RegionJpa(String name, String searchKey, String description, Boolean isActive) {
-        this.id = id;
         this.name = name;
         this.searchKey = searchKey;
         this.description = description;
