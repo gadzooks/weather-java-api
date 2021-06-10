@@ -27,11 +27,21 @@ public class LocationJpa extends BaseEntity {
     private Float latitude;
     private Float longitude;
 
+    //we dont want to include regionJpas in the builder so we cannot use the annotation at the class level
+    @Builder
+    public LocationJpa(String name, String description, String subRegion, Float latitude, Float longitude) {
+        this.name = name;
+        this.description = description;
+        this.subRegion = subRegion;
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
+
     @JsonIgnore
     @Getter(AccessLevel.NONE)
     @Setter(AccessLevel.NONE)
     @ManyToMany(mappedBy = "locationJpas")
-    private Set<RegionJpa> regionJpas = new HashSet<>();
+    private final Set<RegionJpa> regionJpas = new HashSet<>();
 
     public ImmutableSet<RegionJpa> getRegionJpas() {
         return ImmutableSet.copyOf(regionJpas);

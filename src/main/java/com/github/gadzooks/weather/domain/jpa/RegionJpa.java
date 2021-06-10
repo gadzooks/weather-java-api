@@ -34,7 +34,9 @@ public class RegionJpa extends BaseEntity {
         this.searchKey = region.getSearchKey();
     }
 
-    public RegionJpa(String name, String searchKey, String description, Boolean isActive) {
+    //we dont want to include areaJpa, locationJpas in the builder so we cannot use the annotation at the class level
+    @Builder
+    public RegionJpa(Long id, String name, String searchKey, String description, Boolean isActive) {
         this.name = name;
         this.searchKey = searchKey;
         this.description = description;
@@ -46,11 +48,12 @@ public class RegionJpa extends BaseEntity {
     @ManyToOne
     private AreaJpa areaJpa;
 
-    public void setAreaJpa(AreaJpa newAreaJpa) {
+    public RegionJpa setAreaJpa(AreaJpa newAreaJpa) {
         if (areaJpa == null || areaJpa != newAreaJpa) {
             areaJpa = newAreaJpa;
             areaJpa.addRegionJpa(this);
         }
+        return this;
     }
 
     @Setter(AccessLevel.NONE)
@@ -58,7 +61,7 @@ public class RegionJpa extends BaseEntity {
     @ManyToMany
     @JoinTable(name = "region_location_mappings", joinColumns = @JoinColumn(name = "region_jpa_id"),
             inverseJoinColumns = @JoinColumn(name = "location_jpa_id"))
-    private Set<LocationJpa> locationJpas = new HashSet<>();
+    private final Set<LocationJpa> locationJpas = new HashSet<>();
 
     // we dont want to allow clients to update locationJpa outside of our addLocation method
     public ImmutableSet<LocationJpa> getLocationJpas() {
@@ -74,10 +77,11 @@ public class RegionJpa extends BaseEntity {
     }
 
     // NOTE : add bi-directional references
-    public void addLocation(LocationJpa newLoc) {
+    public RegionJpa addLocation(LocationJpa newLoc) {
         if (!locationJpas.contains(newLoc)) {
             locationJpas.add(newLoc);
             newLoc.addRegion(this);
         }
+        return this;
     }
 }

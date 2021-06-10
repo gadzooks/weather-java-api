@@ -19,9 +19,15 @@ public class AreaJpa extends BaseEntity {
     private String name;
     private String description;
 
+    @Builder
+    public AreaJpa(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
+
     @OneToMany
     @JoinColumn(name = "area_jpa_id")
-    private Set<RegionJpa> regionJpas = new HashSet<>();
+    private final Set<RegionJpa> regionJpas = new HashSet<>();
 
     public ImmutableSet<RegionJpa> getRegionJpas() {
         return ImmutableSet.copyOf(regionJpas);
@@ -32,11 +38,12 @@ public class AreaJpa extends BaseEntity {
     }
 
     // NOTE : set up bi-directional references
-    public void addRegionJpa(RegionJpa newRegion) {
+    public AreaJpa addRegionJpa(RegionJpa newRegion) {
         if (!regionJpas.contains(newRegion)) {
             regionJpas.add(newRegion);
             newRegion.setAreaJpa(this);
         }
+        return this;
     }
 
 }

@@ -49,6 +49,12 @@ public class JpaRegionServiceImpl implements JpaRegionService {
         if (updatedRegion.getSearchKey() != null) {
             region.setSearchKey(updatedRegion.getSearchKey());
         }
+        if (updatedRegion.getName() != null) {
+            region.setName(updatedRegion.getName());
+        }
+        if (updatedRegion.getDescription() != null) {
+            region.setDescription(updatedRegion.getDescription());
+        }
         return repository.save(region);
     }
 
