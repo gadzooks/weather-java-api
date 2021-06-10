@@ -57,6 +57,7 @@ https://www.logicbig.com/tutorials/spring-framework/spring-core/spring-profiles.
 - SpringBootTest for testing service end to end
 - Load data from yaml files
 - SWAGGER
+- Add CircleCI 
 
 ## Read articles :
 
