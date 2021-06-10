@@ -1,6 +1,7 @@
 package com.github.gadzooks.weather.service.jpa;
 
 import com.github.gadzooks.weather.domain.jpa.RegionJpa;
+import com.github.gadzooks.weather.exception.ResourceNotFoundException;
 import com.github.gadzooks.weather.repository.jpa.RegionJpaRepository;
 import com.google.common.collect.Lists;
 import org.springframework.stereotype.Service;
@@ -27,7 +28,10 @@ public class JpaRegionServiceImpl implements JpaRegionService {
 
     @Override
     public RegionJpa getById(Long aLong) {
-        return repository.findById(aLong).orElseThrow();
+        return repository.findById(aLong).
+                orElseThrow(() -> {
+                    throw new ResourceNotFoundException(RegionJpa.class.getName(), aLong.toString());
+                });
     }
 
     @Override

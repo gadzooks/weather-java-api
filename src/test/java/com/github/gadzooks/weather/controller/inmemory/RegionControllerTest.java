@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.github.gadzooks.weather.domain.inmemory.Region;
+import com.github.gadzooks.weather.exception.ResourceNotFoundException;
 import com.github.gadzooks.weather.service.inmemory.RegionService;
 import com.google.common.collect.ImmutableList;
 import org.junit.jupiter.api.AfterEach;
@@ -21,8 +22,10 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -103,6 +106,19 @@ class RegionControllerTest {
         List<Region> jsonRegions = mapper.readValue(contentAsString, listType);
         assertEquals(regionList.size(), jsonRegions.size());
         assertEquals(jsonRegions.get(0), r1);
+    }
+
+    @Test
+    void getByRegionId_with404() throws Exception {
+        Long regionId = 333L;
+        ResourceNotFoundException rsne = new ResourceNotFoundException("Region", regionId.toString());
+        when(regionService.getById(regionId)).thenThrow(rsne);
+        mockMvc.perform(MockMvcRequestBuilders.get("/regions/" + regionId).
+                contentType(MediaType.APPLICATION_JSON_VALUE)).
+                andExpect(status().is4xxClientError()).
+                andExpect(result -> assertTrue(result.getResolvedException() instanceof ResourceNotFoundException)).
+                andExpect(result -> assertEquals("Could not find Region resource with id " + regionId,
+                        Objects.requireNonNull(result.getResolvedException()).getMessage()));
     }
 
     @Test
