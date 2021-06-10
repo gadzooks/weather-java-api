@@ -4,38 +4,42 @@ import com.github.gadzooks.weather.domain.jpa.RegionJpa;
 import com.github.gadzooks.weather.service.jpa.JpaRegionService;
 import com.github.gadzooks.weather.service.jpa.PlacesService;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.hateoas.EntityModel;
 
 import java.util.List;
 
 import static org.mockito.Mockito.*;
 
+@ExtendWith(MockitoExtension.class)
 @Slf4j
 class JpaRegionControllerTest {
-    private AutoCloseable closeable;
-    private JpaRegionController jpaRegionController;
 
     @Mock
     private JpaRegionService jpaRegionService;
     @Mock
     private PlacesService placesService;
+    @InjectMocks
+    private JpaRegionController jpaRegionController;
 
-    @BeforeEach
-    void setUp() {
-        //without openMocks the test fails as the mock object is not set up.
-        closeable = MockitoAnnotations.openMocks(this);
-        jpaRegionController = new JpaRegionController(jpaRegionService, placesService);
-    }
-
-    @AfterEach
-    void tearDown() throws Exception {
-        closeable.close();
-    }
+    // NOTE : since we are using : 1) @ExtendWith(MockitoExtension.class) 2) @InjectMocks
+    // we do NOT need to manually setup mocks, close mocks and set up jpaController class
+//    private AutoCloseable closeable;
+//    @BeforeEach
+//    void setUp() {
+//        //without openMocks the test fails as the mock object is not set up.
+//        closeable = MockitoAnnotations.openMocks(this);
+//        jpaRegionController = new JpaRegionController(jpaRegionService, placesService);
+//    }
+//
+//    @AfterEach
+//    void tearDown() throws Exception {
+//        closeable.close();
+//    }
 
     @Test
     void searchEveryWhere() {

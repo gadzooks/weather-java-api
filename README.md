@@ -33,16 +33,21 @@ https://www.logicbig.com/tutorials/spring-framework/spring-core/spring-profiles.
 - FEIGN REST Client
 - Actuator : https://spring.io/guides/gs/actuator-service/
 - Spring Security / spring session
-    - https://medium.com/@gtommee97/rest-authentication-with-spring-security-and-mongodb-28c06da25fb1
+  - https://medium.com/@gtommee97/rest-authentication-with-spring-security-and-mongodb-28c06da25fb1
 - Spring Integration / messaging
 - JMX
 - Docker compose
-    - Build executable jar/war and deploy
+  - Build executable jar/war and deploy
 - Spring Apache Kafka
 - Spring Batch
 - Jenkins
 - Versioning of APIs
 - Caching
+
+## IF time permits
+
+- Spock testing framework : https://spockframework.org/spock/docs/2.0/spock_primer.html
+- Java test containers : https://www.testcontainers.org
 
 ## Done - major areas
 

@@ -8,12 +8,13 @@ import com.github.gadzooks.weather.domain.inmemory.Region;
 import com.github.gadzooks.weather.exception.ResourceNotFoundException;
 import com.github.gadzooks.weather.service.inmemory.RegionService;
 import com.google.common.collect.ImmutableList;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -35,6 +36,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 //@WebMvcTest(controllers = RegionController.class)
 //Here we are mocking everything out with MockMvc so we dont need to use @WebMvcTest which would load more spring
 //application context than we need to run these tests (and which would slow down the tests)
+@ExtendWith(MockitoExtension.class)
 class RegionControllerTest {
 
     //simulate HTTP requests.
@@ -43,17 +45,20 @@ class RegionControllerTest {
     @Mock
     private RegionService regionService;
 
+    @InjectMocks
+    private RegionController regionController;
+
     private ImmutableList<Region> regionList;
     private Region r1;
     private Region r2;
     private Region r3;
 
     private ObjectMapper mapper = new ObjectMapper(new YAMLFactory()); // create once, reuse
-    private AutoCloseable closeable;
+//    private AutoCloseable closeable;
 
     @BeforeEach
     void setUp() {
-        closeable = MockitoAnnotations.openMocks(this);
+//        closeable = MockitoAnnotations.openMocks(this);
 
         r1 = new Region();
         r1.setId(1L);
@@ -79,14 +84,14 @@ class RegionControllerTest {
         //Ignore HATEOAS links
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
-        RegionController regionController = new RegionController(regionService);
+//        RegionController regionController = new RegionController(regionService);
         mockMvc = MockMvcBuilders.standaloneSetup(regionController).build();
     }
 
-    @AfterEach
-    void tearDown() throws Exception {
-        closeable.close();
-    }
+//    @AfterEach
+//    void tearDown() throws Exception {
+//        closeable.close();
+//    }
 
     private String asJsonString(final Object obj) {
         try {

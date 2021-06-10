@@ -2,32 +2,34 @@ package com.github.gadzooks.weather.service.inmemory;
 
 import com.github.gadzooks.weather.domain.inmemory.Region;
 import com.github.gadzooks.weather.repository.inmemory.RegionRepository;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.mockito.Mockito.*;
 
+@ExtendWith(MockitoExtension.class)
 class RegionServiceImplTest {
-    private AutoCloseable closeable;
-    private RegionService regionService;
+//    private AutoCloseable closeable;
 
     @Mock
     RegionRepository regionRepository;
+    @InjectMocks
+    private RegionServiceImpl regionService;
 
-    @BeforeEach
-    void setUp() {
-        //without openMocks the test fails as the mock object is not set up.
-        closeable = MockitoAnnotations.openMocks(this);
-        regionService = new RegionServiceImpl(regionRepository);
-    }
+//    @BeforeEach
+//    void setUp() {
+//        //without openMocks the test fails as the mock object is not set up.
+//        closeable = MockitoAnnotations.openMocks(this);
+//        regionService = new RegionServiceImpl(regionRepository);
+//    }
 
-    @AfterEach
-    void tearDown() throws Exception {
-        closeable.close();
-    }
+//    @AfterEach
+//    void tearDown() throws Exception {
+//        closeable.close();
+//    }
 
     @Test
     void save() {
