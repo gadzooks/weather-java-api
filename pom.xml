@@ -177,7 +177,7 @@
                         <goals>
                             <goal>integration-test</goal>
                             <goal>verify</goal>
-                            <!--   mvn verify -->
+                            <!--   mvn verify will run integration tests-->
                         </goals>
                     </execution>
                 </executions>
