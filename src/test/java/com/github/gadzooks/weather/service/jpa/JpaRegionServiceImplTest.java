@@ -3,6 +3,7 @@ package com.github.gadzooks.weather.service.jpa;
 import com.github.gadzooks.weather.domain.jpa.AreaJpa;
 import com.github.gadzooks.weather.domain.jpa.LocationJpa;
 import com.github.gadzooks.weather.domain.jpa.RegionJpa;
+import com.github.gadzooks.weather.exception.ResourceNotFoundException;
 import com.github.gadzooks.weather.repository.jpa.RegionJpaRepository;
 import com.google.common.collect.ImmutableSet;
 import org.junit.jupiter.api.Test;
@@ -15,6 +16,7 @@ import org.mockito.stubbing.Answer;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -69,7 +71,22 @@ class JpaRegionServiceImplTest {
         RegionJpa results = service.getById(regionId);
 
         //then
-        assertEquals(region, region);
+        assertEquals(region, results);
+        verify(repository, times(1)).findById(regionId);
+    }
+
+    @Test
+    void getById_NotFound() {
+        //given
+        Long regionId = 35L;
+
+        //when
+        when(repository.findById(regionId)).thenReturn(java.util.Optional.empty());
+        assertThrows(ResourceNotFoundException.class, () -> {
+            service.getById(regionId);
+        });
+
+        //then
         verify(repository, times(1)).findById(regionId);
     }
 
