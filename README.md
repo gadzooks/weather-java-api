@@ -1,13 +1,17 @@
 # REST Weather API
 
+[![CircleCI](https://circleci.com/gh/gadzooks/weather-java-api.svg?style=svg)](https://app.circleci.com/pipelines/github/gadzooks/weather-java-api)
+Circle CI test status
+
 # TODO
 
 https://www.udemy.com/course/microservices-with-spring-boot-and-spring-cloud/learn/lecture/8005642#overview
 https://www.logicbig.com/tutorials/spring-framework/spring-core/spring-profiles.html
 
 ## Smaller areas :
+
 - set flag in test to avoid reloading Mongo db data, useful for integration testing
-- 
+-
 
 ## Cover these broad areas :
 
@@ -62,7 +66,9 @@ https://www.logicbig.com/tutorials/spring-framework/spring-core/spring-profiles.
 - SpringBootTest for testing service end to end
 - Load data from yaml files
 - SWAGGER
-- Add CircleCI 
+- Add CircleCI
+- Mockito mock - good examples
+  here, https://github.com/gadzooks/weather-java-api/blob/master/src/test/java/com/github/gadzooks/weather/service/jpa/JpaRegionServiceImplTest.java#L94
 
 ## Read articles :
 
