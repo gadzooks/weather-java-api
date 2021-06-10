@@ -8,14 +8,14 @@
 
 # FIXME : dont use default profile, use In memory mongo for Testing, localhost for dev
 # mongodb external for qa and prod profiles
-spring.data.mongodb:
-  host: localhost
-  port: 27017
-  authentication-database: admin
-  username: myUserAdmin
-  #  FIXME : move this to ENV or something
-  password: abc123
-  database: regions-dev
+#spring.data.mongodb:
+#  host: localhost
+#  port: 27017
+#  authentication-database: admin
+#  username: myUserAdmin
+#  #  FIXME : move this to ENV or something
+#  password: abc123
+#  database: regions-dev
 file-paths:
   regionsFilePath: src/main/resources/regions.yml
   locationsFilePath: src/main/resources/locations.yml
