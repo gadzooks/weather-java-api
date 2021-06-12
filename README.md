@@ -52,6 +52,11 @@ https://www.logicbig.com/tutorials/spring-framework/spring-core/spring-profiles.
 
 - Spock testing framework : https://spockframework.org/spock/docs/2.0/spock_primer.html
 - Java test containers : https://www.testcontainers.org
+- Testing : https://github.com/rest-assured/rest-assured
+
+## Read articles : 
+- https://www.e4developer.com/2018/03/30/introduction-to-concurrency-in-spring-boot/
+
 
 ## Done - major areas
 

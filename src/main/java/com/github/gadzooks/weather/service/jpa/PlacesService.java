@@ -1,6 +1,6 @@
 package com.github.gadzooks.weather.service.jpa;
 
-import com.github.gadzooks.weather.domain.jpa.RegionJpa;
+import com.github.gadzooks.weather.commands.RegionCommand;
 
 import java.util.List;
 
@@ -11,5 +11,5 @@ public interface PlacesService {
      * @param searchString the search string
      * @return the list of AreaJpa objects
      */
-    List<RegionJpa> searchEveryWhere(String searchString);
+    List<RegionCommand> searchEveryWhere(String searchString);
 }

@@ -6,5 +6,5 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 
 public interface LocationJpaRepository extends CrudRepository<LocationJpa, Long> {
-    List<LocationJpa> findAllByNameContainingOrDescriptionContaining(String name, String description);
+    List<LocationJpa> findAllByNameIgnoreCaseContainingOrDescriptionIgnoreCaseContaining(String name, String description);
 }

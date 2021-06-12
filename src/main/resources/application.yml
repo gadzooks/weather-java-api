@@ -1,10 +1,11 @@
+# set default profile to 'dev'
+#spring.profiles.active: default
+# On the server, you can then manually override the configuration profile by providing
+# a -Dspring.profiles.active=prod parameter to the JVM.
+# Alternatively, you can also set your OS’s environment variable to the desired default profile.
+
 # all paths will have prefix /api/
-#server.servlet.contextPath=/api/*
-#debug: true
-#logging:
-#  level:
-#    web: DEBUG
-#    org.springframework.security: DEBUG
+logging.level.com.github.gadzooks: debug
 
 # FIXME : dont use default profile, use In memory mongo for Testing, localhost for dev
 # mongodb external for qa and prod profiles
@@ -34,7 +35,4 @@ spring:
       enabled: true
   datasource:
     generate-unique-name: false
-    url=jdbc:h2:mem:testdb:
-
-#logging.level.org.hibernate.SQL: DEBUG
-#logging.level.org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    url: jdbc:h2:mem:testdb

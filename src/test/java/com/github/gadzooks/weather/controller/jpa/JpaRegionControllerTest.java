@@ -1,6 +1,6 @@
 package com.github.gadzooks.weather.controller.jpa;
 
-import com.github.gadzooks.weather.domain.jpa.RegionJpa;
+import com.github.gadzooks.weather.commands.RegionCommand;
 import com.github.gadzooks.weather.service.jpa.JpaRegionService;
 import com.github.gadzooks.weather.service.jpa.PlacesService;
 import lombok.extern.slf4j.Slf4j;
@@ -44,26 +44,21 @@ class JpaRegionControllerTest {
     @Test
     void searchEveryWhere() {
         //given
-        RegionJpa r1 = new RegionJpa();
-        r1.setId(1L);
-        r1.setName("r1");
+        RegionCommand r1 = RegionCommand.builder().id(1L).name("r1").build();
+        RegionCommand r2 = RegionCommand.builder().id(2L).name("r2").build();
 
-        RegionJpa r2 = new RegionJpa();
-        r2.setId(2L);
-        r2.setName("r2");
-
-        List<RegionJpa> regionJpaList = List.of(r1, r2);
+        List<RegionCommand> regionJpaList = List.of(r1, r2);
         String searchString = "issaquah";
 
         //when
         when(placesService.searchEveryWhere(searchString)).thenReturn(regionJpaList);
-        List<EntityModel<RegionJpa>> results = jpaRegionController.searchEveryWhere(searchString);
+        List<EntityModel<RegionCommand>> results = jpaRegionController.searchEveryWhere(searchString);
 
         //then
         verify(placesService, times(1)).searchEveryWhere(searchString);
 
         log.debug("search everywhere results : ");
-        for (EntityModel<RegionJpa> r : results) {
+        for (EntityModel<RegionCommand> r : results) {
             log.debug(r.toString());
         }
 

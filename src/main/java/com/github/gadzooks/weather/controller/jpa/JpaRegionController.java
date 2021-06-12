@@ -1,5 +1,6 @@
 package com.github.gadzooks.weather.controller.jpa;
 
+import com.github.gadzooks.weather.commands.RegionCommand;
 import com.github.gadzooks.weather.domain.jpa.RegionJpa;
 import com.github.gadzooks.weather.service.jpa.JpaRegionService;
 import com.github.gadzooks.weather.service.jpa.PlacesService;
@@ -82,9 +83,9 @@ public class JpaRegionController {
     @ApiOperation(value = "Find region by searching everywhere",
             tags = {TAG},
             notes = "This method finds region by searching for str in area/region/location")
-    public List<EntityModel<RegionJpa>> searchEveryWhere(
+    public List<EntityModel<RegionCommand>> searchEveryWhere(
             @ApiParam(value = "Search string to search by", example = "hIgHwaY") @PathVariable String str) {
-        List<RegionJpa> results = placesService.searchEveryWhere(str);
+        List<RegionCommand> results = placesService.searchEveryWhere(str);
         return results.stream().map(
                 region -> EntityModel.of(region,
                         linkTo(methodOn(JpaRegionController.class).findOne(region.getId())).withSelfRel(),

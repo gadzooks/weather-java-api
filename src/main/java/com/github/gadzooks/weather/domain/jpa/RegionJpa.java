@@ -14,12 +14,12 @@ import java.util.Set;
 @NoArgsConstructor // Required by JPA
 @Getter
 @Setter
+// NOTE : Exclude related entities from ToString
 @ToString(exclude = {"areaJpa", "locationJpas"})
 @EqualsAndHashCode(exclude = {"areaJpa", "locationJpas"}, callSuper = true)
 // NOTE 1 : DO NOT use Lomboks @EqualsAndHashCode -> we want to compare based on the unique key, and we want to allow
 // users to add multiple new objects to a set (lombok will count those as equal (since key is null for new objs) )
 
-// NOTE 2 : Do NOT use Lombok's @toString -> this will load entities that may be set up as lazy fetch
 // Dont use @Data for the same reason
 public class RegionJpa extends BaseEntity {
     private String name;
@@ -58,7 +58,7 @@ public class RegionJpa extends BaseEntity {
 
     @Setter(AccessLevel.NONE)
     @Getter(AccessLevel.NONE)
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "region_location_mappings", joinColumns = @JoinColumn(name = "region_jpa_id"),
             inverseJoinColumns = @JoinColumn(name = "location_jpa_id"))
     private final Set<LocationJpa> locationJpas = new HashSet<>();

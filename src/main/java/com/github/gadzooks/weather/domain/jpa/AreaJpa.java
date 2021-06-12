@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableSet;
 import lombok.*;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import java.util.HashSet;
@@ -25,7 +26,7 @@ public class AreaJpa extends BaseEntity {
         this.description = description;
     }
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "area_jpa_id")
     private final Set<RegionJpa> regionJpas = new HashSet<>();
 

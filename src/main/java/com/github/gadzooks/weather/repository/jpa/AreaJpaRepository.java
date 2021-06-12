@@ -21,5 +21,5 @@ import java.util.List;
  * This tells Spring that AreaJpaRepository is a JPA repository and not any other kind
  */
 public interface AreaJpaRepository extends CrudRepository<AreaJpa, Long> {
-    List<AreaJpa> findAllByNameContainingOrDescriptionContaining(String name, String description);
+    List<AreaJpa> findAllByNameIgnoreCaseContainingOrDescriptionIgnoreCaseContaining(String name, String description);
 }
