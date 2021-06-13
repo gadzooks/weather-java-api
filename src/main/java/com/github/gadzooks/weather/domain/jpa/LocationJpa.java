@@ -29,7 +29,8 @@ public class LocationJpa extends BaseEntity {
 
     //we dont want to include regionJpas in the builder so we cannot use the annotation at the class level
     @Builder
-    public LocationJpa(String name, String description, String subRegion, Float latitude, Float longitude) {
+    public LocationJpa(Long id, String name, String description, String subRegion, Float latitude, Float longitude) {
+        this.setId(id);
         this.name = name;
         this.description = description;
         this.subRegion = subRegion;

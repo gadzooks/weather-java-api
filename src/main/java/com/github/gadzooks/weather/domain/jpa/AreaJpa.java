@@ -21,7 +21,8 @@ public class AreaJpa extends BaseEntity {
     private String description;
 
     @Builder
-    public AreaJpa(String name, String description) {
+    public AreaJpa(Long id, String name, String description) {
+        setId(id);
         this.name = name;
         this.description = description;
     }

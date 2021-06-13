@@ -1,7 +1,6 @@
 package com.github.gadzooks.weather.controller.jpa;
 
 import com.github.gadzooks.weather.commands.RegionCommand;
-import com.github.gadzooks.weather.domain.jpa.RegionJpa;
 import com.github.gadzooks.weather.service.jpa.JpaRegionService;
 import com.github.gadzooks.weather.service.jpa.PlacesService;
 import io.swagger.annotations.Api;
@@ -43,8 +42,8 @@ public class JpaRegionController {
     @ApiOperation(value = "Find all ACTIVE regions",
             tags = {TAG},
             notes = "This method returns all the ACTIVE regions")
-    public List<EntityModel<RegionJpa>> findAllActive() {
-        List<RegionJpa> results = regionService.findAllActive();
+    public List<EntityModel<RegionCommand>> findAllActive() {
+        List<RegionCommand> results = regionService.findAllActive();
         return results.stream().map(
                 region -> EntityModel.of(region,
                         linkTo(methodOn(JpaRegionController.class).findOne(region.getId())).withSelfRel(),
@@ -56,8 +55,8 @@ public class JpaRegionController {
     @ApiOperation(value = "Find all regions",
             tags = {TAG},
             notes = "This method returns all the regions")
-    public List<EntityModel<RegionJpa>> findAll() {
-        List<RegionJpa> results = regionService.findAll();
+    public List<EntityModel<RegionCommand>> findAll() {
+        List<RegionCommand> results = regionService.findAll();
         return results.stream().map(
                 region -> EntityModel.of(region,
                         linkTo(methodOn(JpaRegionController.class).findOne(region.getId())).withSelfRel(),
@@ -69,10 +68,10 @@ public class JpaRegionController {
     @ApiOperation(value = "Find region by id",
             tags = {TAG},
             notes = "This method finds region by id provided")
-    public EntityModel<RegionJpa> findOne(
-            @ApiParam(value = "RegionJpa Id of the region requested", example = "1") @PathVariable Long id) {
+    public EntityModel<RegionCommand> findOne(
+            @ApiParam(value = "Region Id of the region requested", example = "1") @PathVariable Long id) {
         log.info("Id to look up is : " + id.toString());
-        RegionJpa region = regionService.getById(id);
+        RegionCommand region = regionService.getById(id);
         log.info("region document found : " + region.toString());
         return EntityModel.of(region, //
                 linkTo(methodOn(JpaRegionController.class).findOne(id)).withSelfRel(),

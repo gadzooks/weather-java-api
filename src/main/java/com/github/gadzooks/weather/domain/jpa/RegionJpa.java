@@ -37,6 +37,7 @@ public class RegionJpa extends BaseEntity {
     //we dont want to include areaJpa, locationJpas in the builder so we cannot use the annotation at the class level
     @Builder
     public RegionJpa(Long id, String name, String searchKey, String description, Boolean isActive) {
+        setId(id);
         this.name = name;
         this.searchKey = searchKey;
         this.description = description;

@@ -1,14 +1,19 @@
 package com.github.gadzooks.weather.service.jpa;
 
+import com.github.gadzooks.weather.commands.AreaCommand;
+import com.github.gadzooks.weather.commands.LocationCommand;
+import com.github.gadzooks.weather.commands.RegionCommand;
+import com.github.gadzooks.weather.converters.*;
 import com.github.gadzooks.weather.domain.jpa.AreaJpa;
 import com.github.gadzooks.weather.domain.jpa.LocationJpa;
 import com.github.gadzooks.weather.domain.jpa.RegionJpa;
 import com.github.gadzooks.weather.exception.ResourceNotFoundException;
 import com.github.gadzooks.weather.repository.jpa.RegionJpaRepository;
 import com.google.common.collect.ImmutableSet;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.stubbing.Answer;
@@ -25,21 +30,41 @@ class JpaRegionServiceImplTest {
     @Mock
     private RegionJpaRepository repository;
 
-    @InjectMocks
-    private JpaRegionServiceImpl service;
+    private AreaCommandToAreaJpaConverter toAreaJpaConverter;
+    private AreaJpaCommandToAreaConverter toAreaConverter;
+    private LocationJpaCommandToLocationConverter toLocationConverter;
+    private RegionJpaCommandToRegionConverter toRegionConverter ;
+    private LocationCommandToLocationJpaConverter toLocationJpaConverter ;
+    private RegionCommandToRegionJpaConverter toRegionJpaConverter ;
+
+    private JpaRegionServiceImpl service ;
+
+    @BeforeEach
+    void setUp() {
+        toAreaJpaConverter = new AreaCommandToAreaJpaConverter();
+        toAreaConverter = new AreaJpaCommandToAreaConverter();
+        toLocationConverter = new LocationJpaCommandToLocationConverter();
+        toRegionConverter = new RegionJpaCommandToRegionConverter(toLocationConverter, toAreaConverter);
+        toLocationJpaConverter = new LocationCommandToLocationJpaConverter();
+        toRegionJpaConverter = new RegionCommandToRegionJpaConverter(toLocationJpaConverter);
+
+        service = new JpaRegionServiceImpl(repository,toRegionConverter,toRegionJpaConverter,toLocationConverter,
+                toLocationJpaConverter, toAreaJpaConverter);
+    }
 
     @Test
     void findAll() {
         //given
-        AreaJpa area = AreaJpa.builder().name("area1").build();
-        RegionJpa region = RegionJpa.builder().name("region1").build().setAreaJpa(area);
+        AreaJpa area = AreaJpa.builder().name("area1").id(1L).build();
+        RegionJpa region = RegionJpa.builder().id(1L).name("region1").build().setAreaJpa(area);
+        RegionCommand regionCommand = toRegionConverter.convertRegionIncludingLocationAndArea(region);
 
         //when
         when(repository.findAll()).thenReturn(List.of(region));
-        List<RegionJpa> results = service.findAll();
+        List<RegionCommand> results = service.findAll();
 
         //then
-        assertEquals(List.of(region), results);
+        assertEquals(List.of(regionCommand), results);
         verify(repository, times(1)).findAll();
     }
 
@@ -48,14 +73,15 @@ class JpaRegionServiceImplTest {
         //given
         AreaJpa area = AreaJpa.builder().name("area1").build();
         RegionJpa region = RegionJpa.builder().name("region1").build().setAreaJpa(area);
+        RegionCommand rc = toRegionConverter.convert(region);
 
         //when
-        when(repository.save(region)).thenReturn(region);
-        RegionJpa savedRegion = service.save(region);
+        when(repository.save(any())).thenReturn(region);
+        RegionCommand savedRegion = service.save(rc);
 
         //then
-        assertEquals(savedRegion, region);
-        verify(repository, times(1)).save(region);
+        assertEquals(savedRegion, rc);
+        verify(repository, times(1)).save(any());
 
     }
 
@@ -65,13 +91,14 @@ class JpaRegionServiceImplTest {
         Long regionId = 35L;
         AreaJpa area = AreaJpa.builder().name("area1").build();
         RegionJpa region = RegionJpa.builder().name("region1").build().setAreaJpa(area);
+        RegionCommand rc = toRegionConverter.convert(region);
 
         //when
         when(repository.findById(regionId)).thenReturn(java.util.Optional.ofNullable(region));
-        RegionJpa results = service.getById(regionId);
+        RegionCommand results = service.getById(regionId);
 
         //then
-        assertEquals(region, results);
+        assertEquals(rc, results);
         verify(repository, times(1)).findById(regionId);
     }
 
@@ -95,27 +122,39 @@ class JpaRegionServiceImplTest {
         //given
         Long regionId = 33L;
         LocationJpa originalLocation = LocationJpa.builder().name("originalLoc").build();
+        LocationCommand originalLocationCommand = LocationCommand.builder().name("originalLoc").build();
         RegionJpa originalRegion = RegionJpa.builder().name("originalRegion").description("originalDesc").build().
                 addLocation(originalLocation);
-
         AreaJpa area = AreaJpa.builder().name("newArea").build();
+        originalRegion.setAreaJpa(area);
+
         RegionJpa region = RegionJpa.builder().name("newRegion").build().setAreaJpa(area);
+        RegionCommand rc = toRegionConverter.convertRegionIncludingLocationAndArea(region);
+//        AreaCommand ac = toAreaConverter.convert(area);
+//        rc.setAreaCommand(ac);
+
+        RegionJpa regionToBeSaved = RegionJpa.builder().name("newRegion").description("originalDesc").build();
 
         //when
-        when(repository.findById(regionId)).thenReturn(java.util.Optional.ofNullable(originalRegion));
+        when(repository.findById(regionId)).thenReturn(java.util.Optional.of(originalRegion));
         // NOTE simulate this code that is being mocked out : return repository.save(region);
         when(repository.save(any())).thenAnswer((Answer) invocation -> invocation.getArguments()[0]);
 
-        RegionJpa patchedRegion = service.patch(regionId, region);
+        RegionCommand patchedRegion = service.patch(regionId, rc);
 
         //then
-        assertEquals("newArea", patchedRegion.getAreaJpa().getName(), "area will get updated");
+        assertEquals("newArea", patchedRegion.getAreaCommand().getName(), "area will get updated");
         assertEquals("newRegion", patchedRegion.getName(), "region name will get updated");
         assertEquals("originalDesc", patchedRegion.getDescription(), "region desc will NOT get updated");
-        ImmutableSet<LocationJpa> expectedLocations = ImmutableSet.of(originalLocation);
-        assertEquals(expectedLocations, patchedRegion.getLocationJpas(), "location will not be updated");
-        verify(repository, times(1)).findById(regionId);
-        verify(repository, times(1)).save(patchedRegion);
+        ImmutableSet<LocationCommand> expectedLocations = ImmutableSet.of(originalLocationCommand);
+        assertEquals(expectedLocations, patchedRegion.getLocationCommandSet(), "location will not be updated");
+
+        ArgumentCaptor<RegionJpa> regionToBePatched = ArgumentCaptor.forClass(RegionJpa.class);
+        verify(repository).findById(regionId);
+        verify(repository).save(regionToBePatched.capture());
+        assertEquals("newRegion", regionToBeSaved.getName());
+        assertEquals("originalDesc", regionToBeSaved.getDescription());
+//        assertEquals("newArea", regionToBeSaved.getAreaJpa().getName());
     }
 
     @Test
@@ -140,13 +179,16 @@ class JpaRegionServiceImplTest {
         //given
         AreaJpa area = AreaJpa.builder().name("area1").build();
         RegionJpa region = RegionJpa.builder().name("region1").build().setAreaJpa(area);
+        AreaCommand ac = toAreaConverter.convert(area);
+        RegionCommand rc = toRegionConverter.convert(region);
+        rc.setAreaCommand(ac);
 
         //when
         when(repository.findAllByIsActive(true)).thenReturn(List.of(region));
-        List<RegionJpa> results = service.findAllActive();
+        List<RegionCommand> results = service.findAllActive();
 
         //then
-        assertEquals(List.of(region), results);
+        assertEquals(List.of(rc), results);
         verify(repository, times(1)).findAllByIsActive(true);
     }
 
@@ -156,13 +198,16 @@ class JpaRegionServiceImplTest {
         List<Long> ids = List.of(1L, 2L, 3L);
         AreaJpa area = AreaJpa.builder().name("area1").build();
         RegionJpa region = RegionJpa.builder().name("region1").build().setAreaJpa(area);
+        AreaCommand ac = toAreaConverter.convert(area);
+        RegionCommand rc = toRegionConverter.convert(region);
+        rc.setAreaCommand(ac);
 
         //when
         when(repository.findAllByIdIn(ids)).thenReturn(List.of(region));
-        List<RegionJpa> results = service.findAllByIdsIn(ids);
+        List<RegionCommand> results = service.findAllByIdsIn(ids);
 
         //then
-        assertEquals(List.of(region), results);
+        assertEquals(List.of(rc), results);
         verify(repository, times(1)).findAllByIdIn(ids);
     }
 }

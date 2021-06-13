@@ -1,12 +1,12 @@
 package com.github.gadzooks.weather.service.jpa;
 
-import com.github.gadzooks.weather.domain.jpa.RegionJpa;
+import com.github.gadzooks.weather.commands.RegionCommand;
 import com.github.gadzooks.weather.service.CrudService;
 
 import java.util.List;
 
-public interface JpaRegionService extends CrudService<RegionJpa, Long> {
-    List<RegionJpa> findAllActive();
+public interface JpaRegionService extends CrudService<RegionCommand, Long> {
+    List<RegionCommand> findAllActive();
 
-    List<RegionJpa> findAllByIdsIn(List<Long> ids);
+    List<RegionCommand> findAllByIdsIn(List<Long> ids);
 }
