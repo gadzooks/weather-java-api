@@ -3,6 +3,7 @@ package com.github.gadzooks.weather.domain.inmemory;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.apache.commons.lang3.StringUtils;
@@ -14,6 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @ToString
 @ApiModel
+@EqualsAndHashCode//(callSuper = true)
 //Make class final to make it immutable
 public final class Region extends BaseEntity {
     @ApiModelProperty(
