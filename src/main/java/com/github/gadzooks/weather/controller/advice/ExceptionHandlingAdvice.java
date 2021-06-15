@@ -17,18 +17,10 @@ import java.util.NoSuchElementException;
 @RestControllerAdvice
 class ExceptionHandlingAdvice extends ResponseEntityExceptionHandler {
 
-    //FIXME : not sure how to combine multiple exception handling into one method
     @ResponseBody
-    @ExceptionHandler({ResourceNotFoundException.class})
+    @ExceptionHandler(value = {NoSuchElementException.class, ResourceNotFoundException.class})
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    ResponseEntity<?> resourceNotFoundHandler(ResourceNotFoundException ex) {
-        return ResponseEntity.notFound().build();
-    }
-
-    @ResponseBody
-    @ExceptionHandler(NoSuchElementException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    ResponseEntity<?> noSuchElementHandler(NoSuchElementException ex) {
+    ResponseEntity<?> noSuchElementHandler(Exception ex) {
         return ResponseEntity.notFound().build();
     }
 
