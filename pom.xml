@@ -71,6 +71,13 @@
             <optional>true</optional>
         </dependency>
 
+        <!--  HTTP Client library-->
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.5.12</version>
+        </dependency>
+
         <!--        DOCUMENTATION / SWAGGER -->
         <dependency>
             <groupId>io.toolisticon.springboot</groupId>
