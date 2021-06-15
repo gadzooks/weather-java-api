@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Setter
 public class BaseEntity implements Serializable {
     @Id
-    //underlying will provide the id
+    //underlying db will provide the id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
 

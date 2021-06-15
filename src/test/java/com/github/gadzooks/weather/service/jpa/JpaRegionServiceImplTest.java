@@ -4,10 +4,14 @@ import com.github.gadzooks.weather.domain.jpa.AreaJpa;
 import com.github.gadzooks.weather.domain.jpa.LocationJpa;
 import com.github.gadzooks.weather.domain.jpa.RegionJpa;
 import com.github.gadzooks.weather.exception.ResourceNotFoundException;
+import com.github.gadzooks.weather.mapstruct.mappers.LocationJpaMapper;
+import com.github.gadzooks.weather.mapstruct.mappers.RegionJpaMapper;
 import com.github.gadzooks.weather.repository.jpa.RegionJpaRepository;
 import com.google.common.collect.ImmutableSet;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mapstruct.factory.Mappers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -165,4 +169,6 @@ class JpaRegionServiceImplTest {
         assertEquals(List.of(region), results);
         verify(repository, times(1)).findAllByIdIn(ids);
     }
+
+
 }

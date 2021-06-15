@@ -1,22 +1,21 @@
 package com.github.gadzooks.weather.mapstruct.mappers;
 
-import com.github.gadzooks.weather.domain.jpa.RegionJpa;
-import com.github.gadzooks.weather.mapstruct.EntityMapper;
-import com.github.gadzooks.weather.mapstruct.dtos.RegionDto;
+import com.github.gadzooks.weather.domain.jpa.LocationJpa;
+import com.github.gadzooks.weather.mapstruct.dtos.LocationSlimDto;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring")
-public interface RegionJpaMapper extends EntityMapper<RegionDto, RegionJpa> {
-    @Mapping(target = "locations", source = "locationJpas" )
-    RegionDto toDto(final RegionJpa regionJpa);
+@Mapper(componentModel = "spring", uses = {RegionJpaMapper.class})
+public interface LocationJpaMapper extends EntityMapper<LocationSlimDto, LocationJpa> {
+    @Override
+    LocationSlimDto toDto(final LocationJpa regionJpa);
+    @Override
+    LocationJpa toEntity(final LocationSlimDto regionDto);
 
-    @Mapping(target = "locationJpas", source = "locations")
-    RegionJpa toEntity(final RegionDto regionDto);
-
-    List<RegionDto> toDto(List<RegionJpa> eList);
-    List<RegionJpa> toEntity(List<RegionDto> dList);
+    @Override
+    List<LocationSlimDto> toDto(List<LocationJpa> eList);
+    @Override
+    List<LocationJpa> toEntity(List<LocationSlimDto> dList);
 
 }

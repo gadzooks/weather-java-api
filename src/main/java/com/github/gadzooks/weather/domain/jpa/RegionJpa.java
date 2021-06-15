@@ -2,6 +2,7 @@ package com.github.gadzooks.weather.domain.jpa;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.gadzooks.weather.domain.inmemory.Region;
+import com.github.gadzooks.weather.mapstruct.Default;
 import com.google.common.collect.ImmutableSet;
 import lombok.*;
 
@@ -36,6 +37,7 @@ public class RegionJpa extends BaseEntity {
 
     //we dont want to include areaJpa, locationJpas in the builder so we cannot use the annotation at the class level
     @Builder
+    @Default
     public RegionJpa(Long id, String name, String searchKey, String description, Boolean isActive) {
         this.name = name;
         this.searchKey = searchKey;
@@ -58,7 +60,7 @@ public class RegionJpa extends BaseEntity {
 
     @Setter(AccessLevel.NONE)
     @Getter(AccessLevel.NONE)
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "region_location_mappings", joinColumns = @JoinColumn(name = "region_jpa_id"),
             inverseJoinColumns = @JoinColumn(name = "location_jpa_id"))
     private final Set<LocationJpa> locationJpas = new HashSet<>();

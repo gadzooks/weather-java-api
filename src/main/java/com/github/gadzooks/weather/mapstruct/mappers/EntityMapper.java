@@ -1,4 +1,4 @@
-package com.github.gadzooks.weather.mapstruct;
+package com.github.gadzooks.weather.mapstruct.mappers;
 
 import java.util.List;
 

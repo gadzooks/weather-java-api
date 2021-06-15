@@ -133,6 +133,13 @@
             <version>1.3.1</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct-processor</artifactId>
+            <version>${org.mapstruct.version}</version>
+            <optional>true</optional>
+        </dependency>
+
         <!--        TESTING RELATED -->
         <dependency>
             <!--            Live reload in development-->
@@ -222,6 +229,8 @@
                             <version>${org.mapstruct.version}</version>
                         </path>
                     </annotationProcessorPaths>
+                    <!-- due to problem in maven-compiler-plugin, for verbose mode add showWarnings -->
+                    <showWarnings>true</showWarnings>
                 </configuration>
             </plugin>
             <plugin>

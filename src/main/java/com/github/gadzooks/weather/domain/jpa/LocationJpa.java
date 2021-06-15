@@ -2,6 +2,7 @@ package com.github.gadzooks.weather.domain.jpa;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.gadzooks.weather.domain.inmemory.Location;
+import com.github.gadzooks.weather.mapstruct.Default;
 import com.google.common.collect.ImmutableSet;
 import lombok.*;
 
@@ -29,6 +30,7 @@ public class LocationJpa extends BaseEntity {
 
     //we dont want to include regionJpas in the builder so we cannot use the annotation at the class level
     @Builder
+    @Default
     public LocationJpa(String name, String description, String subRegion, Float latitude, Float longitude) {
         this.name = name;
         this.description = description;
