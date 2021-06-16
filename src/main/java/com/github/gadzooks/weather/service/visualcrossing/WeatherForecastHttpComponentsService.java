@@ -9,6 +9,7 @@ import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,7 @@ import java.nio.charset.StandardCharsets;
 
 @Slf4j
 @Service
+@Qualifier("http-components")
 public class WeatherForecastHttpComponentsService implements WeatherForecastService {
     //NOTE : read from ENV variable
     @Value("${VISUAL_CROSSING_API_KEY}")
