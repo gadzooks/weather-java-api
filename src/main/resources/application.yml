@@ -34,7 +34,7 @@ spring:
       enabled: true
   datasource:
     generate-unique-name: false
-    url=jdbc:h2:mem:testdb:
+#    url: jdbc:h2:mem:testdb
 
 #logging.level.org.hibernate.SQL: DEBUG
 #logging.level.org.hibernate.type.descriptor.sql.BasicBinder: TRACE
