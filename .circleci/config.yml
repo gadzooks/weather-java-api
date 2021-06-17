@@ -31,7 +31,7 @@ jobs:
       # Then run your tests!
       - run:
           name: Test
-          command: mvn test
+          command: mvn verify
       - run:
           name: Save test results
           command: |
