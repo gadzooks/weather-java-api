@@ -1,15 +1,14 @@
 
 package com.github.gadzooks.weather.api.v1.model;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 import java.io.Serializable;
 
-@Getter
-@Setter
-@ToString
+@Data
 public class DailyForecastDTO implements Serializable {
 
     private String datetime;

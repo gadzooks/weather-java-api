@@ -1,16 +1,12 @@
 
 package com.github.gadzooks.weather.api.v1.model;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.util.List;
 
-@Getter
-@Setter
-@ToString
+@Data
 public class ForecastResponseDTO implements Serializable {
 
     private Double latitude;
