@@ -34,6 +34,10 @@ spring:
       enabled: true
   datasource:
     generate-unique-name: false
+#  data:
+#    mongodb:
+#      host: localhost
+#      port: 0
 #    url: jdbc:h2:mem:testdb
 
 #logging.level.org.hibernate.SQL: DEBUG

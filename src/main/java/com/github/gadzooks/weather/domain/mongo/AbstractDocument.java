@@ -2,27 +2,26 @@ package com.github.gadzooks.weather.domain.mongo;
 
 import lombok.Data;
 import lombok.ToString;
-import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.LastModifiedBy;
-import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.annotation.*;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Data
 @ToString
 public abstract class AbstractDocument {
     @Id
-    private UUID id = UUID.randomUUID();
+    protected String id;
 
     //FIXME : use header to get created/updated by
     @CreatedBy
-    private String createdBy;
+    protected String createdBy;
+
+    @CreatedDate
+    protected LocalDateTime createdDate;
 
     @LastModifiedDate
-    private LocalDateTime lastModifiedDate;
+    protected LocalDateTime lastModifiedDate;
 
     @LastModifiedBy
-    private String lastModifiedBy;
+    protected String lastModifiedBy;
 }

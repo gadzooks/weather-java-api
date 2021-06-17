@@ -1,6 +1,6 @@
 package com.github.gadzooks.weather.controller.mongo;
 
-import com.github.gadzooks.weather.domain.mongo.RegionDocument;
+import com.github.gadzooks.weather.api.v1.model.RegionDTO;
 import com.github.gadzooks.weather.service.mongo.MongoRegionService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -45,8 +44,8 @@ public class MongoRegionController {
     @ApiOperation(value = "Find all ACTIVE regions",
             tags = {TAG},
             notes = "This method returns all ACTIVE the regions")
-    public List<EntityModel<RegionDocument>> findAllActive() {
-        List<RegionDocument> results = regionService.findAllActive(true);
+    public List<EntityModel<RegionDTO>> findAllActive() {
+        List<RegionDTO> results = regionService.findAllActive(true);
         return results.stream().map(
                 region -> EntityModel.of(region,
                         linkTo(methodOn(MongoRegionController.class).findOne(region.getId())).withSelfRel(),
@@ -58,8 +57,8 @@ public class MongoRegionController {
     @ApiOperation(value = "Find all regions",
             tags = {TAG},
             notes = "This method returns all the regions")
-    public List<EntityModel<RegionDocument>> findAll() {
-        List<RegionDocument> results = regionService.findAll();
+    public List<EntityModel<RegionDTO>> findAll() {
+        List<RegionDTO> results = regionService.findAll();
         return results.stream().map(
                 region -> EntityModel.of(region,
                         linkTo(methodOn(MongoRegionController.class).findOne(region.getId())).withSelfRel(),
@@ -71,10 +70,10 @@ public class MongoRegionController {
     @ApiOperation(value = "Find region by id",
             tags = {TAG},
             notes = "This method finds region by id provided")
-    public EntityModel<RegionDocument> findOne(
-            @ApiParam(value = "RegionDocument Id of the region requested", example = "uuid") @PathVariable UUID id) {
-        log.info("UUID to look up is : " + id.toString());
-        RegionDocument region = regionService.getById(id);
+    public EntityModel<RegionDTO> findOne(
+            @ApiParam(value = "RegionDTO Id of the region requested", example = "id") @PathVariable String id) {
+        log.info("String to look up is : " + id.toString());
+        RegionDTO region = regionService.getById(id);
         log.info("region document found : " + region.toString());
         return EntityModel.of(region, //
                 linkTo(methodOn(MongoRegionController.class).findOne(id)).withSelfRel(),
@@ -85,10 +84,10 @@ public class MongoRegionController {
     @ApiOperation(value = "Update part of a region (patch)",
             tags = {TAG},
             notes = "This method allows users to update **subset** of attributes of a region")
-    public EntityModel<RegionDocument> patchRegion(
-            @ApiParam(value = "RegionDocument Id of the region requested", example = "uuid") @PathVariable UUID id,
-            @ApiParam(value = "region object (can be partially set)") @RequestBody RegionDocument updatedRegion) {
-        RegionDocument savedRegionDocument = regionService.patch(id, updatedRegion);
+    public EntityModel<RegionDTO> patchRegion(
+            @ApiParam(value = "RegionDTO Id of the region requested", example = "String") @PathVariable String id,
+            @ApiParam(value = "region object (can be partially set)") @RequestBody RegionDTO updatedRegion) {
+        RegionDTO savedRegionDTO = regionService.patch(id, updatedRegion);
 
         // NOTE: alternate way to return HATEOAS
 //        Link newlyCreatedLink = linkTo(methodOn(RegionController.class).findOne(savedRegion.getId())).withSelfRel();
@@ -97,7 +96,7 @@ public class MongoRegionController {
 //        } catch (URISyntaxException e) {
 //            return ResponseEntity.badRequest().body("Unable to update " + updatedRegion);
 //        }
-        return EntityModel.of(savedRegionDocument,
+        return EntityModel.of(savedRegionDTO,
                 linkTo(methodOn(MongoRegionController.class).findOne(id)).withSelfRel(),
                 linkTo(methodOn(MongoRegionController.class).findAll()).withRel("regions"));
     }
@@ -106,11 +105,10 @@ public class MongoRegionController {
     @ApiOperation(value = "Update a region",
             tags = {TAG},
             notes = "This method allows users to replace all attributes of a region")
-    public EntityModel<RegionDocument> updateRegion(
-            @ApiParam(value = "RegionDocument Id of the region requested", example = "uuid") @PathVariable UUID id,
-            @ApiParam(value = "Valid region object") @Valid @RequestBody RegionDocument updatedRegion) {
-        updatedRegion.setId(id);
-        RegionDocument savedRegionDocument = regionService.save(updatedRegion);
+    public EntityModel<RegionDTO> updateRegion(
+            @ApiParam(value = "RegionDTO Id of the region requested", example = "String") @PathVariable String id,
+            @ApiParam(value = "Valid region object") @Valid @RequestBody RegionDTO updatedRegion) {
+        RegionDTO savedRegionDTO = regionService.patch(id, updatedRegion);
 
         // NOTE: alternate way to return HATEOAS
 //        Link newlyCreatedLink = linkTo(methodOn(RegionController.class).findOne(savedRegion.getId())).withSelfRel();
@@ -119,7 +117,7 @@ public class MongoRegionController {
 //        } catch (URISyntaxException e) {
 //            return ResponseEntity.badRequest().body("Unable to update " + updatedRegion);
 //        }
-        return EntityModel.of(savedRegionDocument,
+        return EntityModel.of(savedRegionDTO,
                 linkTo(methodOn(MongoRegionController.class).findOne(id)).withSelfRel(),
                 linkTo(methodOn(MongoRegionController.class).findAll()).withRel("regions"));
     }
@@ -129,12 +127,12 @@ public class MongoRegionController {
     @ApiOperation(value = "Create new region",
             tags = {TAG},
             notes = "This method creates a new region")
-    public EntityModel<RegionDocument> newRegion(
-            @ApiParam(value = "Valid region object") @Valid @RequestBody RegionDocument region) {
-        RegionDocument savedRegionDocument = regionService.save(region);
+    public EntityModel<RegionDTO> newRegion(
+            @ApiParam(value = "Valid region object") @Valid @RequestBody RegionDTO region) {
+        RegionDTO savedRegionDTO = regionService.save(region);
 
-        return EntityModel.of(savedRegionDocument, //
-                linkTo(methodOn(MongoRegionController.class).findOne(savedRegionDocument.getId())).withSelfRel(),
+        return EntityModel.of(savedRegionDTO, //
+                linkTo(methodOn(MongoRegionController.class).findOne(savedRegionDTO.getId())).withSelfRel(),
                 linkTo(methodOn(MongoRegionController.class).findAll()).withRel("regions"));
 
         // NOTE: alternate way to return HATEOAS
@@ -151,9 +149,9 @@ public class MongoRegionController {
     @ApiOperation(value = "Delete a region",
             tags = {TAG},
             notes = "This method deletes a region")
-    public EntityModel<RegionDocument> deleteRegion(
-            @ApiParam(value = "RegionDocument Id of the region requested", example = "uuid") @PathVariable UUID id) {
-        RegionDocument region = regionService.getById(id);
+    public EntityModel<RegionDTO> deleteRegion(
+            @ApiParam(value = "RegionDTO Id of the region requested", example = "String") @PathVariable String id) {
+        RegionDTO region = regionService.getById(id);
         regionService.delete(id);
 
         return EntityModel.of(region, linkTo(methodOn(MongoRegionController.class).findAll()).withRel("regions"));

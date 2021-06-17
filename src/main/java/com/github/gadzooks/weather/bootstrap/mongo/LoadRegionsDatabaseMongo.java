@@ -16,22 +16,25 @@ import org.springframework.stereotype.Component;
 @Component
 @Slf4j
 public class LoadRegionsDatabaseMongo implements CommandLineRunner {
-    private final RegionRepository regionRepository;
+    private final RegionRepository inMemoryRegionRepository;
     private final MongoRegionRepository mongoRegionRepository;
-    private final MongoLocationRepository mongoLocationRepository;
+    private final MongoLocationRepository locationRepository;
 
-    public LoadRegionsDatabaseMongo(RegionRepository regionRepository, MongoRegionRepository mongoRegionRepository, MongoLocationRepository mongoLocationRepository) {
-        this.regionRepository = regionRepository;
+    public LoadRegionsDatabaseMongo(
+            com.github.gadzooks.weather.repository.inmemory.RegionRepository inMemoryRegionRepository,
+            MongoRegionRepository mongoRegionRepository,
+            MongoLocationRepository locationRepository) {
+        this.inMemoryRegionRepository = inMemoryRegionRepository;
         this.mongoRegionRepository = mongoRegionRepository;
-        this.mongoLocationRepository = mongoLocationRepository;
+        this.locationRepository = locationRepository;
     }
 
     @Override
     public void run(String... args) {
         if (mongoRegionRepository.count() == 0) {
 
-            for (Region region : regionRepository.findAll()) {
-                //FIXME : check if RegionDocument already exists before saving
+            for (Region region : inMemoryRegionRepository.findAll()) {
+                //FIXME : check if each RegionDocument already exists before saving
                 RegionDocument rd = new RegionDocument();
                 rd.setName(region.getName());
                 rd.setSearchKey(region.getSearchKey());
@@ -46,7 +49,7 @@ public class LoadRegionsDatabaseMongo implements CommandLineRunner {
                     ld.setLongitude(l.getLongitude());
                     ld.setSubRegion(l.getSubRegion());
 
-                    mongoLocationRepository.save(ld);
+                    locationRepository.save(ld);
 
                     rd.getLocations().add(ld);
                 }

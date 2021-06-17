@@ -14,7 +14,7 @@ import java.util.UUID;
  * This is Mongo Spring's convention over configuration
  * https://docs.spring.io/spring-data/data-document/docs/current/reference/html/#repositories.custom-implementations
  */
-public class MongoRegionRepositoryImpl implements MongoRegionRepositoryCustom {
+public class MongoRegionRepositoryImpl implements CustomRegionRepository {
     private final MongoTemplate mongoTemplate;
     private static final Logger log = LoggerFactory.getLogger(MongoRegionRepositoryImpl.class);
 
