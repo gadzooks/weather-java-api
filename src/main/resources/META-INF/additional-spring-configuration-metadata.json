@@ -9,5 +9,10 @@
       "name": "file-paths.locationsFilePath",
       "type": "java.lang.String",
       "description": "/full/path/to/locations.yml file."
+    },
+    {
+      "name": "visualcrossing.api.url",
+      "type": "java.lang.String",
+      "description": "REST api endpoint for VC"
     }
   ] }

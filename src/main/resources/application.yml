@@ -38,3 +38,6 @@ spring:
 
 #logging.level.org.hibernate.SQL: DEBUG
 #logging.level.org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+
+visualcrossing.api.url:
+  https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/

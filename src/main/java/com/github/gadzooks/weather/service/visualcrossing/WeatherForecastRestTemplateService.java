@@ -6,25 +6,33 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 @Service
 @Qualifier("weather-with-rest-template")
 @Slf4j
 public class WeatherForecastRestTemplateService implements WeatherForecastService {
     private final RestTemplate restTemplate;
-    private static final String VC_URL = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/46.266891,-119.222523?include=obs,fcst,alerts&key=";
-
     //NOTE : read from ENV variable
-    @Value("${VISUAL_CROSSING_API_KEY}")
-    private String VisualCrossingApiKey;
+    private final String visualCrossingApiKey;
+    private final String vcUrl;
 
-    public WeatherForecastRestTemplateService(RestTemplate restTemplate) {
+    public WeatherForecastRestTemplateService(
+            RestTemplate restTemplate,
+            @Value("${VISUAL_CROSSING_API_KEY}") String visualCrossingApiKey,
+            @Value("${visualcrossing.api.url}") String vcUrl) {
         this.restTemplate = restTemplate;
+        this.visualCrossingApiKey = visualCrossingApiKey;
+        this.vcUrl = vcUrl;
     }
 
     @Override
     public void forecast() {
-        ForecastResponse response = restTemplate.getForObject(VC_URL + VisualCrossingApiKey, ForecastResponse.class);
+        UriComponentsBuilder uriBuilder = UriComponentsBuilder
+                .fromUriString(vcUrl + "46.266891,-119.222523")
+                .queryParam("include", "obs,fcst,alerts")
+                .queryParam("key", visualCrossingApiKey);
+        ForecastResponse response = restTemplate.getForObject(uriBuilder.toUriString(), ForecastResponse.class);
 
         log.info("forecast from rest-template : " + response);
     }
