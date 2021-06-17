@@ -1,5 +1,6 @@
 package com.github.gadzooks.weather.service.visualcrossing;
 
+import com.github.gadzooks.weather.configuration.VisualCrossingConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpStatus;
@@ -10,7 +11,6 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -21,9 +21,11 @@ import java.nio.charset.StandardCharsets;
 @Service
 @Qualifier("http-components")
 public class WeatherForecastHttpComponentsService implements WeatherForecastService {
-    //NOTE : read from ENV variable
-    @Value("${VISUAL_CROSSING_API_KEY}")
-    private String VisualCrossingApiKey;
+    private final VisualCrossingConfig vcConfig;
+
+    public WeatherForecastHttpComponentsService(VisualCrossingConfig vcConfig) {
+        this.vcConfig = vcConfig;
+    }
 
     @Override
     public void forecast() {
@@ -31,12 +33,12 @@ public class WeatherForecastHttpComponentsService implements WeatherForecastServ
 
         URIBuilder builder = null;
         try {
-            builder = new URIBuilder("https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/weatherdata/forecast");
+            builder = new URIBuilder(vcConfig.getVcUrl() + "/weatherdata/forecast");
 
             builder.setParameter("aggregateHours", "24")
                     .setParameter("contentType", "csv")
                     .setParameter("unitGroup", "metric")
-                    .setParameter("key", VisualCrossingApiKey)
+                    .setParameter("key", vcConfig.getVisualCrossingApiKey())
                     .setParameter("locations", "London,UK");
 
             //Retrieve the result

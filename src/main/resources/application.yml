@@ -40,4 +40,4 @@ spring:
 #logging.level.org.hibernate.type.descriptor.sql.BasicBinder: TRACE
 
 visualcrossing.api.url:
-  https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/
+  https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services

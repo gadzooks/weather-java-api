@@ -1,9 +1,9 @@
 package com.github.gadzooks.weather.service.visualcrossing;
 
+import com.github.gadzooks.weather.configuration.VisualCrossingConfig;
 import com.github.gadzooks.weather.domain.visualcrossing.ForecastResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -13,25 +13,21 @@ import org.springframework.web.util.UriComponentsBuilder;
 @Slf4j
 public class WeatherForecastRestTemplateService implements WeatherForecastService {
     private final RestTemplate restTemplate;
-    //NOTE : read from ENV variable
-    private final String visualCrossingApiKey;
-    private final String vcUrl;
+    private final VisualCrossingConfig vcConfig;
 
     public WeatherForecastRestTemplateService(
             RestTemplate restTemplate,
-            @Value("${VISUAL_CROSSING_API_KEY}") String visualCrossingApiKey,
-            @Value("${visualcrossing.api.url}") String vcUrl) {
+            VisualCrossingConfig vcConfig) {
         this.restTemplate = restTemplate;
-        this.visualCrossingApiKey = visualCrossingApiKey;
-        this.vcUrl = vcUrl;
+        this.vcConfig = vcConfig;
     }
 
     @Override
     public void forecast() {
         UriComponentsBuilder uriBuilder = UriComponentsBuilder
-                .fromUriString(vcUrl + "46.266891,-119.222523")
+                .fromUriString(vcConfig.getVcUrl() + "/timeline/" + "46.266891,-119.222523")
                 .queryParam("include", "obs,fcst,alerts")
-                .queryParam("key", visualCrossingApiKey);
+                .queryParam("key", vcConfig.getVisualCrossingApiKey());
         ForecastResponse response = restTemplate.getForObject(uriBuilder.toUriString(), ForecastResponse.class);
 
         log.info("forecast from rest-template : " + response);
