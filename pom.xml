@@ -211,8 +211,22 @@
                         <goals>
                             <goal>report</goal>
                         </goals>
-                        <!--                        Step 1: run tests (mvn verify) -->
-                        <!--                        Step 2: see results in (target/site/jacoco/index.html) -->
+                        <!-- Step 1: run tests (mvn verify) -->
+                        <!-- Step 2: see results in (target/site/jacoco/index.html) -->
+                    </execution>
+                    <execution>
+                        <id>post-unit-test</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                        <configuration>
+                            <!-- Sets the path to the file which contains the execution data. -->
+
+                            <dataFile>target/jacoco.exec</dataFile>
+                            <!-- Sets the output directory for the code coverage report. -->
+                            <outputDirectory>target/my-reports</outputDirectory>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
