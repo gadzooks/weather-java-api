@@ -13,7 +13,9 @@ public class VisualCrossingConfig {
     @Getter
     private final String vcUrl;
 
-    public VisualCrossingConfig(@Value("${VISUAL_CROSSING_API_KEY}") String visualCrossingApiKey,
+    //Set default value for ENV variable so that tests pass on CircleCI without
+    //without needing to add ENV variables there
+    public VisualCrossingConfig(@Value("${VISUAL_CROSSING_API_KEY:vc.api.key.here}") String visualCrossingApiKey,
                                 @Value("${visualcrossing.api.url}") String vcUrl) {
         this.visualCrossingApiKey = visualCrossingApiKey;
         this.vcUrl = vcUrl;
