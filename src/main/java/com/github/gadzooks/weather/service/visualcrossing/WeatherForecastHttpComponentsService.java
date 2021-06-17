@@ -1,6 +1,10 @@
 package com.github.gadzooks.weather.service.visualcrossing;
 
+import com.github.gadzooks.weather.api.v1.mapper.ForecastResponseMapper;
+import com.github.gadzooks.weather.api.v1.model.ForecastResponseDTO;
 import com.github.gadzooks.weather.configuration.VisualCrossingConfig;
+import com.github.gadzooks.weather.domain.visualcrossing.ForecastResponse;
+import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpStatus;
@@ -22,24 +26,23 @@ import java.nio.charset.StandardCharsets;
 @Qualifier("http-components")
 public class WeatherForecastHttpComponentsService implements WeatherForecastService {
     private final VisualCrossingConfig vcConfig;
+    private final ForecastResponseMapper mapper;
 
-    public WeatherForecastHttpComponentsService(VisualCrossingConfig vcConfig) {
+    public WeatherForecastHttpComponentsService(VisualCrossingConfig vcConfig, ForecastResponseMapper mapper) {
         this.vcConfig = vcConfig;
+        this.mapper = mapper;
     }
 
     @Override
-    public void forecast() {
-        String csvWeatherForecast = null;
+    public ForecastResponseDTO forecast() {
+        String fcstResponse = null;
 
         URIBuilder builder = null;
         try {
-            builder = new URIBuilder(vcConfig.getVcUrl() + "/weatherdata/forecast");
+            builder = new URIBuilder(vcConfig.getVcUrl() + "/timeline/" + "46.266891,-119.222523");
 
-            builder.setParameter("aggregateHours", "24")
-                    .setParameter("contentType", "csv")
-                    .setParameter("unitGroup", "metric")
-                    .setParameter("key", vcConfig.getVisualCrossingApiKey())
-                    .setParameter("locations", "London,UK");
+            builder.setParameter("include", "obs,fcst,alerts")
+                    .setParameter("key", vcConfig.getVisualCrossingApiKey());
 
             //Retrieve the result
             HttpGet get = new HttpGet(builder.build());
@@ -49,13 +52,20 @@ public class WeatherForecastHttpComponentsService implements WeatherForecastServ
                 if (response.getStatusLine().getStatusCode() != HttpStatus.SC_OK) {
                     System.out.printf("Bad response status code:%d%n",
                             response.getStatusLine().getStatusCode());
-                    return;
+                    return null;
                 }
 
                 HttpEntity entity = response.getEntity();
                 if (entity != null) {
-                    csvWeatherForecast = EntityUtils.toString(entity, StandardCharsets.UTF_8);
-                    log.info("forecast is : " + csvWeatherForecast);
+                    fcstResponse = EntityUtils.toString(entity, StandardCharsets.UTF_8);
+                    log.debug("forecast is : " + fcstResponse);
+
+                    Gson gson = new Gson();
+                    ForecastResponse forecastResponse = gson.fromJson(fcstResponse, ForecastResponse.class);
+                    if (forecastResponse != null) {
+                        log.debug("forecastResponse is : " + fcstResponse);
+                        return mapper.toDto(forecastResponse);
+                    }
                 }
 
             }
@@ -63,5 +73,6 @@ public class WeatherForecastHttpComponentsService implements WeatherForecastServ
             e.printStackTrace();
         }
 
+        return null;
     }
 }

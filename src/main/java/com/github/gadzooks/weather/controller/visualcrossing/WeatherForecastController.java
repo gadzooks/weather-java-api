@@ -1,5 +1,6 @@
 package com.github.gadzooks.weather.controller.visualcrossing;
 
+import com.github.gadzooks.weather.api.v1.model.ForecastResponseDTO;
 import com.github.gadzooks.weather.service.visualcrossing.WeatherForecastService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -40,16 +41,16 @@ public class WeatherForecastController {
     @ApiOperation(value = "Get latest weather for location via HttpComponent",
             tags = {TAG},
             notes = "This method returns weather forecast for location")
-    public void findOneHttpComponent() {
-        httpComponentWeatherService.forecast();
+    public ForecastResponseDTO findOneHttpComponent() {
+        return httpComponentWeatherService.forecast();
     }
 
     @GetMapping(value = "/rest-template")
     @ApiOperation(value = "Get latest weather for location",
             tags = {TAG},
             notes = "This method returns weather forecast for location via RestTemplate")
-    public void findOneRestTemplate() {
-        restTemplateWeatherService.forecast();
+    public ForecastResponseDTO findOneRestTemplate() {
+        return restTemplateWeatherService.forecast();
     }
 }
 
