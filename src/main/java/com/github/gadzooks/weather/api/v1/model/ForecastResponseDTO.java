@@ -26,6 +26,11 @@ public class ForecastResponseDTO implements Serializable {
             value = "forecast summary",
             example = "cloudy throughout the week")
     private String description;
+
+    @ApiModelProperty(
+            required = true,
+            name = "DailyForecast",
+            value = "list of daily forecasts")
     private List<DailyForecastDTO> days = null;
 
     private final static long serialVersionUID = -5779468242832757870L;

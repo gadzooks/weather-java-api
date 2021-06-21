@@ -4,6 +4,8 @@ import com.github.gadzooks.weather.api.v1.model.ForecastResponseDTO;
 import com.github.gadzooks.weather.service.visualcrossing.WeatherForecastService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
@@ -41,6 +43,7 @@ public class WeatherForecastController {
     @ApiOperation(value = "Get latest weather for location via HttpComponent",
             tags = {TAG},
             notes = "This method returns weather forecast for location")
+    @ApiResponses({@ApiResponse(code = 200, message = "OK", response = ForecastResponseDTO.class)})
     public ForecastResponseDTO findOneHttpComponent() {
         return httpComponentWeatherService.forecast();
     }
@@ -49,6 +52,7 @@ public class WeatherForecastController {
     @ApiOperation(value = "Get latest weather for location",
             tags = {TAG},
             notes = "This method returns weather forecast for location via RestTemplate")
+    @ApiResponses({@ApiResponse(code = 200, message = "OK", response = ForecastResponseDTO.class)})
     public ForecastResponseDTO findOneRestTemplate() {
         return restTemplateWeatherService.forecast();
     }

@@ -9,5 +9,7 @@ import java.util.List;
 public interface MongoRegionService extends CrudService<RegionDTO, String> {
     RegionDTO findById(String id);
 
+    RegionDTO findByName(String name);
+
     List<RegionDTO> findAllActive(boolean isActive);
 }

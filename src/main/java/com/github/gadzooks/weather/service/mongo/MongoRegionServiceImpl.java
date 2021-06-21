@@ -15,17 +15,17 @@ import java.util.List;
 @Service //NOTE: @Service annotation is required HERE to create a bean.
 // We cannot use the @Service annotation on the Interface
 public class MongoRegionServiceImpl implements MongoRegionService {
-    private final MongoRegionRepository mongoRepository;
+    private final MongoRegionRepository mongoRegionRepository;
     private final MongoRegionMapper mapper;
 
-    public MongoRegionServiceImpl(MongoRegionRepository mongoRepository, MongoRegionMapper mapper) {
-        this.mongoRepository = mongoRepository;
+    public MongoRegionServiceImpl(MongoRegionRepository mongoRegionRepository, MongoRegionMapper mapper) {
+        this.mongoRegionRepository = mongoRegionRepository;
         this.mapper = mapper;
     }
 
     @Override
     public RegionDTO findById(String id) {
-        RegionDocument r = mongoRepository.findById(id).orElseThrow(() -> {
+        RegionDocument r = mongoRegionRepository.findById(id).orElseThrow(() -> {
             throw new ResourceNotFoundException(RegionDocument.class.getName(), id);
         });
 
@@ -33,9 +33,15 @@ public class MongoRegionServiceImpl implements MongoRegionService {
     }
 
     @Override
+    public RegionDTO findByName(String name) {
+        RegionDocument rd = mongoRegionRepository.findByName(name);
+        return mapper.toDto(rd);
+    }
+
+    @Override
     public RegionDTO save(RegionDTO doc) {
         RegionDocument rd = mapper.toEntity(doc);
-        RegionDocument saved = mongoRepository.save(rd);
+        RegionDocument saved = mongoRegionRepository.save(rd);
         return mapper.toDto(saved);
     }
 
@@ -46,12 +52,12 @@ public class MongoRegionServiceImpl implements MongoRegionService {
 
     @Override
     public List<RegionDTO> findAll() {
-        return mapper.toDto(mongoRepository.findAll());
+        return mapper.toDto(mongoRegionRepository.findAll());
     }
 
     @Override
     public RegionDTO patch(String id, RegionDTO updatedRegion) {
-        RegionDocument rd = mongoRepository.findById(id).orElseThrow(() -> {
+        RegionDocument rd = mongoRegionRepository.findById(id).orElseThrow(() -> {
             throw new ResourceNotFoundException(RegionDocument.class.getName(), id);
         });
 
@@ -73,17 +79,17 @@ public class MongoRegionServiceImpl implements MongoRegionService {
         if (updatedRegion.getLastModifiedDate() != null) {
             rd.setLastModifiedDate(updatedRegion.getLastModifiedDate());
         }
-        RegionDocument saved = mongoRepository.save(rd);
+        RegionDocument saved = mongoRegionRepository.save(rd);
         return mapper.toDto(saved);
     }
 
     @Override
     public void delete(String id) {
-        mongoRepository.deleteById(id);
+        mongoRegionRepository.deleteById(id);
     }
 
     @Override
     public List<RegionDTO> findAllActive(boolean isActive) {
-        return mapper.toDto(mongoRepository.findByIsActive(isActive));
+        return mapper.toDto(mongoRegionRepository.findByIsActive(isActive));
     }
 }

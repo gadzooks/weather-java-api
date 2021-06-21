@@ -10,4 +10,6 @@ public interface MongoRegionRepository extends MongoRepository<RegionDocument, S
     RegionDocument findByName(@Param("name") String name);
 
     List<RegionDocument> findByIsActive(@Param("isActive") Boolean isActive);
+
+    List<RegionDocument> findByDescriptionContaining(@Param("description") String description);
 }
