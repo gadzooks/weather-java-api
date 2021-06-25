@@ -30,8 +30,6 @@ Circle CI test status
 - Class generators 
   - Use XSD to create POJO
   - Use JSON to create another POJO
-  - use MapStruct to convert between these two - ex UserDto to UserCommand (command has data passed from web form/ user inpu)
-  - https://mapstruct.org
 - JPA
 - Hibernate
 - LiquidBase/Flyway : https://www.liquibase.org/liquibase-vs-flyway (DB Migrations)

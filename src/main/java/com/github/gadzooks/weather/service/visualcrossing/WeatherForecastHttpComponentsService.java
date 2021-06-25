@@ -1,6 +1,6 @@
 package com.github.gadzooks.weather.service.visualcrossing;
 
-import com.github.gadzooks.weather.api.v1.mapper.ForecastResponseMapper;
+import com.github.gadzooks.weather.api.v1.mapper.forecast.ForecastResponseMapper;
 import com.github.gadzooks.weather.api.v1.model.ForecastResponseDTO;
 import com.github.gadzooks.weather.configuration.VisualCrossingConfig;
 import com.github.gadzooks.weather.domain.visualcrossing.ForecastResponse;

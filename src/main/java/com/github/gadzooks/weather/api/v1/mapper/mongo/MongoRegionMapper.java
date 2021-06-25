@@ -1,5 +1,6 @@
-package com.github.gadzooks.weather.api.v1.mapper;
+package com.github.gadzooks.weather.api.v1.mapper.mongo;
 
+import com.github.gadzooks.weather.api.v1.mapper.EntityMapper;
 import com.github.gadzooks.weather.api.v1.model.RegionDTO;
 import com.github.gadzooks.weather.domain.mongo.RegionDocument;
 import org.mapstruct.Mapper;

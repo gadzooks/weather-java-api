@@ -1,5 +1,6 @@
 package com.github.gadzooks.weather.api.v1.mapper;
 
+import com.github.gadzooks.weather.api.v1.mapper.forecast.ForecastResponseMapper;
 import com.github.gadzooks.weather.api.v1.model.ForecastResponseDTO;
 import com.github.gadzooks.weather.domain.visualcrossing.ForecastResponse;
 import org.junit.jupiter.api.Test;

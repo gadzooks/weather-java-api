@@ -1,6 +1,6 @@
 package com.github.gadzooks.weather.service.mongo;
 
-import com.github.gadzooks.weather.api.v1.mapper.MongoRegionMapper;
+import com.github.gadzooks.weather.api.v1.mapper.mongo.MongoRegionMapper;
 import com.github.gadzooks.weather.api.v1.model.RegionDTO;
 import com.github.gadzooks.weather.domain.mongo.RegionDocument;
 import com.github.gadzooks.weather.exception.ResourceNotFoundException;
