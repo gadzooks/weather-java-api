@@ -8,7 +8,7 @@ import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
-@Mapper
+@Mapper(componentModel = "spring") //Creates a Spring Bean automatically
 public interface LocationMapper extends EntityMapper<LocationDTO, Location> {
 
     LocationMapper INSTANCE = Mappers.getMapper(LocationMapper.class);
