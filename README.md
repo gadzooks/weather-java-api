@@ -5,59 +5,172 @@ Circle CI test status
 
 [![codecov](https://codecov.io/gh/gadzooks/weather-java-api/branch/master/graph/badge.svg)](https://codecov.io/gh/gadzooks/weather-java-api)
 
-# Design Patterns
+# [12-Factor compliant app](https://12factor.net) :
 
-Code sample to demonstrate :
+1. Codebase : Github for version control.
+2. Dependencies (Explicitly declare and isolate dependencies) : Using Maven to manage all dependencies.
+3. Config (Store config in the environment) : API keys are stored in ENV variables
+4. Backing services (Treat backing services as attached resources) : Loose coupling and using interfaces allows the app
+   to swap out one DB service with another.
 
-0. [12-Factor compliant app](https://12factor.net) :
-   1. Codebase : git
-   2. Dependencies (Explicitly declare and isolate dependencies) : Using Maven to manage all dependencies.
-   3. Config (Store config in the environment) : API keys are stored in ENV variables
-   4. Backing services (Treat backing services as attached resources) : Loose coupling and using interfaces allows the
-      app to swap out one DB service with another.
-      ```java
-      //All services implement this interface, which allows swapping them out easily
-      public interface CrudService<T, ID> {
-         List<T> findAll();
-         T save(T model);
-         T getById(ID id);
-         T patch(ID id, T updatedRegion);
-         void delete(ID id);
-      }
-      ```
-   5. Build, release, run (Strictly separate build and run stages) : Build, release managed via CircleCI
-   6. Processes (Execute the app as one or more stateless processes) : app itself is stateless. All state is either
-      loaded into memory at boot time or stored in permanent storage like a Database
-   7. Port binding (Export services via port binding) : listens to 8080, creates a FAT executable jar with no
-      dependencies other than JAVA
+5. Build, release, run (Strictly separate build and run stages) : Build, release managed via CircleCI
+6. Processes (Execute the app as one or more stateless processes) : app itself is stateless. All state is either loaded
+   into memory at boot time or stored in permanent storage like a Database
+7. Port binding (Export services via port binding) : listens to 8080, creates a FAT executable jar with no dependencies
+   other than JAVA
    8. Concurrency (Scale out via the process model) : Using Docker and Kubernetes would allow for easy scaling
-   9. Disposability (Maximize robustness with fast startup and graceful shutdown) : Application exposes idempotent
-      services. No long running tasks are executed as part of a request.
-   10. Dev/prod parity (Keep development, staging, and production as similar as possible) : WIP. Any differences between
-       dev/staging/prod are kept in ENV variables. Docker allows us to deploy the same code base with different ENVs
-       easily
-   11. Logs (Treat logs as event streams) : SL4J handles logging for the app. Next steps would be to use ELK stack to
-       capture and analyze logs.
-   12. Admin processes (Run admin/management tasks as one-off processes) : TODO - Write some sample scripts to display
-       one off tasks.
+9. Disposability (Maximize robustness with fast startup and graceful shutdown) : Application exposes idempotent
+   services. No long running tasks are executed as part of a request.
+10. Dev/prod parity (Keep development, staging, and production as similar as possible) : WIP. Any differences between
+    dev/staging/prod are kept in ENV variables. Docker allows us to deploy the same code base with different ENVs easily
+11. Logs (Treat logs as event streams) : SL4J handles logging for the app. Next steps would be to use ELK stack to
+    capture and analyze logs.
+12. Admin processes (Run admin/management tasks as one-off processes) : TODO - Write some sample scripts to display one
+    off tasks.
 
-1. Code organization by functionality into packages
-2. CRUD operations and REST API (with HATEOS)
-   1. With In-memory model
-   2. With JPA entities
-   3. With Mongo documents
-   4. With external API for getting weather forecast
-3. How to load application state at startup via CommandLineRunner
-4. Swagger for documenation
-5. Junit5 for testing
-6. Some of the design patterns used :
-   1. MVC for REST controllers
-   2. Data transfer objects to de-couple domain layer from service layer
-   3. Advice controller for common controller functionality
-   4. Coding to interfaces (Ex: )
-   5. Abstract base classes for JPA entities, Mongo Documents to handle common functionality like auditing
+# Design patterns used in this app :
 
-## Software Engineering
+## High level view
+
+1. Code organization by functionality into packages : {mapper, model, bootstrap, configuration, controller, service,
+   domain etc }
+2. CRUD operations and REST API (with HATEOS) implementation follows REST standard.
+3. Swagger for documentation
+4. Junit5 for testing
+5. MVC with FAT model (service layer) and skinny controllers
+6. Data transfer objects(DTOs) to de-couple domain layer from service layer
+7. Advice controller for common controller functionality
+8. Code to interfaces. All services, repositories, mappers implement a standard interface
+9. Abstract base classes for JPA entities, Mongo Documents to handle common functionality like auditing
+10. Test at the proper abstraction level (example unit vs integration)
+
+### Code to interfaces
+
+  ```java
+  //All services implement this interface, which allows swapping them out easily
+public interface CrudService<T, ID> {
+    List<T> findAll();
+
+    T save(T model);
+
+    T getById(ID id);
+
+    T patch(ID id, T updatedRegion);
+
+    void delete(ID id);
+}
+  ```
+
+  ```java
+  //All mappers implement this interface : 
+public interface EntityMapper<DTO, ENTITY> {
+    DTO toDto(ENTITY e);
+
+    ENTITY toEntity(DTO d);
+
+    List<DTO> toDto(List<ENTITY> eList);
+
+    List<ENTITY> toEntity(List<DTO> dList);
+}
+  ```
+
+  ```java
+  //Custom in-memory repository implments CurdRepository to match JPA / Mongo repository pattern
+public abstract class CrudRepository<TD extends BaseEntity, ID extends Long> {
+    private final Map<Long, TD> map = new HashMap<>();
+
+    public TD save(TD object) {
+        return add(object);
+    }
+
+    public void delete(ID id) {
+        map.remove(id);
+    }
+
+    public TD get(ID id) {
+        return map.get(id);
+    }
+
+    public boolean containsKey(ID id) {
+        return map.containsKey(id);
+    }
+}
+
+  ```
+
+### Document WHY in comments clearly
+
+```java
+
+@NoArgsConstructor // Required by JPA
+@Data
+@EqualsAndHashCode(exclude = {"regionJpas"}, callSuper = true)
+//RegionJpa includes reference back to LocationJpa
+@ToString(exclude = {"regionJpas"})
+// NOTE 1 : DO NOT use Lomboks @EqualsAndHashCode -> we want to compare based on the unique key, and we want to allow
+// users to add multiple new objects to a set (lombok will count those as equal (since key is null for new objs) )
+
+// NOTE 2 : Do NOT use Lombok's @toString -> this will load entities that may be set up as lazy fetch
+@Entity
+public class LocationJpa extends BaseEntity {
+    private String name;
+    private String description;
+    private String subRegion;
+    private Float latitude;
+    private Float longitude;
+
+    //we dont want to include regionJpas in the builder so we cannot use the annotation at the class level
+    @Builder
+    public LocationJpa(String name, String description, String subRegion, Float latitude, Float longitude) {
+        this.name = name;
+        this.description = description;
+        this.subRegion = subRegion;
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
+
+    // NOTE : add bi-directional references
+    public void addRegion(RegionJpa newRegion) {
+        if (!regionJpas.contains(newRegion)) {
+            regionJpas.add(newRegion);
+            newRegion.addLocation(this);
+        }
+    }
+
+}
+```
+
+### Functional programming
+
+#### return immutable copies to avoid accidental changes
+
+```java
+public ImmutableSet<RegionJpa> getRegionJpas(){
+        return ImmutableSet.copyOf(regionJpas);
+        }
+```
+
+#### use Lomboks @Value to create readonly objects
+
+```java
+
+@Value
+@Builder
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+public class LocationDTO {
+    String id;
+    float latitude;
+    float longitude;
+    String subRegion;
+}
+
+```
+
+#### Builder pattern used with Value objects allows creating readonly objects easily
+
+```java
+LocationJpa originalLocation=LocationJpa.builder().name("originalLoc").build();
+```
 
 ### Use libraries to minimize code :
 
@@ -99,13 +212,10 @@ public interface DailyForecastMapper extends EntityMapper<DailyForecastDTO, Dail
 
    @Override
    DailyForecastDTO toDto(DailyForecast entity);
-
    @Override
    DailyForecast toEntity(DailyForecastDTO dto);
-
    @Override
    List<DailyForecastDTO> toDto(List<DailyForecast> eList);
-
    @Override
    List<DailyForecast> toEntity(List<DailyForecastDTO> dList);
 }
@@ -130,7 +240,7 @@ public class SwaggerConfig {
 
 ```
 
-### Read sensitive values like API Keys from ENV
+### Read secrets like API Keys from ENV
 
 ```java
 
@@ -181,7 +291,7 @@ public class LoadRegionsDatabaseJpa implements CommandLineRunner {
 }
 ```
 
-### Break up properties by functionality
+### Break up application properties by functionality
 
 ```java
 
@@ -226,7 +336,7 @@ class ExceptionHandlingAdvice extends ResponseEntityExceptionHandler {
 }
 ```
 
-### Well-designed (skinny) REST controller with full HATEOAS support
+### Well-designed (skinny) REST controller with HATEOAS support
 
 ```java
 //Swagger documentation
@@ -341,23 +451,252 @@ public class BaseEntity implements Serializable {
       this.createdAt = LocalDateTime.now();
    }
 
-   @PreUpdate
-   public void beforeUpdate() {
-      this.updatedAt = LocalDateTime.now();
-   }
+    @PreUpdate
+    public void beforeUpdate() {
+        this.updatedAt = LocalDateTime.now();
+    }
 
 
 ```
 
+### Testing
+
+#### Unit test with Junit5
+
+```java
+class ForecastResponseMapperTest {
+
+    ForecastResponseMapper mapper = ForecastResponseMapper.INSTANCE;
+
+    @Test
+    void toDtoTest() {
+        ForecastResponse entity = new ForecastResponse();
+        entity.setDescription("desc");
+        entity.setLatitude(123.456D);
+        entity.setLongitude(444.444D);
+
+        ForecastResponseDTO dto = mapper.toDto(entity);
+
+        assertEquals("desc", dto.getDescription());
+        assertEquals(123.456D, dto.getLatitude());
+        assertEquals(444.444D, dto.getLongitude());
+
+    }
+}
+```
+
+#### SpringBootTest (load selective classes to make test run faster)
+
+```java
+//NOTE : only load components needed for this test to make tests faster and avoid
+//loading entire Application Context
+@SpringBootTest(classes = {RegionRepository.class, WeatherPropertiesConfiguration.class,
+        LocationRepository.class, LoadRegionsDatabase.class})
+//Required since LoadRegionsDatabase gets injected with Configuration Props from resources/*.yml file
+@EnableConfigurationProperties
+class LoadRegionsDatabaseTest {
+    @Autowired
+    private RegionRepository regionRepository;
+
+    @Autowired
+    private LoadRegionsDatabase loadRegionsDatabase;
+
+    @Test
+    void getConfigurationProperties_via_setterInjection_and_via_valueAnnotation() {
+        // verify that we are loading configuration properties via both
+        // 1. Setter injection
+        // 2. @Value annotation
+
+        assertEquals(loadRegionsDatabase.getRegionsFilePath(),
+                loadRegionsDatabase.getWpc().getRegionsFile());
+
+        assertEquals(loadRegionsDatabase.getLocationsFilePath(),
+                loadRegionsDatabase.getWpc().getLocationsFile());
+
+    }
+}
+```
+
+### Controller test
+
+```java
+
+@ExtendWith(MockitoExtension.class)
+class JpaRegionControllerTest {
+    @Mock
+    private JpaRegionService jpaRegionService;
+    @Mock
+    private PlacesService placesService;
+    @InjectMocks
+    private JpaRegionController jpaRegionController;
+
+    @Test
+    void searchEveryWhere() {
+        //given
+        RegionJpa r1 = new RegionJpa();
+        r1.setId(1L);
+        r1.setName("r1");
+
+        List<RegionJpa> regionJpaList = List.of(r1);
+        String searchString = "issaquah";
+
+        //when
+        when(placesService.searchEveryWhere(searchString)).thenReturn(regionJpaList);
+        List<EntityModel<RegionJpa>> results = jpaRegionController.searchEveryWhere(searchString);
+
+        //then
+        verify(placesService, times(1)).searchEveryWhere(searchString);
+
+        log.debug("search everywhere results : ");
+        for (EntityModel<RegionJpa> r : results) {
+            log.debug(r.toString());
+        }
+    }
+}
+```
+
+### JPA test (only load JPA slice)
+
+```java
+
+@DataJpaTest
+class AreaJpaTest {
+    @Autowired
+    private AreaJpaRepository areaJpaRepository;
+    @Autowired
+    private RegionJpaRepository regionJpaRepository;
+
+    @Test
+    void verifyAreaIdStoredInRegionId() {
+        //Given
+        RegionJpa region = new RegionJpa();
+        AreaJpa area = new AreaJpa();
+
+        area.addRegionJpa(region);
+
+        //When
+        regionJpaRepository.save(region);
+        areaJpaRepository.save(area);
+
+        //Then
+        assertThat(area.regionJpasSize(), equalTo(1));
+        assertThat(region.getAreaJpa(), equalTo(area));
+        assertThat(region.getAreaJpa().getId(), equalTo(area.getId()));
+    }
+}
+```
+
+### MongoDB test
+
+```java
+
+@DataMongoTest
+class RegionDocumentTest {
+    @Autowired
+    private MongoRegionRepository repository;
+
+    @Test
+    void shouldFailOnInvalidEntity() {
+        // mongo related tests here
+    }
+}
+```
+
+### Service layer test (verify service invokes correct method on Repository)
+
+```java
+
+@ExtendWith(MockitoExtension.class)
+class JpaRegionServiceImplTest {
+
+    @Mock
+    private RegionJpaRepository repository;
+
+    @InjectMocks
+    private JpaRegionServiceImpl service;
+
+    @Test
+    void findAll() {
+        //given
+        AreaJpa area = AreaJpa.builder().name("area1").build();
+        RegionJpa region = RegionJpa.builder().name("region1").build().setAreaJpa(area);
+
+        //when
+        when(repository.findAll()).thenReturn(List.of(region));
+        List<RegionJpa> results = service.findAll();
+
+        //then
+        assertEquals(List.of(region), results);
+        verify(repository, times(1)).findAll();
+    }
+}
+```
+
+### Spring MVC testing with MockMvc
+
+```java
+//NOTE : test controller layer. use @SpringBootTest for integration testing
+//     : controllers, parameter tells Spring Boot to only load the beans required for this controller
+//@WebMvcTest(controllers = RegionController.class)
+//NOTE : Here we are mocking everything out with MockMvc so we DONT need to use @WebMvcTest which would load more spring
+//application context than we need to run these tests (and which would slow down the tests)
+@ExtendWith(MockitoExtension.class)
+class RegionControllerTest {
+
+    //simulate HTTP requests.
+    private MockMvc mockMvc;
+
+    @Mock
+    private RegionService regionService;
+
+    @InjectMocks
+    private RegionController regionController;
+
+    @BeforeEach
+    void setUp() {
+        //other setup ....
+
+        //Ignore HATEOAS links
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+        mockMvc = MockMvcBuilders.standaloneSetup(regionController).build();
+    }
+
+    @Test
+    void getByRegionId() throws Exception {
+        when(regionService.getById(r2.getId())).thenReturn(r2);
+
+        MvcResult mvcResult = mockMvc.perform(
+                MockMvcRequestBuilders.get("/regions/" + r2.getId()).contentType(MediaType.APPLICATION_JSON_VALUE)).
+                andExpect(status().isOk()).
+                andReturn();
+
+        String contentAsString = mvcResult.getResponse().getContentAsString();
+        Region actualRegion = mapper.readValue(contentAsString, Region.class);
+        assertEquals(r2, actualRegion);
+        verify(regionService).getById(r2.getId());
+    }
+
+    @Test
+    void patchRegion() throws Exception {
+        when(regionService.patch(r3.getId(), r3)).thenReturn(r3);
+        mockMvc.perform(MockMvcRequestBuilders
+                .patch("/regions/" + r3.getId())
+                .content(asJsonString(r3))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value(r3.getName()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.searchKey").value(r3.getSearchKey()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.description").value(r3.getDescription()));
+        verify(regionService).patch(r3.getId(), r3);
+    }
+}
+```
+
 ## Done - major areas
 
-- Load Region/Location from yml using CommandLineRunner
-- Basic REST API
-- HATEOAS support
 - Code Coverage with Jacoco
-- Exception handling
-- Controller Advice
-- Follow MVC pattern : @Service, @Repository, @Controller
 - WebMVCTest for testing REST Controllers in isolation
 - SpringBootTest for testing service end to end
 - Load data from yaml files

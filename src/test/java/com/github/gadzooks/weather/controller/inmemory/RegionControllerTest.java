@@ -55,11 +55,9 @@ class RegionControllerTest {
     private Region r3;
 
     private ObjectMapper mapper = new ObjectMapper(new YAMLFactory()); // create once, reuse
-//    private AutoCloseable closeable;
 
     @BeforeEach
     void setUp() {
-//        closeable = MockitoAnnotations.openMocks(this);
 
         r1 = new Region();
         r1.setId(1L);

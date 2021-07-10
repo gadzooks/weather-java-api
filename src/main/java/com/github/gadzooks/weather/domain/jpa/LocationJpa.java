@@ -11,15 +11,15 @@ import java.util.HashSet;
 import java.util.Set;
 
 @NoArgsConstructor // Required by JPA
-@Entity
 @Data
 @EqualsAndHashCode(exclude = {"regionJpas"}, callSuper = true)
+//RegionJpa includes reference back to LocationJpa
 @ToString(exclude = {"regionJpas"})
 // NOTE 1 : DO NOT use Lomboks @EqualsAndHashCode -> we want to compare based on the unique key, and we want to allow
 // users to add multiple new objects to a set (lombok will count those as equal (since key is null for new objs) )
 
 // NOTE 2 : Do NOT use Lombok's @toString -> this will load entities that may be set up as lazy fetch
-// Dont use @Data for the same reason
+@Entity
 public class LocationJpa extends BaseEntity {
     private String name;
     private String description;

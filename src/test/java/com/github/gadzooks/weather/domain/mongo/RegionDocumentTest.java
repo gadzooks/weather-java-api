@@ -12,7 +12,6 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 // By default, tests annotated with @DataMongoTest will use an embedded in-memory MongoDB process (if available).
 @DataMongoTest
-//@ExtendWith(SpringExtension.class)
 @Import(MongoValidationConfig.class)
 class RegionDocumentTest {
 

@@ -12,24 +12,11 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class RegionServiceImplTest {
-//    private AutoCloseable closeable;
 
     @Mock
     RegionRepository regionRepository;
     @InjectMocks
     private RegionServiceImpl regionService;
-
-//    @BeforeEach
-//    void setUp() {
-//        //without openMocks the test fails as the mock object is not set up.
-//        closeable = MockitoAnnotations.openMocks(this);
-//        regionService = new RegionServiceImpl(regionRepository);
-//    }
-
-//    @AfterEach
-//    void tearDown() throws Exception {
-//        closeable.close();
-//    }
 
     @Test
     void save() {
