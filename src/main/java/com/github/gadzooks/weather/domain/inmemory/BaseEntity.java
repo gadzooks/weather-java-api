@@ -11,10 +11,6 @@ public abstract class BaseEntity implements Serializable {
     @Setter
     private Long id;
 
-    public BaseEntity() {
-//        this.id =
-    }
-
     public boolean isNew() {
         return this.id == null;
     }
