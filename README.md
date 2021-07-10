@@ -34,6 +34,8 @@ Circle CI test status
 
 1. Organize code by functionality / layers
 
+
+```
      src/main/java/com/github/gadzooks/weather/
      ├── WeatherApplication.java
      ├── api
@@ -44,6 +46,7 @@ Circle CI test status
      ├── exception
      ├── repository
      └── service
+```
 
 2. CRUD operations and REST API (with HATEOS) implementation follows REST standard.
 3. Swagger for documentation
