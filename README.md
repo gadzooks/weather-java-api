@@ -32,50 +32,53 @@ Circle CI test status
 
 ## High level view
 
-1. Code organization by functionality into packages : {mapper, model, bootstrap, configuration, controller, service,
-   domain etc }
+1. Organize code by functionality / layers
+
+     src/main/java/com/github/gadzooks/weather/
+     ├── WeatherApplication.java
+     ├── api
+     ├── bootstrap
+     ├── configuration
+     ├── controller
+     ├── domain
+     ├── exception
+     ├── repository
+     └── service
+
 2. CRUD operations and REST API (with HATEOS) implementation follows REST standard.
 3. Swagger for documentation
 4. Junit5 for testing
 5. MVC with FAT model (service layer) and skinny controllers
 6. Data transfer objects(DTOs) to de-couple domain layer from service layer
-7. Advice controller for common controller functionality
-8. Code to interfaces. All services, repositories, mappers implement a standard interface
-9. Abstract base classes for JPA entities, Mongo Documents to handle common functionality like auditing
-10. Test at the proper abstraction level (example unit vs integration)
+7. Code to interfaces. All services, repositories, mappers implement a standard interface
+8. Test at the proper abstraction level (example unit vs integration)
+9. Code coverage with Jacoco
 
 ### Code to interfaces
 
+All services implement this interface, which allows swapping them out easily
   ```java
-  //All services implement this interface, which allows swapping them out easily
 public interface CrudService<T, ID> {
     List<T> findAll();
-
     T save(T model);
-
     T getById(ID id);
-
     T patch(ID id, T updatedRegion);
-
     void delete(ID id);
 }
   ```
 
+All mappers implement this interface :
   ```java
-  //All mappers implement this interface : 
 public interface EntityMapper<DTO, ENTITY> {
     DTO toDto(ENTITY e);
-
     ENTITY toEntity(DTO d);
-
     List<DTO> toDto(List<ENTITY> eList);
-
     List<ENTITY> toEntity(List<DTO> dList);
 }
   ```
 
+Custom in-memory repository implments CurdRepository to match JPA / Mongo repository pattern
   ```java
-  //Custom in-memory repository implments CurdRepository to match JPA / Mongo repository pattern
 public abstract class CrudRepository<TD extends BaseEntity, ID extends Long> {
     private final Map<Long, TD> map = new HashMap<>();
 
@@ -95,13 +98,11 @@ public abstract class CrudRepository<TD extends BaseEntity, ID extends Long> {
         return map.containsKey(id);
     }
 }
-
   ```
 
 ### Document WHY in comments clearly
 
 ```java
-
 @NoArgsConstructor // Required by JPA
 @Data
 @EqualsAndHashCode(exclude = {"regionJpas"}, callSuper = true)
@@ -115,18 +116,12 @@ public abstract class CrudRepository<TD extends BaseEntity, ID extends Long> {
 public class LocationJpa extends BaseEntity {
     private String name;
     private String description;
-    private String subRegion;
-    private Float latitude;
-    private Float longitude;
 
     //we dont want to include regionJpas in the builder so we cannot use the annotation at the class level
     @Builder
-    public LocationJpa(String name, String description, String subRegion, Float latitude, Float longitude) {
+    public LocationJpa(String name, String description) {
         this.name = name;
         this.description = description;
-        this.subRegion = subRegion;
-        this.latitude = latitude;
-        this.longitude = longitude;
     }
 
     // NOTE : add bi-directional references
@@ -136,13 +131,12 @@ public class LocationJpa extends BaseEntity {
             newRegion.addLocation(this);
         }
     }
-
 }
 ```
 
 ### Functional programming
 
-#### return immutable copies to avoid accidental changes
+#### Return immutable copies to avoid accidental changes
 
 ```java
 public ImmutableSet<RegionJpa> getRegionJpas(){
@@ -150,10 +144,9 @@ public ImmutableSet<RegionJpa> getRegionJpas(){
         }
 ```
 
-#### use Lomboks @Value to create readonly objects
+#### Use Lomboks @Value to create readonly objects
 
 ```java
-
 @Value
 @Builder
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
@@ -163,33 +156,19 @@ public class LocationDTO {
     float longitude;
     String subRegion;
 }
-
 ```
 
 #### Builder pattern used with Value objects allows creating readonly objects easily
-
 ```java
-LocationJpa originalLocation=LocationJpa.builder().name("originalLoc").build();
+LocationJpa.builder().name("originalLoc").build();
 ```
 
-### Use libraries to minimize code :
+### Use libraries to minimize repetitive code :
 
 1. lombok for getters/setters/contructors/builders
 2. Mapstruct for converting DTOs to Entities and back
-
-### Organize code efficiently :
-
-These are the packages in which code is organized :
-
-1. mapper : MapStruct mappers to translate between DTO and Entity objects
-2. model : DTOs
-3. bootstrap : all code that needs to run once at startup goes here
-4. configuration : all jpa/mongo/swagger etc config
-5. controller : all REST controllers / advice controllers
-6. domain : domain classes representing the business domains
-7. exception : custom exceptions
-8. repository : classes implementing the repository pattern (dealing with storing / retrieving entities)
-9. service : service classes which contain business logic.
+3. Google gson for deserializing JSON
+4. Apache Commons lang for string manipulations
 
 ### DTOs to decouple DB layer from "view" layer
 
@@ -203,9 +182,7 @@ public RegionDTO findByName(String name){
 ```
 
 ### Use Mapstruct mapper to automate converting from DTO to Entities and back
-
 ```java
-
 @Mapper
 public interface DailyForecastMapper extends EntityMapper<DailyForecastDTO, DailyForecast> {
    DailyForecastMapper INSTANCE = Mappers.getMapper(DailyForecastMapper.class);
@@ -222,9 +199,7 @@ public interface DailyForecastMapper extends EntityMapper<DailyForecastDTO, Dail
 ```
 
 ### Swagger documentation support for all APIs
-
 ```java
-
 @Configuration
 @EnableSwagger2
 @SwaggerDefinition(....)
@@ -243,7 +218,6 @@ public class SwaggerConfig {
 ### Read secrets like API Keys from ENV
 
 ```java
-
 @Configuration
 public class VisualCrossingConfig {
    //NOTE : read from ENV variable
@@ -280,7 +254,6 @@ public class LoadRegionsDatabase implements CommandLineRunner {
 ```
 
 ```java
-
 @Order(value = 10) //lower values have higher priority
 @Component
 @Slf4j
@@ -294,7 +267,6 @@ public class LoadRegionsDatabaseJpa implements CommandLineRunner {
 ### Break up application properties by functionality
 
 ```java
-
 @Configuration
 //all files under src/main/resources are copied to the packaged jar/war files
 //and are available in the classpath
@@ -425,15 +397,13 @@ public class RegionController {
               linkTo(methodOn(RegionController.class).findAll()).withRel("regions"));
    }
 }
-
 ```
 
 ### JPA Entities
 
-#### Use BaseEntity to capture common functionality
+#### Use BaseEntity (DRY common code)
 
 ```java
-
 @MappedSuperclass
 @Getter
 @Setter
@@ -455,8 +425,6 @@ public class BaseEntity implements Serializable {
     public void beforeUpdate() {
         this.updatedAt = LocalDateTime.now();
     }
-
-
 ```
 
 ### Testing
@@ -480,7 +448,6 @@ class ForecastResponseMapperTest {
         assertEquals("desc", dto.getDescription());
         assertEquals(123.456D, dto.getLatitude());
         assertEquals(444.444D, dto.getLongitude());
-
     }
 }
 ```
@@ -520,7 +487,6 @@ class LoadRegionsDatabaseTest {
 ### Controller test
 
 ```java
-
 @ExtendWith(MockitoExtension.class)
 class JpaRegionControllerTest {
     @Mock
@@ -555,10 +521,9 @@ class JpaRegionControllerTest {
 }
 ```
 
-### JPA test (only load JPA slice)
+### JPA test (only load JPA slice with @DataJpaTest annotation)
 
 ```java
-
 @DataJpaTest
 class AreaJpaTest {
     @Autowired
@@ -586,10 +551,9 @@ class AreaJpaTest {
 }
 ```
 
-### MongoDB test
+### MongoDB test (load Mongo slice with @DataMongoTest)
 
 ```java
-
 @DataMongoTest
 class RegionDocumentTest {
     @Autowired
@@ -605,7 +569,6 @@ class RegionDocumentTest {
 ### Service layer test (verify service invokes correct method on Repository)
 
 ```java
-
 @ExtendWith(MockitoExtension.class)
 class JpaRegionServiceImplTest {
 
@@ -662,6 +625,7 @@ class RegionControllerTest {
         mockMvc = MockMvcBuilders.standaloneSetup(regionController).build();
     }
 
+    // deserialize response and compare to expected value
     @Test
     void getByRegionId() throws Exception {
         when(regionService.getById(r2.getId())).thenReturn(r2);
@@ -677,6 +641,7 @@ class RegionControllerTest {
         verify(regionService).getById(r2.getId());
     }
 
+    //use jsonPath to verify JSON response contains right values
     @Test
     void patchRegion() throws Exception {
         when(regionService.patch(r3.getId(), r3)).thenReturn(r3);
@@ -694,18 +659,9 @@ class RegionControllerTest {
 }
 ```
 
-## Done - major areas
-
-- Code Coverage with Jacoco
-- WebMVCTest for testing REST Controllers in isolation
-- SpringBootTest for testing service end to end
-- Load data from yaml files
-- SWAGGER
-- Add CircleCI
-- Mockito mock - good examples
-  here, https://github.com/gadzooks/weather-java-api/blob/master/src/test/java/com/github/gadzooks/weather/service/jpa/JpaRegionServiceImplTest.java#L94
-
 ## Read articles :
 
 - https://www.baeldung.com/maven-dependency-scopes
 - https://www.programmersought.com/article/8780517523/
+- Mockito mock - good examples
+  here, https://github.com/gadzooks/weather-java-api/blob/master/src/test/java/com/github/gadzooks/weather/service/jpa/JpaRegionServiceImplTest.java#L94
