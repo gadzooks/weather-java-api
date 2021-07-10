@@ -143,8 +143,8 @@ public class LocationJpa extends BaseEntity {
 
 ```java
 public ImmutableSet<RegionJpa> getRegionJpas(){
-        return ImmutableSet.copyOf(regionJpas);
-        }
+     return ImmutableSet.copyOf(regionJpas);
+}
 ```
 
 #### Use Lomboks @Value to create readonly objects
@@ -217,6 +217,9 @@ public class SwaggerConfig {
 }
 
 ```
+
+<img width="645" alt="image" src="https://user-images.githubusercontent.com/340317/125152906-e307f380-e104-11eb-926e-32b082851e64.png">
+
 
 ### Read secrets like API Keys from ENV
 
