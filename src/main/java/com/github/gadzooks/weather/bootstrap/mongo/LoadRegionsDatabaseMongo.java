@@ -31,10 +31,14 @@ public class LoadRegionsDatabaseMongo implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        if (mongoRegionRepository.count() == 0) {
+        int count = 0;
+        for (Region region : inMemoryRegionRepository.findAll()) {
+            RegionDocument existingRegion = mongoRegionRepository.findByName(region.getName());
 
-            for (Region region : inMemoryRegionRepository.findAll()) {
-                //FIXME : check if each RegionDocument already exists before saving
+            if (existingRegion != null) {
+                log.info("Region " + existingRegion.getName() + " was already loaded. Skipping");
+            } else {
+                log.info("Saving new region to mongo db : " + region.getName());
                 RegionDocument rd = new RegionDocument();
                 rd.setName(region.getName());
                 rd.setSearchKey(region.getSearchKey());
@@ -55,12 +59,11 @@ public class LoadRegionsDatabaseMongo implements CommandLineRunner {
                 }
 
                 mongoRegionRepository.save(rd);
+                count += 1;
             }
-
-            log.info("RegionDocument Mongo Document : saved " + mongoRegionRepository.count() + " documents.");
-        } else {
-            log.info("Mongo data already loaded. Skipping this step");
         }
 
+        log.info("RegionDocument Mongo Document : saved " + count + " new documents.");
     }
+
 }

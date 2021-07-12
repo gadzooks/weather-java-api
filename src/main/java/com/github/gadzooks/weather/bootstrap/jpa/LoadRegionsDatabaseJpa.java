@@ -56,6 +56,5 @@ public class LoadRegionsDatabaseJpa implements CommandLineRunner {
         log.info("Region JPA repository : " + regionJpaRepository.count() + " regions saved.");
         log.info("Location JPA repository : " + locationJpaRepository.count() + " locations saved.");
 
-        // FIXME : lazy load from area to regin to location
     }
 }
