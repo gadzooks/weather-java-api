@@ -560,6 +560,7 @@ class AreaJpaTest {
 ### MongoDB test (load Mongo slice with @DataMongoTest)
 
 ```java
+
 @DataMongoTest
 class RegionDocumentTest {
     @Autowired
@@ -567,7 +568,13 @@ class RegionDocumentTest {
 
     @Test
     void shouldFailOnInvalidEntity() {
-        // mongo related tests here
+        var invalidDocument = new RegionDocument();
+        invalidDocument.setSearchKey("12345");
+        invalidDocument.setIsActive(false);
+        invalidDocument.setName(""); //this field cannot be blank
+
+        assertThatThrownBy(() -> repository.save(invalidDocument)).
+                isInstanceOf(ConstraintViolationException.class);
     }
 }
 ```

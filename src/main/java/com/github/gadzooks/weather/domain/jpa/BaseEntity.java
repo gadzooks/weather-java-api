@@ -16,6 +16,15 @@ public class BaseEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
 
+    //Activates optimistic locking.
+    //Prevents lost updates :
+    //User1 partially updated entity1
+    //User2 came and updated entity2 in between
+    //User1 finishes its update and its like user2's updated never happened.
+    //Using @Version and optimistic locking, hibernate will throw a OptimisticLockException exception
+    @Version
+    private Integer version;
+
     protected LocalDateTime createdAt;
     protected LocalDateTime updatedAt;
 
