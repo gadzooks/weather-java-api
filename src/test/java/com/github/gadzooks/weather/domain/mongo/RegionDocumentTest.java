@@ -11,6 +11,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
+import javax.validation.ConstraintViolationException;
+
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
+
 @Slf4j
 // By default, tests annotated with @DataMongoTest will use an embedded in-memory MongoDB process (if available).
 @DataMongoTest
@@ -25,18 +29,9 @@ class RegionDocumentTest {
         var invalidDocument = new RegionDocument();
         invalidDocument.setSearchKey("12345");
         invalidDocument.setIsActive(false);
-        invalidDocument.setName("1234");
+        invalidDocument.setName("");
 
-
-        RegionDocument r = repository.findByName("amit");
-        log.info("not found this region : " + r);
-
-//        assertThatThrownBy(() -> repository.save(invalidDocument)).isInstanceOf(ConstraintViolationException.class);
-        repository.save(invalidDocument);
-
-//        var doc = repository.findByName("1234");
-
-//        System.out.println(doc);
+        assertThatThrownBy(() -> repository.save(invalidDocument)).isInstanceOf(ConstraintViolationException.class);
     }
 
     //FIXME test should run against test db

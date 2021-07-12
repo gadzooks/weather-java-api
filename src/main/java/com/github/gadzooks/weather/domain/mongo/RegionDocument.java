@@ -6,6 +6,7 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,9 +17,9 @@ import java.util.List;
 public class RegionDocument extends AbstractDocument {
     //FIXME : how to implement uniqueness constraint ??
     @Indexed(unique = true)
-    @NotNull
+    @NotBlank
     private String name;
-    @NotNull
+    @NotBlank
     private String searchKey;
     private String description;
     @NotNull
