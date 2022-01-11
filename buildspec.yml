@@ -1,0 +1,17 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      java: coretto11
+    pre_build:
+      - echo Nothing to do in the pre_build phase
+    build:
+      commands:
+        - echo Build started on `date`
+        - mvn install
+    post_build:
+      commands:
+        - echo Build completed on `date`
+    artifacts:
+      - target/weather-0.0.1-SNAPSHOT.jar
