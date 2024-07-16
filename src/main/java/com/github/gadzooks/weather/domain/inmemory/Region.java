@@ -1,36 +1,34 @@
 package com.github.gadzooks.weather.domain.inmemory;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import java.util.ArrayList;
+import java.util.List;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Data
 @NoArgsConstructor
 @ToString
-@ApiModel
+@Schema(description = "Description of Region entity")
 //Make class final to make it immutable
 public final class Region extends BaseEntity {
-    @ApiModelProperty(
-            required = true,
-            value = "Regions are identified by region id. These should be unique",
+    @Schema(
+            requiredMode = Schema.RequiredMode.REQUIRED,
+            title = "Regions are identified by region id. These should be unique",
             example = "issaquah")
     private String name;
 
-    @ApiModelProperty(
-            required = true,
-            value = "searchKey used for wta.org website",
+    @Schema(
+            requiredMode = Schema.RequiredMode.REQUIRED,
+            title = "searchKey used for wta.org website",
             example = "592fcc9afd9208db3b81fdf93dada567")
     private String searchKey;
 
-    @ApiModelProperty(
-            required = false,
-            value = "descriptive name. Defaults to id",
+    @Schema(
+            requiredMode = Schema.RequiredMode.NOT_REQUIRED,
+            title = "descriptive name. Defaults to id",
             example = "issaquah")
     private String description;
 

@@ -3,9 +3,9 @@ package com.github.gadzooks.weather.controller.jpa;
 import com.github.gadzooks.weather.domain.jpa.RegionJpa;
 import com.github.gadzooks.weather.service.jpa.JpaRegionService;
 import com.github.gadzooks.weather.service.jpa.PlacesService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.MediaType;
@@ -18,9 +18,9 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 //FIXME : set up @WebMvcTest tests for this controller
-@Api(
-        value = "JPA Region",
-        tags = {"JPA backed : REST API for Regions"} // way to group HTTP operations together in Swagger
+@Tag(
+        name = "JPA Region",
+        description = "JPA backed : REST API for Regions" // way to group HTTP operations together in Swagger
 )
 @RestController
 //Allow requests from other domains
@@ -39,9 +39,9 @@ public class JpaRegionController {
     }
 
     @GetMapping(value = "/active")
-    @ApiOperation(value = "Find all ACTIVE regions",
+    @Operation(summary = "Find all ACTIVE regions",
             tags = {TAG},
-            notes = "This method returns all the ACTIVE regions")
+            description = "This method returns all the ACTIVE regions")
     public List<EntityModel<RegionJpa>> findAllActive() {
         List<RegionJpa> results = regionService.findAllActive();
         return results.stream().map(
@@ -52,9 +52,9 @@ public class JpaRegionController {
     }
 
     @GetMapping(value = "")
-    @ApiOperation(value = "Find all regions",
+    @Operation(summary = "Find all regions",
             tags = {TAG},
-            notes = "This method returns all the regions")
+            description = "This method returns all the regions")
     public List<EntityModel<RegionJpa>> findAll() {
         List<RegionJpa> results = regionService.findAll();
         return results.stream().map(
@@ -65,11 +65,11 @@ public class JpaRegionController {
     }
 
     @GetMapping(value = "/{id}")
-    @ApiOperation(value = "Find region by id",
+    @Operation(summary = "Find region by id",
             tags = {TAG},
-            notes = "This method finds region by id provided")
+            description = "This method finds region by id provided")
     public EntityModel<RegionJpa> findOne(
-            @ApiParam(value = "RegionJpa Id of the region requested", example = "1") @PathVariable Long id) {
+            @Parameter(description = "RegionJpa Id of the region requested", example = "1") @PathVariable Long id) {
         log.info("Id to look up is : " + id.toString());
         RegionJpa region = regionService.getById(id);
         log.info("region document found : " + region.toString());
@@ -79,11 +79,11 @@ public class JpaRegionController {
     }
 
     @GetMapping(value = "/search/{str}")
-    @ApiOperation(value = "Find region by searching everywhere",
+    @Operation(summary = "Find region by searching everywhere",
             tags = {TAG},
-            notes = "This method finds region by searching for str in area/region/location")
+            description = "This method finds region by searching for str in area/region/location")
     public List<EntityModel<RegionJpa>> searchEveryWhere(
-            @ApiParam(value = "Search string to search by", example = "hIgHwaY") @PathVariable String str) {
+            @Parameter(description = "Search string to search by", example = "hIgHwaY") @PathVariable String str) {
         List<RegionJpa> results = placesService.searchEveryWhere(str);
         return results.stream().map(
                 region -> EntityModel.of(region,

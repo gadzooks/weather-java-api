@@ -6,6 +6,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import jakarta.annotation.Generated;
+import java.io.Serial;
 import java.io.Serializable;
 
 @Getter
@@ -50,6 +51,7 @@ public class DailyForecast implements Serializable {
     private String icon;
     private Object stations;
     private String source;
+    @Serial
     private final static long serialVersionUID = -2490424160510576664L;
 
 }

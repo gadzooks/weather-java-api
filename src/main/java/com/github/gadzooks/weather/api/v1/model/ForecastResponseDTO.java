@@ -1,37 +1,37 @@
 
 package com.github.gadzooks.weather.api.v1.model;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
 
 @Data
-@ApiModel
+@Schema(description = "Forecast Response DTO")
 public class ForecastResponseDTO implements Serializable {
-    @ApiModelProperty(
-            required = true,
-            value = "latitude of the forecast location",
+    @Schema(
+            requiredMode = Schema.RequiredMode.REQUIRED,
+            description = "latitude of the forecast location",
             example = "46.266891")
     private Double latitude;
-    @ApiModelProperty(
-            required = true,
-            value = "longitude of the forecast location",
+    @Schema(
+            requiredMode = Schema.RequiredMode.REQUIRED,
+            description = "longitude of the forecast location",
             example = "-119.222523")
     private Double longitude;
-    @ApiModelProperty(
-            required = true,
-            value = "forecast summary",
+    @Schema(
+            requiredMode = Schema.RequiredMode.REQUIRED,
+            description = "forecast summary",
             example = "cloudy throughout the week")
     private String description;
 
-    @ApiModelProperty(
-            required = true,
+    @Schema(
+            requiredMode = Schema.RequiredMode.REQUIRED,
             name = "DailyForecast",
-            value = "list of daily forecasts")
+            description = "list of daily forecasts")
     private List<DailyForecastDTO> days = null;
 
+    @Serial
     private final static long serialVersionUID = -5779468242832757870L;
 }

@@ -1,37 +1,35 @@
 package com.github.gadzooks.weather.api.v1.model;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import java.io.Serializable;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
-import java.io.Serializable;
-
 @Data
-@ApiModel
+@Schema(description = "Daily Forecast DTO")
 public class DailyForecastDTO implements Serializable {
 
     private String datetime;
     private Integer datetimeEpoch;
 
-    @ApiModelProperty(
-            required = true,
-            value = "Maximum temperature for the day",
+    @Schema(
+            requiredMode = Schema.RequiredMode.REQUIRED,
+            description = "Maximum temperature for the day",
             example = "79.5")
     private Double tempmax;
-    @ApiModelProperty(
-            required = true,
-            value = "Minimum temperature for the day",
+    @Schema(
+            requiredMode = Schema.RequiredMode.REQUIRED,
+            description = "Minimum temperature for the day",
             example = "79.5")
     private Double tempmin;
     private Double temp;
-    @ApiModelProperty(
-            required = true,
-            value = "Rain in inches",
+    @Schema(
+            requiredMode = Schema.RequiredMode.REQUIRED,
+            description = "Rain in inches",
             example = ".5")
     private Double precip;
-    @ApiModelProperty(
-            required = true,
-            value = "Chance of rain",
+    @Schema(
+            requiredMode = Schema.RequiredMode.REQUIRED,
+            description = "Chance of rain",
             example = "68%")
     private Double precipprob;
     private Double windgust;

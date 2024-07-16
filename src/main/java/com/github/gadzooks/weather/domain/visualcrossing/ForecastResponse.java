@@ -6,6 +6,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import jakarta.annotation.Generated;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
 
@@ -25,5 +26,6 @@ public class ForecastResponse implements Serializable {
     private String description;
     private List<DailyForecast> days = null;
     //    private List<String> stations;
+    @Serial
     private final static long serialVersionUID = -5779468242832757870L;
 }
