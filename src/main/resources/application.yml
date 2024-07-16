@@ -6,7 +6,6 @@
 #    web: DEBUG
 #    org.springframework.security: DEBUG
 
-# FIXME : dont use default profile, use In memory mongo for Testing, localhost for dev
 # mongodb external for qa and prod profiles
 #spring.data.mongodb:
 #  host: localhost

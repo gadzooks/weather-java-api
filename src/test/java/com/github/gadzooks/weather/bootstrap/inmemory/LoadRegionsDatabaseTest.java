@@ -14,6 +14,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 //NOTE : only load components needed for this test to make tests faster and avoid
 //loading entire Application Context
@@ -35,9 +36,11 @@ class LoadRegionsDatabaseTest {
         // 1. Setter injection
         // 2. @Value annotation
 
+        assertNotNull(loadRegionsDatabase.getRegionsFilePath());
         assertEquals(loadRegionsDatabase.getRegionsFilePath(),
                 loadRegionsDatabase.getWpc().getRegionsFile());
 
+        assertNotNull(loadRegionsDatabase.getLocationsFilePath());
         assertEquals(loadRegionsDatabase.getLocationsFilePath(),
                 loadRegionsDatabase.getWpc().getLocationsFile());
 
@@ -45,7 +48,7 @@ class LoadRegionsDatabaseTest {
 
     @Test
     void getRegions() {
-        System.out.println(regionRepository.findAll());
+        //System.out.println(regionRepository.findAll());
         assertThat(regionRepository.size(), greaterThan(0));
 
         Region firstRegion = regionRepository.findAll().get(0);

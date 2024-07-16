@@ -9,6 +9,7 @@ import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 import javax.validation.ConstraintViolationException;
@@ -20,6 +21,9 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 @DataMongoTest
 @Import(MongoValidationConfig.class)
 class RegionDocumentTest {
+
+    @Autowired
+    private MongoTemplate mongoTemplate;
 
     @Autowired
     private MongoRegionRepository repository;
@@ -34,8 +38,8 @@ class RegionDocumentTest {
         assertThatThrownBy(() -> repository.save(invalidDocument)).isInstanceOf(ConstraintViolationException.class);
     }
 
-    //FIXME test should run against test db
-    //FIXME add uniqueness constraint on name attribute
+//    //FIXME test should run against test db
+//    //FIXME add uniqueness constraint on name attribute
     @TestConfiguration
     static class MongoMapKeyDotReplacementConfiguration {
         @Bean

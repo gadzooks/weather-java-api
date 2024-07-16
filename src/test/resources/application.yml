@@ -1,0 +1,17 @@
+spring.mongodb.embedded.version:
+  4.0.2
+
+file-paths:
+  regionsFilePath: src/main/resources/regions.yml
+  locationsFilePath: src/main/resources/locations.yml
+
+visualcrossing.api.url:
+  https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services
+swagger:
+  enabled: false
+spring:
+  h2:
+    console:
+      enabled: true
+  datasource:
+    generate-unique-name: false

@@ -1,5 +1,6 @@
 package com.github.gadzooks.weather.integration;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -14,5 +15,5 @@ class ITWeatherApplicationTests {
     void contextLoads() {
     }
 
-    //FIXME : add true integration tests, which test the http layer, service layer and db layers
+    //TODO : add true integration tests, which test the http layer, service layer and db layers
 }
