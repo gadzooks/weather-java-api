@@ -16,4 +16,5 @@ artifacts:
   files:
     - target/weather-0.0.2-SNAPSHOT.jar
     - appspec.yml
+    - runapp.sh
   discard-paths: yes
