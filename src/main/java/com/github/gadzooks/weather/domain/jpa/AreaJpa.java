@@ -3,9 +3,9 @@ package com.github.gadzooks.weather.domain.jpa;
 import com.google.common.collect.ImmutableSet;
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
+import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import java.util.HashSet;
 import java.util.Set;
 

@@ -5,7 +5,7 @@ import com.github.gadzooks.weather.domain.inmemory.Region;
 import com.google.common.collect.ImmutableSet;
 import lombok.*;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;

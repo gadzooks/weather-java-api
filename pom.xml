@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.18</version>
+        <version>3.3.0</version>
         <relativePath /> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.github.gadzooks</groupId>
@@ -13,15 +13,15 @@
     <name>weather</name>
     <description>Demo project for Spring Boot</description>
     <properties>
-        <java.version>11</java.version>
-        <jackson.version>2.12.3</jackson.version>
+        <java.version>17</java.version>
+        <jackson.version>2.17.2</jackson.version>
         <auto-value.version>1.8.1</auto-value.version>
         <google-guava.version>30.1.1-jre</google-guava.version>
         <apache-commons-lang3.version>3.12.0</apache-commons-lang3.version>
         <failsafe-plugin.version>3.0.0-M5</failsafe-plugin.version>
         <jacoco.version>0.8.7</jacoco.version>
         <swagger.version>0.3.0</swagger.version>
-        <jpa.version>2.5.0</jpa.version>
+        <jpa.version>3.1.0</jpa.version>
         <org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
     </properties>
     <dependencies>
@@ -52,7 +52,7 @@
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-            <scope>runtime</scope>
+            <scope>test</scope>
         </dependency>
 
         <!--        LOAD PROPERTY/YAML values into Objects -->
@@ -141,6 +141,7 @@
         <dependency>
             <groupId>de.flapdoodle.embed</groupId>
             <artifactId>de.flapdoodle.embed.mongo</artifactId>
+            <version>3.2.4</version> <!-- Replace with the version you've chosen -->
             <scope>test</scope>
         </dependency>
 

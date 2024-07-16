@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.annotation.Generated;
+import jakarta.annotation.Generated;
 import java.io.Serializable;
 import java.util.List;
 

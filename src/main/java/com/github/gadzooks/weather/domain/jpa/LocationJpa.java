@@ -5,8 +5,8 @@ import com.github.gadzooks.weather.domain.inmemory.Location;
 import com.google.common.collect.ImmutableSet;
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
+import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToMany;
 import java.util.HashSet;
 import java.util.Set;
 
