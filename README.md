@@ -276,7 +276,7 @@ public class LoadRegionsDatabaseJpa implements CommandLineRunner {
 @Configuration
 //all files under src/main/resources are copied to the packaged jar/war files
 //and are available in the classpath
-//PropertySource is needed since properties are NOT in application.properties or application.yml
+//PropertySource is needed since properties are NOT in environment.properties or application.yml
 @PropertySource("classpath:in-memory.yml")
 @Data
 public class WeatherPropertiesConfiguration {
